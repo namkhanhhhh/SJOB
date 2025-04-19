@@ -684,6 +684,10 @@ public partial class SjobContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("avatar");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasDefaultValue(true)
+                .HasColumnName("status");
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .IsUnicode(false)
@@ -735,6 +739,12 @@ public partial class SjobContext : DbContext
             entity.HasIndex(e => e.UserId, "idx_user_details_user_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(100)
+                .HasColumnName("firstName");
+            entity.Property(e => e.LastName)
+                .HasMaxLength(100)
+                .HasColumnName("lastName");
             entity.Property(e => e.Address)
                 .HasMaxLength(255)
                 .HasColumnName("address");

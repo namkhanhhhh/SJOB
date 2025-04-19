@@ -11,6 +11,10 @@ public partial class UserDetail
 
     public string? PhoneNumber { get; set; }
 
+    public string FirstName { get; set; } = null!;
+
+    public string LastName { get; set; } = null!;
+
     public string? Address { get; set; }
 
     public string? Headline { get; set; }
