@@ -44,7 +44,9 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddDistributedMemoryCache(); // Cần thiết để sử dụng Session
-
+builder.WebHost.ConfigureKestrel((context, options) => {
+    options.Configure(context.Configuration.GetSection("Kestrel"));
+});
 
 
 var app = builder.Build();

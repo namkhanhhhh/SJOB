@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "Đăng Nhập";
+    Layout = "_AuthLayout";
+}
+
+<h2 class="auth-title">Đăng Nhập</h2>
+
+@if (!string.IsNullOrEmpty(ViewBag.BanMessage))
+{
+    <div class="alert alert-danger mb-4">@ViewBag.BanMessage</div>
+}
+@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+{
+    <div class="alert alert-success mb-4">@ViewBag.SuccessMessage</div>
+}
+
+<form method="post" asp-action="Login" asp-controller="Login">
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Mật khẩu</label>
+        <div class="position-relative">
+            <input type="password" class="form-control" id="password" name="password" required>
+            <button type="button" class="btn position-absolute end-0 top-0 bg-transparent border-0" id="togglePassword">
+                <i class="bi bi-eye"></i>
+            </button>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Đăng Nhập</button>
+</form>
+
+<div class="auth-separator">
+    <span>hoặc</span>
+</div>
+
+<a href="@Url.Action("ExternalLogin", "Login", new { provider = "Google" })" class="btn btn-google">
+    <i class="bi bi-google me-2"></i> Đăng nhập với Google
+</a>
+
+<div class="auth-links">
+    <div class="mb-2">
+        <a href="@Url.Action("ViewForgotPassword", "ForgotPassword")">Quên mật khẩu?</a>
+    </div>
+    <div>
+        Chưa có tài khoản? <a href="@Url.Action("Index", "Register")">Đăng ký ngay</a>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', function (e) {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+
+            // Toggle the icon
+            this.querySelector('i').classList.toggle('bi-eye');
+            this.querySelector('i').classList.toggle('bi-eye-slash');
+        });
+    </script>
+}
