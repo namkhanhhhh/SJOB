@@ -3,17 +3,13 @@
     ViewData["Title"] = "User Details";
     var userDetail = Model.UserDetails.FirstOrDefault();
     var userCredit = Model.UserCredits.FirstOrDefault();
+        Layout = "_AdminLayout";
 }
 
 <div class="container-fluid py-4">
     <div class="card">
         <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
             <h2 class="mb-0">User Details</h2>
-            <div>
-                <a asp-action="Index" class="btn btn-light">
-                    <i class="bi bi-arrow-left"></i> Back to List
-                </a>
-            </div>
         </div>
         <div class="card-body">
             <div class="row">
