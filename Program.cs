@@ -20,6 +20,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme; // Thêm dòng này
 })
 .AddCookie(options =>
 {
@@ -31,8 +32,8 @@ builder.Services.AddAuthentication(options =>
 })
 .AddGoogle(options =>
 {
-    options.ClientId = "826336473893-hivarf6lubp1g3qn4ccvlgoskp3v7qta.apps.googleusercontent.com";
-    options.ClientSecret = "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";
+    options.ClientId = "1002813393737-uto7g3e7mq9cnqiskk0o10eef2c8usqo.apps.googleusercontent.com";
+    options.ClientSecret = "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";
     options.CallbackPath = "/signin-google";
 });
 
@@ -44,11 +45,6 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddDistributedMemoryCache(); // Cần thiết để sử dụng Session
-builder.WebHost.ConfigureKestrel((context, options) => {
-    options.Configure(context.Configuration.GetSection("Kestrel"));
-});
-
-
 var app = builder.Build();
 
 
@@ -67,7 +63,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
-//
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseMiddleware<CheckUserStatusMiddleware>();
 
 app.MapControllerRoute(

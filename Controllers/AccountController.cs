@@ -33,10 +33,11 @@ namespace SJOB_EXE201.Controllers
             ViewData["CurrentSortBy"] = sortBy;
             ViewData["CurrentSortOrder"] = sortOrder;
 
-            // Start with all users
+            // Start with all users except admins
             var query = _context.Users
                 .Include(u => u.Role)
                 .Include(u => u.UserDetails)
+                .Where(u => u.Role.Name != "Admin") // Exclude admin users
                 .AsQueryable();
 
             // Apply search if provided
@@ -71,7 +72,8 @@ namespace SJOB_EXE201.Controllers
                 CurrentPage = page,
                 SearchTerm = searchTerm,
                 SortBy = sortBy,
-                SortOrder = sortOrder
+                SortOrder = sortOrder,
+                TotalUsers = await _context.Users.CountAsync(u => u.Role.Name != "Admin")
             };
 
             return View(viewModel);
@@ -131,84 +133,88 @@ namespace SJOB_EXE201.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> CreateAccount()
+        public IActionResult Logout()
         {
-            var roleList = await _context.Roles
-             .Select(r => new SelectListItem
-             {
-                 Value = r.Id.ToString(),
-                 Text = r.Name
-             })
-             .ToListAsync();
-
-            ViewBag.RoleList = roleList;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAccount(string username, string password,
-            string confirmPassword, string email, int roleId, string firstName, string lastName)
+        public async Task<IActionResult> Logout(string returnUrl = null)
         {
-            var roleList = await _context.Roles
-             .Select(r => new SelectListItem
-             {
-                 Value = r.Id.ToString(),
-                 Text = r.Name
-             })
-             .ToListAsync();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Login");
+        }
 
-            ViewBag.RoleList = roleList;
-
-            var user = _context.Users.FirstOrDefault(u => u.Email == email);
-            if (user != null)
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            // Get current user identity
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
             {
-                TempData["Fail"] = "Exsited Email!";
+                return RedirectToAction("Login", "Home");
+            }
+
+            int userId = int.Parse(userIdClaim.Value);
+
+            var user = await _context.Users
+                .Include(u => u.Role)
+                .Include(u => u.UserDetails)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return View(user);
+        }
+
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(string currentPassword, string newPassword, string confirmPassword)
+        {
+            // Get current user identity
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+
+            int userId = int.Parse(userIdClaim.Value);
+
+            var user = await _context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Verify current password
+            if (user.Password != HashPassword(currentPassword))
+            {
+                ModelState.AddModelError("CurrentPassword", "Current password is incorrect");
                 return View();
             }
-            // Kiểm tra xác nhận mật khẩu
-            if (password != confirmPassword)
+
+            // Confirm passwords match
+            if (newPassword != confirmPassword)
             {
-                TempData["Fail"] = "Passwords do not match";
+                ModelState.AddModelError("ConfirmPassword", "New passwords do not match");
                 return View();
             }
-            var userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Id == roleId);
 
-            // Hash mật khẩu trước khi lưu vào DB
-            var newUser = new User
-            {
-                Username = username,
-                Password = HashPassword(password),
-                Email = email,
-                RoleId = roleId,
-                Status = true
-            };
-
-            _context.Users.Add(newUser);
+            // Update password
+            user.Password = HashPassword(newPassword);
             await _context.SaveChangesAsync();
 
-            var newUserDetail = new UserDetail
-            {
-                UserId = newUser.Id,
-                LastName = lastName,
-                FirstName = firstName,
-                CreatedAt = DateTime.Now
-            };
-
-            _context.UserDetails.Add(newUserDetail);
-
-            // Create user credit record
-            var userCredit = new UserCredit
-            {
-                UserId = newUser.Id,
-                Balance = 0,
-                LastUpdated = DateTime.Now
-            };
-
-            _context.UserCredits.Add(userCredit);
-
-            await _context.SaveChangesAsync();
-            TempData["Message"] = "Account created successfully!";
-            return RedirectToAction(nameof(Index));
+            TempData["Message"] = "Password changed successfully!";
+            return RedirectToAction("Profile");
         }
 
         private string HashPassword(string password)
@@ -218,8 +224,6 @@ namespace SJOB_EXE201.Controllers
                 return Convert.ToBase64String(sha256.ComputeHash(Encoding.UTF8.GetBytes(password)));
             }
         }
-
-        // Add this method to your AccountController class
 
         [HttpGet]
         public async Task<IActionResult> SearchUsers(string term)
@@ -235,11 +239,12 @@ namespace SJOB_EXE201.Controllers
                 .Include(u => u.Role)
                 .Include(u => u.UserDetails)
                 .Where(u =>
-                    u.Username.ToLower().Contains(term) ||
+                    u.Role.Name != "Admin" && // Exclude admin users
+                    (u.Username.ToLower().Contains(term) ||
                     u.Email.ToLower().Contains(term) ||
                     u.UserDetails.Any(ud =>
                         ud.FirstName.ToLower().Contains(term) ||
-                        ud.LastName.ToLower().Contains(term)))
+                        ud.LastName.ToLower().Contains(term))))
                 .Take(10) // Limit results
                 .Select(u => new {
                     u.Id,
@@ -255,6 +260,5 @@ namespace SJOB_EXE201.Controllers
 
             return Json(new { success = true, users });
         }
-
     }
 }

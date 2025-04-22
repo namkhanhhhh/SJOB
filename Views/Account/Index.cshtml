@@ -1,209 +1,248 @@
 ﻿@model SJOB_EXE201.Models.UserListViewModel
 @{
     ViewData["Title"] = "User Management";
+    Layout = "_AdminLayout";
 }
 
-<div class="container-fluid py-4">
-    <div class="card">
-        <div class="card-header bg-primary text-white">
-            <h2 class="mb-0">User Management</h2>
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">User Management</h1>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            @if (TempData["Message"] != null)
-            {
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    @TempData["Message"]
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            }
+    </div>
 
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <a asp-action="CreateAccount" class="btn btn-success">
-                        <i class="bi bi-person-plus-fill"></i> Create New User
-                    </a>
-                </div>
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-text bg-light">
-                            <i class="bi bi-search"></i>
-                        </span>
-                        <input type="text" id="searchInput" class="form-control" placeholder="Search by name, email or username" value="@Model.SearchTerm">
+    <div class="content">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">User List</h5>
+                    <div>
+                        <button class="btn btn-light btn-sm me-2">
+                            <i class="bi bi-file-earmark-arrow-down me-1"></i> Export
+                        </button>
+                        <button class="btn btn-light btn-sm">
+                            <i class="bi bi-upload me-1"></i> Import
+                        </button>
                     </div>
                 </div>
-            </div>
+                <div class="card-body">
+                    @if (TempData["Message"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["Message"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
 
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead class="table-light">
-                        <tr>
-                            <th width="60px">#</th>
-                            <th>
-                                <a asp-action="Index" asp-route-sortBy="Username"
-                                   asp-route-sortOrder="@(Model.SortBy == "Username" && Model.SortOrder == "asc" ? "desc" : "asc")"
-                                   asp-route-searchTerm="@Model.SearchTerm"
-                                   asp-route-page="@Model.CurrentPage">
-                                    Username
-                                    @if (Model.SortBy == "Username")
-                                    {
-                                        <i class="bi @(Model.SortOrder == "asc" ? "bi-sort-alpha-down" : "bi-sort-alpha-up")"></i>
-                                    }
-                                </a>
-                            </th>
-                            <th>
-                                <a asp-action="Index" asp-route-sortBy="Email"
-                                   asp-route-sortOrder="@(Model.SortBy == "Email" && Model.SortOrder == "asc" ? "desc" : "asc")"
-                                   asp-route-searchTerm="@Model.SearchTerm"
-                                   asp-route-page="@Model.CurrentPage">
-                                    Email
-                                    @if (Model.SortBy == "Email")
-                                    {
-                                        <i class="bi @(Model.SortOrder == "asc" ? "bi-sort-alpha-down" : "bi-sort-alpha-up")"></i>
-                                    }
-                                </a>
-                            </th>
-                            <th>Name</th>
-                            <th>
-                                <a asp-action="Index" asp-route-sortBy="Role"
-                                   asp-route-sortOrder="@(Model.SortBy == "Role" && Model.SortOrder == "asc" ? "desc" : "asc")"
-                                   asp-route-searchTerm="@Model.SearchTerm"
-                                   asp-route-page="@Model.CurrentPage">
-                                    Role
-                                    @if (Model.SortBy == "Role")
-                                    {
-                                        <i class="bi @(Model.SortOrder == "asc" ? "bi-sort-alpha-down" : "bi-sort-alpha-up")"></i>
-                                    }
-                                </a>
-                            </th>
-                            <th>
-                                <a asp-action="Index" asp-route-sortBy="Status"
-                                   asp-route-sortOrder="@(Model.SortBy == "Status" && Model.SortOrder == "asc" ? "desc" : "asc")"
-                                   asp-route-searchTerm="@Model.SearchTerm"
-                                   asp-route-page="@Model.CurrentPage">
-                                    Status
-                                    @if (Model.SortBy == "Status")
-                                    {
-                                        <i class="bi @(Model.SortOrder == "asc" ? "bi-sort-down" : "bi-sort-up")"></i>
-                                    }
-                                </a>
-                            </th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @{
-                            int rowNumber = (Model.CurrentPage - 1) * 10 + 1; // Assuming 10 items per page
-                        }
-                        @foreach (var user in Model.Users)
-                        {
-                            var userDetail = user.UserDetails.FirstOrDefault();
-                            var fullName = userDetail != null ? $"{userDetail.FirstName} {userDetail.LastName}" : "N/A";
+                    <!-- Improved search bar -->
+                    <div class="row mb-3">
+                        <div class="col-md-6 mx-auto">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <input type="text" id="searchInput" class="form-control border-start-0 ps-0"
+                                       placeholder="Search by name, email or username" value="@Model.SearchTerm">
+                            </div>
+                        </div>
+                    </div>
 
-                            <tr class="user-row">
-                                <td class="text-center">@(rowNumber++)</td>
-                                <td class="username">@user.Username</td>
-                                <td class="email">@user.Email</td>
-                                <td class="fullname">@fullName</td>
-                                <td class="role">@user.Role.Name</td>
-                                <td>
-                                    @if (user.Status)
-                                    {
-                                        <span class="badge bg-success">Active</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge bg-danger">Inactive</span>
-                                    }
-                                </td>
-                                <td>
-                                    <div class="btn-group" role="group">
-                                        <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-sm btn-info">
-                                            <i class="bi bi-eye"></i> Details
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-light">
+                                <tr>
+                                    <th width="40px" class="text-center">No</th>
+                                    <th>
+                                        <a asp-action="Index" asp-route-sortBy="Username"
+                                           asp-route-sortOrder="@(Model.SortBy == "Username" && Model.SortOrder == "asc" ? "desc" : "asc")"
+                                           asp-route-searchTerm="@Model.SearchTerm"
+                                           asp-route-page="@Model.CurrentPage">
+                                            Username
+                                            @if (Model.SortBy == "Username")
+                                            {
+                                                <i class="bi @(Model.SortOrder == "asc" ? "bi-sort-alpha-down" : "bi-sort-alpha-up")"></i>
+                                            }
                                         </a>
-                                        <form asp-action="ToggleStatus" asp-route-id="@user.Id" method="post" onsubmit="return confirm('Are you sure you want to @(user.Status ? "deactivate" : "activate") this user?');" class="d-inline">
-                                            <button type="submit" class="btn btn-sm @(user.Status ? "btn-warning" : "btn-success")">
-                                                @if (user.Status)
-                                                {
-                                                    <i class="bi bi-lock"></i>
-                                                    <span>Block</span>
-                                                }
-                                                else
-                                                {
-                                                    <i class="bi bi-unlock"></i>
-                                                    <span>Activate</span>
-                                                }
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-
-            <div id="noResults" class="alert alert-info text-center" style="display: none;">
-                No users found matching your criteria.
-            </div>
-
-            @if (Model.Users.Count == 0)
-            {
-                <div class="alert alert-info text-center">
-                    No users found matching your criteria.
-                </div>
-            }
-
-            <!-- Pagination -->
-            <div id="paginationContainer">
-                @if (Model.TotalPages > 1)
-                {
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-center">
-                            <!-- Previous page -->
-                            <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
-                                <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)"
-                                   asp-route-searchTerm="@Model.SearchTerm"
-                                   asp-route-sortBy="@Model.SortBy"
-                                   asp-route-sortOrder="@Model.SortOrder">
-                                    Previous
-                                </a>
-                            </li>
-
-                            <!-- Page numbers -->
-                            @{
-                                int startPage = Math.Max(1, Model.CurrentPage - 2);
-                                int endPage = Math.Min(Model.TotalPages, startPage + 4);
-
-                                if (endPage - startPage < 4 && startPage > 1)
-                                {
-                                    startPage = Math.Max(1, endPage - 4);
+                                    </th>
+                                    <th>
+                                        <a asp-action="Index" asp-route-sortBy="Email"
+                                           asp-route-sortOrder="@(Model.SortBy == "Email" && Model.SortOrder == "asc" ? "desc" : "asc")"
+                                           asp-route-searchTerm="@Model.SearchTerm"
+                                           asp-route-page="@Model.CurrentPage">
+                                            Email
+                                            @if (Model.SortBy == "Email")
+                                            {
+                                                <i class="bi @(Model.SortOrder == "asc" ? "bi-sort-alpha-down" : "bi-sort-alpha-up")"></i>
+                                            }
+                                        </a>
+                                    </th>
+                                    <th>Name</th>
+                                    <th>Role</th>
+                                    <th>
+                                        <a asp-action="Index" asp-route-sortBy="Status"
+                                           asp-route-sortOrder="@(Model.SortBy == "Status" && Model.SortOrder == "asc" ? "desc" : "asc")"
+                                           asp-route-searchTerm="@Model.SearchTerm"
+                                           asp-route-page="@Model.CurrentPage">
+                                            Status
+                                            @if (Model.SortBy == "Status")
+                                            {
+                                                <i class="bi @(Model.SortOrder == "asc" ? "bi-sort-down" : "bi-sort-up")"></i>
+                                            }
+                                        </a>
+                                    </th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    // Fixed pagination calculation
+                                    int rowNumber = (Model.CurrentPage - 1) * 10 + 1;
                                 }
-                            }
+                                @foreach (var user in Model.Users.Where(u => u.Role.Name != "Admin"))
+                                {
+                                    var userDetail = user.UserDetails.FirstOrDefault();
+                                    var fullName = userDetail != null ? $"{userDetail.FirstName} {userDetail.LastName}" : "N/A";
 
-                            @for (int i = startPage; i <= endPage; i++)
+                                    <tr class="user-row">
+                                        <td class="text-center">@(rowNumber++)</td>
+                                        <td class="username">@user.Username</td>
+                                        <td class="email">@user.Email</td>
+                                        <td class="fullname">@fullName</td>
+                                        <td class="role">@user.Role.Name</td>
+                                        <td>
+                                            @if (user.Status)
+                                            {
+                                                <span class="badge bg-success">Active</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-danger">Inactive</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a asp-action="Details" asp-route-id="@user.Id" class="btn btn-sm btn-light view-btn" data-bs-toggle="tooltip" title="View">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <form asp-action="ToggleStatus" asp-route-id="@user.Id" method="post" onsubmit="return confirm('Are you sure you want to @(user.Status ? "deactivate" : "activate") this user?');" class="d-inline">
+                                                    <button type="submit" class="btn btn-sm btn-light toggle-status-btn" data-bs-toggle="tooltip" title="@(user.Status ? "Deactivate" : "Activate")">
+                                                        @if (user.Status)
+                                                        {
+                                                            <i class="bi bi-toggle-on text-success"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="bi bi-toggle-off text-danger"></i>
+                                                        }
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="noResults" class="alert alert-info text-center" style="display: none;">
+                        No users found matching your criteria.
+                    </div>
+
+                    @if (Model.Users.Count(u => u.Role.Name != "Admin") == 0)
+                    {
+                        <div class="alert alert-info text-center">
+                            No users found matching your criteria.
+                        </div>
+                    }
+
+                    <!-- Fixed pagination display -->
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <div>
+                            @{
+                                int totalItems = Model.TotalUsers;
+                                int startItem = (Model.CurrentPage - 1) * 10 + 1;
+                                int endItem = Math.Min(startItem + Model.Users.Count(u => u.Role.Name != "Admin") - 1, totalItems);
+                            }
+                            Showing <span>@startItem</span> to <span>@endItem</span> of <span>@totalItems</span> entries
+
+                        </div>
+                        <div id="paginationContainer">
+                            @if (Model.TotalPages > 1)
                             {
-                                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                                    <a class="page-link" asp-action="Index" asp-route-page="@i"
-                                       asp-route-searchTerm="@Model.SearchTerm"
-                                       asp-route-sortBy="@Model.SortBy"
-                                       asp-route-sortOrder="@Model.SortOrder">
-                                        @i
-                                    </a>
-                                </li>
-                            }
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center mb-0">
+                                        <!-- First page -->
+                                        <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                                            <a class="page-link" asp-action="Index" asp-route-page="1"
+                                               asp-route-searchTerm="@Model.SearchTerm"
+                                               asp-route-sortBy="@Model.SortBy"
+                                               asp-route-sortOrder="@Model.SortOrder">
+                                                <i class="bi bi-chevron-double-left"></i>
+                                            </a>
+                                        </li>
 
-                            <!-- Next page -->
-                            <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
-                                <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)"
-                                   asp-route-searchTerm="@Model.SearchTerm"
-                                   asp-route-sortBy="@Model.SortBy"
-                                   asp-route-sortOrder="@Model.SortOrder">
-                                    Next
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                }
+                                        <!-- Previous page -->
+                                        <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                                            <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage - 1)"
+                                               asp-route-searchTerm="@Model.SearchTerm"
+                                               asp-route-sortBy="@Model.SortBy"
+                                               asp-route-sortOrder="@Model.SortOrder">
+                                                <i class="bi bi-chevron-left"></i>
+                                            </a>
+                                        </li>
+
+                                        <!-- Page numbers -->
+                                        @{
+                                            int startPage = Math.Max(1, Model.CurrentPage - 2);
+                                            int endPage = Math.Min(Model.TotalPages, startPage + 4);
+
+                                            if (endPage - startPage < 4 && startPage > 1)
+                                            {
+                                                startPage = Math.Max(1, endPage - 4);
+                                            }
+                                        }
+
+                                        @for (int i = startPage; i <= endPage; i++)
+                                        {
+                                            <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                                <a class="page-link" asp-action="Index" asp-route-page="@i"
+                                                   asp-route-searchTerm="@Model.SearchTerm"
+                                                   asp-route-sortBy="@Model.SortBy"
+                                                   asp-route-sortOrder="@Model.SortOrder">
+                                                    @i
+                                                </a>
+                                            </li>
+                                        }
+
+                                        <!-- Next page -->
+                                        <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                                            <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage + 1)"
+                                               asp-route-searchTerm="@Model.SearchTerm"
+                                               asp-route-sortBy="@Model.SortBy"
+                                               asp-route-sortOrder="@Model.SortOrder">
+                                                <i class="bi bi-chevron-right"></i>
+                                            </a>
+                                        </li>
+
+                                        <!-- Last page -->
+                                        <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                                            <a class="page-link" asp-action="Index" asp-route-page="@Model.TotalPages"
+                                               asp-route-searchTerm="@Model.SearchTerm"
+                                               asp-route-sortBy="@Model.SortBy"
+                                               asp-route-sortOrder="@Model.SortOrder">
+                                                <i class="bi bi-chevron-double-right"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -216,6 +255,12 @@
             const userRows = document.querySelectorAll('.user-row');
             const noResults = document.getElementById('noResults');
             const paginationContainer = document.getElementById('paginationContainer');
+
+            // Enable tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
 
             // Real-time search functionality
             searchInput.addEventListener('input', function () {
