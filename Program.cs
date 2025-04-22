@@ -20,6 +20,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme; // Thêm dòng này
 })
 .AddCookie(options =>
 {
@@ -62,7 +63,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
-//
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseMiddleware<CheckUserStatusMiddleware>();
 
 app.MapControllerRoute(
