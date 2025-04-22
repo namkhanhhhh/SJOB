@@ -1,0 +1,47 @@
+﻿@model List<SJOB_EXE201.Models.JobPost>
+@using System.Globalization
+
+@{
+    ViewData["Title"] = "Job Posts";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between mb-3">
+        <h2><i class="fas fa-briefcase"></i> Bài đăng của bạn</h2>
+        <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus-circle"></i> Đăng bài mới</a>
+    </div>
+
+    @foreach (var post in Model)
+    {
+        var levelColor = post.PriorityLevel == 3 ? "bg-info text-white" : post.PriorityLevel == 2 ? "bg-warning" : "bg-light";
+        var levelText = post.PriorityLevel == 3 ? "KIM CƯƠNG" : post.PriorityLevel == 2 ? "VÀNG" : "BẠC";
+
+        <div class="card mb-3 border @levelColor">
+            <div class="row g-0">
+                <div class="col-md-2 text-center d-flex align-items-center justify-content-center">
+                    <img src="@post.ImageMain" class="img-fluid rounded-start" alt="logo" style="max-height:80px">
+                    <span class="badge bg-danger position-absolute">@levelText</span>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">@post.Title</h5>
+                        <p class="card-text mb-0">Địa điểm: <strong>@post.Location</strong></p>
+                        <p class="card-text mb-0">Mức lương: <strong>@post.SalaryMin?.ToString("C0", CultureInfo.CreateSpecificCulture("vi-VN")) - @post.SalaryMax?.ToString("C0", CultureInfo.CreateSpecificCulture("vi-VN"))</strong></p>
+                        <p class="card-text"><small class="text-muted">Đăng lúc: @post.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</small></p>
+                    </div>
+                </div>
+                <div class="col-md-2 text-end pe-3 d-flex flex-column justify-content-center">
+                    <a class="btn btn-outline-primary mb-2" asp-action="Edit" asp-route-id="@post.Id"><i class="fas fa-edit"></i></a>
+                    <a class="btn btn-outline-danger mb-2" asp-action="Delete" asp-route-id="@post.Id" onclick="return confirm('Bạn có chắc chắn muốn xoá?')"><i class="fas fa-trash"></i></a>
+                    <a class="btn btn-outline-success" asp-action="Up" asp-route-id="@post.Id"><i class="fas fa-arrow-up"></i></a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>

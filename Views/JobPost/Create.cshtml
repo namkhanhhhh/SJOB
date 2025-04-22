@@ -1,0 +1,86 @@
+﻿@model SJOB_EXE201.Models.JobPost
+@{
+    ViewData["Title"] = "Tạo bài đăng việc làm" ;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm rounded-4">
+        <div class="card-header bg-primary text-white d-flex align-items-center">
+            <i class="bi bi-briefcase-fill me-2"></i>
+            <h4 class="mb-0">@ViewData["Title"]</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Title" class="form-label">Tiêu đề</label>
+                        <input asp-for="Title" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="JobType" class="form-label">Loại công việc</label>
+                        <input asp-for="JobType" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="ExperienceLevel" class="form-label">Kinh nghiệm</label>
+                        <input asp-for="ExperienceLevel" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Location" class="form-label">Địa điểm</label>
+                        <input asp-for="Location" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="SalaryMin" class="form-label">Lương tối thiểu</label>
+                        <input asp-for="SalaryMin" class="form-control" type="number" />
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="SalaryMax" class="form-label">Lương tối đa</label>
+                        <input asp-for="SalaryMax" class="form-control" type="number" />
+                    </div>
+                    <div class="col-md-12">
+                        <label asp-for="Description" class="form-label">Mô tả</label>
+                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    </div>
+                    <div class="col-md-12">
+                        <label asp-for="Requirements" class="form-label">Yêu cầu</label>
+                        <textarea asp-for="Requirements" class="form-control" rows="2"></textarea>
+                    </div>
+                    <div class="col-md-12">
+                        <label asp-for="Benefits" class="form-label">Quyền lợi</label>
+                        <textarea asp-for="Benefits" class="form-control" rows="2"></textarea>
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Deadline" class="form-label">Hạn chót</label>
+                        <input asp-for="Deadline" class="form-control" type="date" />
+                    </div>
+                    <div class="col-md-8">
+                        <label asp-for="ImageMain" class="form-label">Ảnh chính</label>
+                        <input asp-for="ImageMain" class="form-control" type="text" />
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Image2" class="form-label">Ảnh phụ 2</label>
+                        <input asp-for="Image2" class="form-control" type="text" />
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Image3" class="form-label">Ảnh phụ 3</label>
+                        <input asp-for="Image3" class="form-control" type="text" />
+                    </div>
+                    <div class="col-md-4">
+                        <label asp-for="Image4" class="form-label">Ảnh phụ 4</label>
+                        <input asp-for="Image4" class="form-control" type="text" />
+                    </div>
+                </div>
+                <div class="mt-4 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success px-4">
+                        <i class="bi bi-save me-2">Đăng bài</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
