@@ -1,0 +1,73 @@
+﻿@model IEnumerable<SJOB_EXE201.Models.Application>
+@{
+    ViewData["Title"] = "My Applications";
+    Layout = "_WorkerLayout";
+}
+
+<div class="container mb-5">
+    <h1 class="h2 mb-4">My Applications</h1>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            You haven't applied to any jobs yet. <a href="/HomePage">Browse jobs</a> to get started.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Company</th>
+                        <th>Applied On</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var application in Model)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("JobDetails", "Worker", new { id = application.JobPostId })">
+                                    @application.JobPost.Title
+                                </a>
+                            </td>
+                            <td>
+                                @(application.JobPost.User.CompanyProfiles.FirstOrDefault()?.CompanyName ?? application.JobPost.User.Username)
+                            </td>
+                            <td>@application.CreatedAt?.ToString("MMM dd, yyyy")</td>
+                            <td>
+                                @switch (application.Status)
+                                {
+                                    case "pending":
+                                        <span class="badge bg-warning text-dark">Pending</span>
+                                        break;
+                                    case "approved":
+                                        <span class="badge bg-success">Approved</span>
+                                        break;
+                                    case "rejected":
+                                        <span class="badge bg-danger">Rejected</span>
+                                        break;
+                                    case "completed":
+                                        <span class="badge bg-primary">Completed</span>
+                                        break;
+                                    default:
+                                        <span class="badge bg-secondary">@application.Status</span>
+                                        break;
+                                }
+                            </td>
+                            <td>
+                                <a href="@Url.Action("JobDetails", "Worker", new { id = application.JobPostId })" class="btn btn-sm btn-outline-primary">
+                                    View Job
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

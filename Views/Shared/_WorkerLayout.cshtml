@@ -1,0 +1,600 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SJOB Platform</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/worker.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #4cb050;
+            --dark-color: #333;
+            --light-color: #f5f5f5;
+            --primary-light: #60ad5e;
+            --primary-dark: #005005;
+            --text-on-primary: #ffffff;
+            --accent-color: #81c784;
+            --hover-color: #388e3c;
+            --animation-speed: 0.3s;
+        }
+
+        
+        /* Header Styles */
+        header {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .navbar {
+            padding: 0.8rem 1rem;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
+            border-bottom: none !important;
+            position: relative;
+        }
+        
+        .navbar-brand {
+            padding: 0;
+            margin-right: 2rem;
+        }
+        
+        .navbar-brand img {
+            height: 45px;
+            filter: brightness(0) invert(1);
+            transition: transform var(--animation-speed);
+        }
+        
+        .navbar-brand:hover img {
+            transform: scale(1.05);
+        }
+        
+        .navbar-nav.center-menu {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-nav .nav-item {
+            margin: 0 10px;
+        }
+        
+        .nav-link {
+            color: var(--text-on-primary) !important;
+            font-weight: 500;
+            padding: 0.6rem 1rem;
+            border-radius: 4px;
+            transition: all var(--animation-speed) ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .nav-link:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background-color: var(--text-on-primary);
+            transition: width var(--animation-speed) ease;
+            z-index: -1;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-link:hover:before {
+            width: 100%;
+        }
+        
+        .navbar-nav .dropdown-menu {
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .dropdown-item {
+            padding: 0.6rem 1.5rem;
+            transition: all var(--animation-speed) ease;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .dropdown-item:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background-color: var(--accent-color);
+            transition: width var(--animation-speed) ease;
+            z-index: -1;
+            opacity: 0.2;
+        }
+        
+        .dropdown-item:hover {
+            transform: translateX(5px);
+            color: var(--primary-color);
+        }
+        
+        .dropdown-item:hover:after {
+            width: 100%;
+        }
+        
+        .user-profile-nav {
+            margin-left: auto;
+        }
+        
+        .user-profile-nav .dropdown-toggle::after {
+            margin-left: 0.5rem;
+        }
+        
+        /* User Profile */
+        .user-profile-image {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border: 2px solid var(--text-on-primary);
+            transition: all var(--animation-speed) ease;
+        }
+        
+        .user-profile-nav .dropdown-toggle:hover .user-profile-image {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: #f8f9fa;
+            border-top: none !important;
+        }
+        
+        footer h5 {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            position: relative;
+            padding-bottom: 0.8rem;
+        }
+        
+        footer h5::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .animate-title {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
+        
+        .animate-title:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transition: width 0.5s ease;
+        }
+        
+        .animate-title:hover:before {
+            width: 100%;
+        }
+        
+        .footer-link {
+            position: relative;
+            transition: all var(--animation-speed) ease;
+            padding-left: 5px;
+        }
+        
+        .footer-link:hover {
+            padding-left: 10px;
+            color: var(--primary-color) !important;
+        }
+        
+        .footer-links li {
+            transform: translateX(-20px);
+            opacity: 0;
+            animation: slideIn 0.5s forwards;
+            animation-delay: calc(var(--i, 0) * 0.1s);
+        }
+        
+        .footer-links li:nth-child(1) { --i: 1; }
+        .footer-links li:nth-child(2) { --i: 2; }
+        .footer-links li:nth-child(3) { --i: 3; }
+        .footer-links li:nth-child(4) { --i: 4; }
+        .footer-links li:nth-child(5) { --i: 5; }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeUp 0.5s forwards;
+            animation-delay: calc(var(--i, 0) * 0.1s);
+        }
+        
+        .contact-item:nth-child(1) { --i: 1; }
+        .contact-item:nth-child(2) { --i: 2; }
+        .contact-item:nth-child(3) { --i: 3; }
+        
+        .contact-item i {
+            margin-right: 10px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        
+        .support-btn {
+            transition: all var(--animation-speed) ease;
+            border: 2px solid var(--primary-color);
+        }
+        
+        .support-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+        }
+        
+        footer a {
+            color: #555;
+            transition: all 0.3s ease;
+        }
+        
+        footer a:hover {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background-color: var(--primary-color);
+            color: white !important;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 36px;
+            margin-right: 10px;
+            transition: all var(--animation-speed) ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-icons a:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: scale(0);
+            transition: transform 0.5s ease;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-icons a:hover:before {
+            transform: scale(1.5);
+            opacity: 0;
+        }
+        
+        .social-icon-animate {
+            animation: pulseIcon 2s infinite;
+            animation-delay: calc(var(--animation-delay, 0) * 0.2s);
+        }
+        
+        .social-icons a:nth-child(1) {
+            --animation-delay: 1;
+        }
+        
+        .social-icons a:nth-child(2) {
+            --animation-delay: 2;
+        }
+        
+        .social-icons a:nth-child(3) {
+            --animation-delay: 3;
+        }
+        
+        .social-icons a:nth-child(4) {
+            --animation-delay: 4;
+        }
+        
+        .social-icons a:nth-child(5) {
+            --animation-delay: 5;
+        }
+        
+        
+        footer address p {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        footer address i {
+            color: var(--primary-color);
+            margin-right: 10px;
+            width: 16px;
+        }
+        
+        .footer-bottom {
+            background-color: var(--primary-color);
+            color: var(--text-on-primary);
+            padding: 1rem 0;
+        }
+        
+        /* Alert Styles */
+        .alert {
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.5s ease;
+        }
+        
+        
+        /* Main Content */
+        main.pb-3 {
+            min-height: calc(100vh - 300px);
+            padding-top: 2rem;
+        }
+        
+        
+        
+        /* Animation Classes */
+        .animate-on-scroll {
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+        
+        .animate-on-scroll.fade-in {
+            transform: translateY(20px);
+        }
+        
+        .animate-on-scroll.slide-right {
+            transform: translateX(-20px);
+        }
+        
+        .animate-on-scroll.slide-left {
+            transform: translateX(20px);
+        }
+        
+        .animate-on-scroll.zoom-in {
+            transform: scale(0.9);
+        }
+        
+        .animate-on-scroll.animate.fade-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .animate-on-scroll.animate.slide-right,
+        .animate-on-scroll.animate.slide-left {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .animate-on-scroll.animate.zoom-in {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="@Url.Action("Index", "Worker")">
+                    <img src="~/assets/img/noBackground.png" alt="SJOB Platform Logo" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex position-relative">
+                    <ul class="navbar-nav center-menu">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/HomePage">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Worker" asp-action="MyApplications">My Applications</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Job Categories
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @await Component.InvokeAsync("JobCategoriesMenu")
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav user-profile-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @if (!string.IsNullOrEmpty(User.FindFirst("Avatar")?.Value))
+                                {
+                                    <img src="@User.FindFirst("Avatar")?.Value" alt="Profile" class="rounded-circle user-profile-image" />
+                                }
+                                else
+                                {
+                                    <i class="fas fa-user-circle"></i>
+                                }
+                                <span class="ml-2">@User.Identity.Name</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" asp-controller="Worker" asp-action="Profile">
+                                    <i class="fas fa-user mr-2"></i> My Profile
+                                </a>
+                                <a class="dropdown-item" asp-controller="Worker" asp-action="EditProfile">
+                                    <i class="fas fa-edit mr-2"></i> Edit Profile
+                                </a>
+                                <a class="dropdown-item" asp-controller="Worker" asp-action="ChangePassword">
+                                    <i class="fas fa-key mr-2"></i> Change Password
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <form asp-controller="Account" asp-action="Logout" method="post">
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle mr-2"></i> @TempData["Success"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle mr-2"></i> @TempData["Error"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="mt-5 pb-0">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="animate-title">SJOB Platform</h5>
+                    <p class="text-muted mb-4">Find your perfect short-term job opportunity with our modern platform designed for today's dynamic workforce.</p>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook" class="social-icon-animate"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter" class="social-icon-animate"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram" class="social-icon-animate"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn" class="social-icon-animate"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="TikTok" class="social-icon-animate"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="animate-title">Quick Links</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li class="mb-2"><a href="/HomePage" class="footer-link"><i class="fas fa-chevron-right mr-2 text-success"></i>Home</a></li>
+                        <li class="mb-2"><a href="@Url.Action("MyApplications", "Worker")" class="footer-link"><i class="fas fa-chevron-right mr-2 text-success"></i>My Applications</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link"><i class="fas fa-chevron-right mr-2 text-success"></i>About Us</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link"><i class="fas fa-chevron-right mr-2 text-success"></i>Contact</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link"><i class="fas fa-chevron-right mr-2 text-success"></i>Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="animate-title">Contact Us</h5>
+                    <address class="mb-4 contact-info">
+                        <p class="contact-item"><i class="fas fa-map-marker-alt"></i> 123 Job Street, City, Country</p>
+                        <p class="contact-item"><i class="fas fa-phone"></i> +1 (123) 456-7890</p>
+                        <p class="contact-item"><i class="fas fa-envelope"></i> info@sjobplatform.com</p>
+                    </address>
+                    <div>
+                        <a href="#" class="btn btn-outline-success rounded-pill support-btn">
+                            <i class="fas fa-headset mr-2"></i> Get Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row py-3">
+                    <div class="col-md-6">
+                        <p class="mb-0">&copy; @DateTime.Now.Year - SJOB Platform - All rights reserved</p>
+                    </div>
+                    <div class="col-md-6 text-md-right">
+                        <p class="mb-0">Designed and developed by SJOB Team</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        // Add animation classes when elements come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dropdown toggle
+            const userDropdown = document.querySelector('.user-profile-nav .dropdown-toggle');
+            if (userDropdown) {
+                userDropdown.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const menu = this.nextElementSibling;
+                    menu.classList.toggle('show');
+                });
+            }
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                const dropdowns = document.querySelectorAll('.dropdown-menu');
+                dropdowns.forEach(function(dropdown) {
+                    if (!dropdown.contains(e.target) && !e.target.classList.contains('dropdown-toggle')) {
+                        dropdown.classList.remove('show');
+                    }
+                });
+            });
+            
+            // Animation for elements on scroll
+            const animateOnScroll = function() {
+                const elements = document.querySelectorAll('.animate-on-scroll');
+                
+                elements.forEach(function(element) {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementPosition < windowHeight - 50) {
+                        element.classList.add('animate');
+                    }
+                });
+            };
+            
+            // Initially call the function
+            animateOnScroll();
+            
+            // Call the function on scroll
+            window.addEventListener('scroll', animateOnScroll);
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

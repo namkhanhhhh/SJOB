@@ -1,0 +1,169 @@
+/* General Styles */
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+.section-title {
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+    .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background-color: #0d6efd;
+    }
+
+/* Hero Section */
+.hero-section {
+    padding: 3rem 0;
+    background-color: #f8f9fa;
+    border-radius: 0.5rem;
+}
+
+/* Job Cards */
+.job-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+    .job-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+.premium-badge,
+.popular-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+.job-card .card-img-top {
+    height: 180px;
+    object-fit: cover;
+}
+
+.job-card .company-name {
+    color: #6c757d;
+    font-weight: 500;
+}
+
+.job-card .location,
+.job-card .salary,
+.job-card .views {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.job-card-horizontal {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .job-card-horizontal:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+/* Category Cards */
+.category-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        border-color: #0d6efd;
+    }
+
+.category-icon {
+    font-size: 2rem;
+    color: #0d6efd;
+}
+
+/* Profile Page */
+.avatar-placeholder {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+}
+
+.company-logo-placeholder {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    font-size: 2rem;
+}
+
+/* Footer */
+.footer {
+    background-color: #f8f9fa;
+}
+
+.social-icons a {
+    color: #6c757d;
+    margin-right: 10px;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+}
+
+    .social-icons a:hover {
+        color: #0d6efd;
+    }
+
+/* Job Details Page */
+.job-images img {
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+    .job-images img:hover {
+        opacity: 0.8;
+    }
+
+.description-content,
+.requirements-content,
+.benefits-content {
+    line-height: 1.6;
+}
+
+.related-job-item {
+    transition: background-color 0.3s ease;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+    .related-job-item:hover {
+        background-color: #f8f9fa;
+    }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 2rem 0;
+    }
+
+    .job-card .card-img-top {
+        height: 150px;
+    }
+}

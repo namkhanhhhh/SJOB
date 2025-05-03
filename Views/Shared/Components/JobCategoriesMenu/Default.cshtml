@@ -1,0 +1,6 @@
+﻿@model IEnumerable<SJOB_EXE201.Models.JobCategory>
+
+@foreach (var category in Model)
+{
+    <a class="dropdown-item" href="@Url.Action("CategoryJobs", "Worker", new { id = category.Id })">@category.Name</a>
+}
