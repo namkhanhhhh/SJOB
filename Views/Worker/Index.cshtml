@@ -15,7 +15,7 @@
                 <div class="card shadow">
                     <div class="card-body">
                         <h5 class="card-title">Search Jobs</h5>
-                        <form asp-controller="Worker" asp-action="Index" method="get">
+                        <form asp-controller="Worker" asp-action="SearchResults" method="get">
                             <div class="mb-3">
                                 <label for="keyword" class="form-label">Keyword</label>
                                 <input type="text" class="form-control" id="keyword" name="keyword" value="@Model.Keyword" placeholder="Job title, skills, or company">
@@ -111,7 +111,19 @@
                         </p>
                     </div>
                     <div class="card-footer bg-white">
-                        <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="btn btn-outline-primary w-100">View Details</a>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="btn btn-outline-primary flex-grow-1 me-2">View Details</a>
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <button class="btn-wishlist @(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "active" : "")"
+                                        data-job-id="@job.Id"
+                                        data-is-in-wishlist="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "true" : "false")"
+                                        title="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "Remove from wishlist" : "Add to wishlist")">
+                                    <i class="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "fas" : "far") fa-heart"></i>
+                                </button>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -178,7 +190,19 @@
                         </p>
                     </div>
                     <div class="card-footer bg-white">
-                        <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="btn btn-outline-primary w-100">View Details</a>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="btn btn-outline-primary flex-grow-1 me-2">View Details</a>
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <button class="btn-wishlist @(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "active" : "")"
+                                        data-job-id="@job.Id"
+                                        data-is-in-wishlist="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "true" : "false")"
+                                        title="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "Remove from wishlist" : "Add to wishlist")">
+                                    <i class="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "fas" : "far") fa-heart"></i>
+                                </button>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -188,7 +212,7 @@
 
 <div class="container mb-5">
     <h2 class="section-title mb-4">All Jobs</h2>
-    
+
     @if (!Model.AllPosts.Any())
     {
         <div class="alert alert-info">
@@ -208,7 +232,18 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title">@job.Title</h5>
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <h5 class="card-title">@job.Title</h5>
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <button class="btn-wishlist @(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "active" : "")"
+                                                    data-job-id="@job.Id"
+                                                    data-is-in-wishlist="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "true" : "false")"
+                                                    title="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "Remove from wishlist" : "Add to wishlist")">
+                                                <i class="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "fas" : "far") fa-heart"></i>
+                                            </button>
+                                        }
+                                    </div>
                                     <p class="card-text company-name">
                                         @(job.User.CompanyProfiles.FirstOrDefault()?.CompanyName ?? job.User.Username)
                                     </p>
@@ -217,8 +252,8 @@
                                     </p>
                                     <p class="card-text salary">
                                         <i class="fas fa-money-bill-wave me-2"></i>
-                                        @(job.SalaryMin.HasValue && job.SalaryMax.HasValue 
-                                            ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/hour" 
+                                        @(job.SalaryMin.HasValue && job.SalaryMax.HasValue
+                                            ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/hour"
                                             : "Negotiable")
                                     </p>
                                     <div class="d-flex justify-content-between align-items-center mt-3">
@@ -233,7 +268,7 @@
             }
         </div>
 
-        <!-- Pagination -->
+        <!-- Pagination section remains unchanged -->
         @if (Model.TotalPages > 1)
         {
             <nav aria-label="Page navigation">
@@ -241,8 +276,8 @@
                     @if (Model.CurrentPage > 1)
                     {
                         <li class="page-item">
-                            <a class="page-link" href="@Url.Action("Index", "Worker", new { 
-                                page = Model.CurrentPage - 1, 
+                            <a class="page-link" href="@Url.Action("Index", "Worker", new {
+                                page = Model.CurrentPage - 1,
                                 keyword = Model.Keyword,
                                 location = Model.Location,
                                 jobType = Model.JobType,
@@ -258,8 +293,8 @@
                     @for (int i = 1; i <= Model.TotalPages; i++)
                     {
                         <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                            <a class="page-link" href="@Url.Action("Index", "Worker", new { 
-                                page = i, 
+                            <a class="page-link" href="@Url.Action("Index", "Worker", new {
+                                page = i,
                                 keyword = Model.Keyword,
                                 location = Model.Location,
                                 jobType = Model.JobType,
@@ -273,8 +308,8 @@
                     @if (Model.CurrentPage < Model.TotalPages)
                     {
                         <li class="page-item">
-                            <a class="page-link" href="@Url.Action("Index", "Worker", new { 
-                                page = Model.CurrentPage + 1, 
+                            <a class="page-link" href="@Url.Action("Index", "Worker", new {
+                                page = Model.CurrentPage + 1,
                                 keyword = Model.Keyword,
                                 location = Model.Location,
                                 jobType = Model.JobType,

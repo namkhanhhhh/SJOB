@@ -29,8 +29,18 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body">
-                                    <h5 class="card-title">@job.Title</h5>
-                                    <p class="card-text company-name">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <h5 class="card-title">@job.Title</h5>
+                                        @if (User.Identity.IsAuthenticated)
+                                        {
+                                            <button class="btn-wishlist @(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "active" : "")"
+                                                    data-job-id="@job.Id"
+                                                    data-is-in-wishlist="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "true" : "false")"
+                                                    title="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "Remove from wishlist" : "Add to wishlist")">
+                                                <i class="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "fas" : "far") fa-heart"></i>
+                                            </button>
+                                        }
+                                    </div>                                    <p class="card-text company-name">
                                         @(job.User.CompanyProfiles.FirstOrDefault()?.CompanyName ?? job.User.Username)
                                     </p>
                                     <p class="card-text location">

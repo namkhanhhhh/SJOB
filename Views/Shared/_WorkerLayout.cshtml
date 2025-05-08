@@ -7,52 +7,102 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/worker.css" />
+    <link rel="stylesheet" href="~/css/modern-pages.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
+        /* Modern Color Scheme for SJOB Platform */
         :root {
-            --primary-color: #0066cc;
-            --secondary-color: #4cb050;
-            --dark-color: #333;
-            --light-color: #f5f5f5;
-            --primary-light: #60ad5e;
-            --primary-dark: #005005;
+            /* Core colors - Modern Purple-Blue Gradient Theme */
+            --primary-color: #00CC66; /* Deep indigo */
+            --primary-light: #818cf8; /* Lighter indigo */
+            --primary-dark: #3730a3; /* Darker indigo */
+            --secondary-color: #10b981; /* Emerald green */
+            --secondary-light: #34d399; /* Light emerald */
+            --secondary-dark: #059669; /* Dark emerald */
+            --accent-color: #f97316; /* Orange accent */
             --text-on-primary: #ffffff;
-            --accent-color: #81c784;
-            --hover-color: #388e3c;
-            --animation-speed: 0.3s;
+            --dark-color: #1e293b; /* Slate dark */
+            --light-color: #f8fafc; /* Light background */
+            /* Additional palette */
+            --neutral-50: #f9fafb;
+            --neutral-100: #f3f4f6;
+            --neutral-200: #e5e7eb;
+            --neutral-300: #d1d5db;
+            --neutral-400: #9ca3af;
+            --neutral-500: #6b7280;
+            --neutral-600: #4b5563;
+            --neutral-700: #374151;
+            --neutral-800: #1f2937;
+            --neutral-900: #111827;
+            /* Additional accent colors */
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #3b82f6;
+            /* Text color - Fixed to #006666 */
+            --heading-text-color: #006666;
+            /* Component variables */
+            --card-border-radius: 12px;
+            --button-border-radius: 8px;
+            --input-border-radius: 8px;
+            --box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s;
         }
 
-        
-        /* Header Styles */
+        /* Global Styles */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--neutral-800);
+            background-color: var(--neutral-50);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--heading-text-color);
+        }
+
+        a {
+            color: var(--primary-color);
+            transition: color var(--transition-speed) ease;
+        }
+
+            a:hover {
+                color: var(--primary-dark);
+                text-decoration: none;
+            }
+
+        /* Header & Navbar Styles */
         header {
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        
+
         .navbar {
-            padding: 0.8rem 1rem;
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%) !important;
+            padding: 0.8rem 1rem;
             border-bottom: none !important;
-            position: relative;
         }
-        
+
         .navbar-brand {
             padding: 0;
             margin-right: 2rem;
         }
-        
-        .navbar-brand img {
-            height: 45px;
-            filter: brightness(0) invert(1);
-            transition: transform var(--animation-speed);
-        }
-        
-        .navbar-brand:hover img {
-            transform: scale(1.05);
-        }
-        
+
+            .navbar-brand img {
+                height: 45px;
+                filter: brightness(0) invert(1);
+                transition: transform var(--transition-speed);
+            }
+
+            .navbar-brand:hover img {
+                transform: scale(1.05);
+            }
+
         .navbar-nav.center-menu {
             position: absolute;
             left: 50%;
@@ -60,350 +110,487 @@
             display: flex;
             align-items: center;
         }
-        
+
         .navbar-nav .nav-item {
             margin: 0 10px;
         }
-        
+
         .nav-link {
             color: var(--text-on-primary) !important;
             font-weight: 500;
             padding: 0.6rem 1rem;
             border-radius: 4px;
-            transition: all var(--animation-speed) ease;
+            transition: all var(--transition-speed) ease;
             position: relative;
             overflow: hidden;
             z-index: 1;
         }
-        
-        .nav-link:before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background-color: var(--text-on-primary);
-            transition: width var(--animation-speed) ease;
-            z-index: -1;
+
+            .nav-link:before {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 3px;
+                background-color: var(--secondary-color);
+                transition: width var(--transition-speed) ease;
+                z-index: -1;
+            }
+
+            .nav-link:hover {
+                background-color: rgba(255, 255, 255, 0.15);
+                transform: translateY(-3px);
+            }
+
+                .nav-link:hover:before {
+                    width: 100%;
+                }
+
+        /* User Profile */
+        .user-profile-nav {
+            margin-left: auto;
         }
-        
-        .nav-link:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        .user-profile-image {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border: 2px solid var(--secondary-color);
+            transition: all var(--transition-speed) ease;
         }
-        
-        .nav-link:hover:before {
-            width: 100%;
+
+        .user-profile-nav .dropdown-toggle:hover .user-profile-image {
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
-        
-        .navbar-nav .dropdown-menu {
+
+        /* Dropdown Styles */
+        .dropdown-menu {
             border: none;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             margin-top: 10px;
         }
-        
+
         .dropdown-item {
             padding: 0.6rem 1.5rem;
-            transition: all var(--animation-speed) ease;
+            transition: all var(--transition-speed) ease;
+        }
+
+            .dropdown-item:hover {
+                background-color: rgba(79, 70, 229, 0.1);
+                color: var(--heading-text-color);
+                transform: translateX(5px);
+            }
+
+        /* Button Styles */
+        .btn {
+            font-weight: 500;
+            padding: 0.625rem 1.25rem;
+            border-radius: var(--button-border-radius);
+            transition: all var(--transition-speed) ease;
+            text-transform: none;
+            letter-spacing: 0.01em;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+            .btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            border: none;
+            box-shadow: 0 2px 5px rgba(79, 70, 229, 0.3);
+        }
+
+            .btn-primary:hover {
+                background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+                box-shadow: 0 4px 10px rgba(79, 70, 229, 0.4);
+            }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);
+            border: none;
+            box-shadow: 0 2px 5px rgba(16, 185, 129, 0.3);
+        }
+
+            .btn-success:hover {
+                background: linear-gradient(135deg, var(--secondary-light) 0%, var(--secondary-color) 100%);
+                box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4);
+            }
+
+        /* Hero Section */
+        .hero-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%);
+            border-radius: 0 0 60px 60px;
+            margin-bottom: 3rem;
             position: relative;
-            z-index: 1;
-        }
-        
-        .dropdown-item:after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 100%;
-            background-color: var(--accent-color);
-            transition: width var(--animation-speed) ease;
-            z-index: -1;
-            opacity: 0.2;
-        }
-        
-        .dropdown-item:hover {
-            transform: translateX(5px);
-            color: var(--primary-color);
-        }
-        
-        .dropdown-item:hover:after {
-            width: 100%;
-        }
-        
-        .user-profile-nav {
-            margin-left: auto;
-        }
-        
-        .user-profile-nav .dropdown-toggle::after {
-            margin-left: 0.5rem;
-        }
-        
-        /* User Profile */
-        .user-profile-image {
-            width: 40px;
-            height: 40px;
-            object-fit: cover;
-            border: 2px solid var(--text-on-primary);
-            transition: all var(--animation-speed) ease;
-        }
-        
-        .user-profile-nav .dropdown-toggle:hover .user-profile-image {
-            transform: scale(1.1);
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-        
-        /* Footer Styles */
-        footer {
-            background-color: #f8f9fa;
-            border-top: none !important;
-        }
-        
-        footer h5 {
-            color: var(--primary-color);
-            font-weight: 600;
-            margin-bottom: 1.2rem;
-            position: relative;
-            padding-bottom: 0.8rem;
-        }
-        
-        footer h5::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-        }
-        
-        .animate-title {
-            position: relative;
-            display: inline-block;
             overflow: hidden;
         }
-        
-        .animate-title:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-            transition: width 0.5s ease;
+
+            .hero-section:before {
+                content: '';
+                position: absolute;
+                top: -50%;
+                right: -10%;
+                width: 600px;
+                height: 600px;
+                border-radius: 50%;
+                background: radial-gradient(circle, rgba(129, 140, 248, 0.1) 0%, rgba(79, 70, 229, 0) 70%);
+                z-index: 0;
+            }
+
+            .hero-section:after {
+                content: '';
+                position: absolute;
+                bottom: -30%;
+                left: -5%;
+                width: 500px;
+                height: 500px;
+                border-radius: 50%;
+                background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(16, 185, 129, 0) 70%);
+                z-index: 0;
+            }
+
+            .hero-section h1 {
+                font-weight: 800;
+                margin-bottom: 1.5rem;
+                color: var(--heading-text-color);
+                line-height: 1.2;
+                position: relative;
+                z-index: 1;
+            }
+
+            .hero-section p.lead {
+                font-size: 1.2rem;
+                color: var(--neutral-600);
+                margin-bottom: 2rem;
+                position: relative;
+                z-index: 1;
+            }
+
+            .hero-section .card {
+                border: none;
+                border-radius: var(--card-border-radius);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                position: relative;
+                z-index: 1;
+            }
+
+        /* Card Styles */
+        .card {
+            border: none;
+            border-radius: var(--card-border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all var(--transition-speed) ease;
+            overflow: hidden;
         }
-        
-        .animate-title:hover:before {
-            width: 100%;
+
+            .card:hover {
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+                transform: translateY(-5px);
+            }
+
+        .card-title {
+            font-weight: 700;
+            color: var(--heading-text-color);
         }
-        
+
+        /* Job Cards */
+        .job-card {
+            position: relative;
+            border: none;
+            border-radius: var(--card-border-radius);
+            overflow: hidden;
+            height: 100%;
+        }
+
+            .job-card .card-title {
+                font-size: 1.2rem;
+                line-height: 1.3;
+                margin-bottom: 0.5rem;
+            }
+
+        .company-name {
+            color: var(--heading-text-color);
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .location, .salary, .job-type, .views {
+            font-size: 0.9rem;
+            color: var(--neutral-600);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+            .location i, .salary i, .job-type i, .views i {
+                margin-right: 0.5rem;
+                color: var(--primary-color);
+                width: 16px;
+                text-align: center;
+            }
+
+        .premium-badge .badge {
+            background-color: var(--accent-color);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(249, 115, 22, 0.3);
+        }
+
+        .popular-badge .badge {
+            background-color: var(--danger-color);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Category Cards */
+        .category-card {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background: white;
+            border-radius: var(--card-border-radius);
+            transition: all var(--transition-speed) ease;
+            border: 1px solid var(--neutral-200);
+        }
+
+            .category-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+                border-color: var(--neutral-300);
+            }
+
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--heading-text-color);
+        }
+
+        /* Update the original gradient text to solid color */
+        .category-icon {
+            -webkit-background-clip: initial;
+            -webkit-text-fill-color: initial;
+            background: initial;
+        }
+
+        /* Form Controls */
+        .form-control, .form-select {
+            border-radius: var(--input-border-radius);
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--neutral-300);
+            font-size: 0.95rem;
+            transition: all var(--transition-speed) ease;
+        }
+
+            .form-control:focus, .form-select:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+            }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--heading-text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        /* Section Titles */
+        .section-title {
+            position: relative;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+            color: var(--heading-text-color);
+        }
+
+            .section-title::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 80px;
+                height: 4px;
+                background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+                border-radius: 2px;
+            }
+
+        /* Wishlist Button */
+        .wishlist-toggle {
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+            .wishlist-toggle:hover {
+                transform: scale(1.1);
+                box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            }
+
+            .wishlist-toggle .fas.fa-heart,
+            .wishlist-toggle .far.fa-heart {
+                color: var(--accent-color);
+            }
+
+            .wishlist-toggle.active i {
+                animation: heartBeat 1s;
+            }
+
+        .btn-wishlist {
+            width: 40px;
+            height: 38px;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+            .btn-wishlist:hover {
+                background-color: #f1f1f1;
+                border-color: #c8c8c8;
+            }
+
+            .btn-wishlist i {
+                font-size: 1.1rem;
+                color: var(--accent-color);
+                transition: all 0.3s ease;
+            }
+
+            .btn-wishlist.active {
+                background-color: var(--accent-color);
+                border-color: var(--accent-color);
+            }
+
+                .btn-wishlist.active i {
+                    color: #fff;
+                }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--neutral-100);
+            border-top: none !important;
+            margin-top: 4rem;
+        }
+
+            footer h5 {
+                color: var(--heading-text-color);
+                font-weight: 600;
+                margin-bottom: 1.2rem;
+                position: relative;
+                padding-bottom: 0.8rem;
+            }
+
+                footer h5::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 50px;
+                    height: 3px;
+                    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+                }
+
         .footer-link {
             position: relative;
-            transition: all var(--animation-speed) ease;
+            transition: all var(--transition-speed) ease;
             padding-left: 5px;
+            color: var(--neutral-700);
         }
-        
-        .footer-link:hover {
-            padding-left: 10px;
-            color: var(--primary-color) !important;
-        }
-        
-        .footer-links li {
-            transform: translateX(-20px);
-            opacity: 0;
-            animation: slideIn 0.5s forwards;
-            animation-delay: calc(var(--i, 0) * 0.1s);
-        }
-        
-        .footer-links li:nth-child(1) { --i: 1; }
-        .footer-links li:nth-child(2) { --i: 2; }
-        .footer-links li:nth-child(3) { --i: 3; }
-        .footer-links li:nth-child(4) { --i: 4; }
-        .footer-links li:nth-child(5) { --i: 5; }
-        
+
+            .footer-link:hover {
+                padding-left: 10px;
+                color: var(--heading-text-color) !important;
+            }
+
         .contact-item {
             display: flex;
             align-items: center;
             margin-bottom: 0.8rem;
-            transform: translateY(20px);
-            opacity: 0;
-            animation: fadeUp 0.5s forwards;
-            animation-delay: calc(var(--i, 0) * 0.1s);
         }
-        
-        .contact-item:nth-child(1) { --i: 1; }
-        .contact-item:nth-child(2) { --i: 2; }
-        .contact-item:nth-child(3) { --i: 3; }
-        
-        .contact-item i {
-            margin-right: 10px;
-            color: var(--primary-color);
-            font-size: 1.2rem;
-        }
-        
-        
-        .support-btn {
-            transition: all var(--animation-speed) ease;
-            border: 2px solid var(--primary-color);
-        }
-        
-        .support-btn:hover {
-            background-color: var(--primary-color);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
-        }
-        
-        footer a {
-            color: #555;
-            transition: all 0.3s ease;
-        }
-        
-        footer a:hover {
-            color: var(--primary-color);
-            text-decoration: none;
-        }
-        
+
+            .contact-item i {
+                margin-right: 10px;
+                color: var(--heading-text-color);
+                font-size: 1.2rem;
+            }
+
         .social-icons a {
             display: inline-block;
             width: 36px;
             height: 36px;
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             color: white !important;
             border-radius: 50%;
             text-align: center;
             line-height: 36px;
             margin-right: 10px;
-            transition: all var(--animation-speed) ease;
-            position: relative;
-            overflow: hidden;
+            transition: all var(--transition-speed) ease;
         }
-        
-        .social-icons a:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transform: scale(0);
-            transition: transform 0.5s ease;
-        }
-        
-        .social-icons a:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .social-icons a:hover:before {
-            transform: scale(1.5);
-            opacity: 0;
-        }
-        
-        .social-icon-animate {
-            animation: pulseIcon 2s infinite;
-            animation-delay: calc(var(--animation-delay, 0) * 0.2s);
-        }
-        
-        .social-icons a:nth-child(1) {
-            --animation-delay: 1;
-        }
-        
-        .social-icons a:nth-child(2) {
-            --animation-delay: 2;
-        }
-        
-        .social-icons a:nth-child(3) {
-            --animation-delay: 3;
-        }
-        
-        .social-icons a:nth-child(4) {
-            --animation-delay: 4;
-        }
-        
-        .social-icons a:nth-child(5) {
-            --animation-delay: 5;
-        }
-        
-        
-        footer address p {
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        footer address i {
-            color: var(--primary-color);
-            margin-right: 10px;
-            width: 16px;
-        }
-        
+
+            .social-icons a:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-color) 100%);
+            }
+
         .footer-bottom {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
             color: var(--text-on-primary);
             padding: 1rem 0;
         }
-        
-        /* Alert Styles */
-        .alert {
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            animation: slideDown 0.5s ease;
+
+        /* Featured Job Badge */
+        .featured-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 2;
         }
-        
-        
-        /* Main Content */
-        main.pb-3 {
-            min-height: calc(100vh - 300px);
-            padding-top: 2rem;
+
+            .featured-badge .badge {
+                background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+                color: white;
+                font-weight: 600;
+                box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+            }
+
+        /* Hover Effects */
+        .hover-lift {
+            transition: transform var(--transition-speed) ease;
         }
-        
-        
-        
-        /* Animation Classes */
-        .animate-on-scroll {
-            opacity: 0;
-            transition: all 0.6s ease;
+
+            .hover-lift:hover {
+                transform: translateY(-5px);
+            }
+
+        /* Pagination */
+        .pagination .page-item.active .page-link {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
         }
-        
-        .animate-on-scroll.fade-in {
-            transform: translateY(20px);
+
+        .pagination .page-link {
+            color: var(--heading-text-color);
         }
-        
-        .animate-on-scroll.slide-right {
-            transform: translateX(-20px);
-        }
-        
-        .animate-on-scroll.slide-left {
-            transform: translateX(20px);
-        }
-        
-        .animate-on-scroll.zoom-in {
-            transform: scale(0.9);
-        }
-        
-        .animate-on-scroll.animate.fade-in {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .animate-on-scroll.animate.slide-right,
-        .animate-on-scroll.animate.slide-left {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        
-        .animate-on-scroll.animate.zoom-in {
-            opacity: 1;
-            transform: scale(1);
-        }
+
+            .pagination .page-link:hover {
+                background-color: var(--primary-light);
+                color: white;
+            }
     </style>
 </head>
 <body>
@@ -433,37 +620,50 @@
                                 @await Component.InvokeAsync("JobCategoriesMenu")
                             </div>
                         </li>
+                        <!-- Add this new wishlist link -->
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Worker" asp-action="Wishlist">
+                                <i></i> Wishlist
+                            </a>
+                        </li>
                     </ul>
                     <ul class="navbar-nav user-profile-nav">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @if (!string.IsNullOrEmpty(User.FindFirst("Avatar")?.Value))
-                                {
-                                    <img src="@User.FindFirst("Avatar")?.Value" alt="Profile" class="rounded-circle user-profile-image" />
-                                }
-                                else
-                                {
-                                    <i class="fas fa-user-circle"></i>
-                                }
-                                <span class="ml-2">@User.Identity.Name</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" asp-controller="Worker" asp-action="Profile">
-                                    <i class="fas fa-user mr-2"></i> My Profile
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a class="nav-link dropdown-toggle user-dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @if (!string.IsNullOrEmpty(ViewBag.UserAvatar))
+                                    {
+                                        <img src="@ViewBag.UserAvatar" alt="User Avatar" class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;">
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-user-circle me-2"></i>
+                                    }
+                                    <span class="ml-2">@User.Identity.Name</span>
                                 </a>
-                                <a class="dropdown-item" asp-controller="Worker" asp-action="EditProfile">
-                                    <i class="fas fa-edit mr-2"></i> Edit Profile
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Profile", "Worker")"><i class="fas fa-user me-2"></i>Profile</a>
+                                    <a class="dropdown-item" href="@Url.Action("MyApplications", "Worker")"><i class="fas fa-clipboard-list me-2"></i>My Applications</a>
+                                    <a class="dropdown-item" href="@Url.Action("ChangePassword", "Worker")"><i class="fas fa-key me-2"></i>Change Password</a>
+                                    <div class="dropdown-divider"></div>
+                                    <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                                        <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i>Logout</button>
+                                    </form>
+                                </div>
+                            }
+                            else
+                            {
+                                <!-- For non-authenticated users, show only login/register options -->
+                                <a class="nav-link dropdown-toggle user-dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-user-circle me-2"></i>
+                                    <span class="d-none d-md-inline">Account</span>
                                 </a>
-                                <a class="dropdown-item" asp-controller="Worker" asp-action="ChangePassword">
-                                    <i class="fas fa-key mr-2"></i> Change Password
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <form asp-controller="Account" asp-action="Logout" method="post">
-                                    <button type="submit" class="dropdown-item">
-                                        <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                                    </button>
-                                </form>
-                            </div>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Login")"><i class="fas fa-sign-in-alt me-2"></i>Login</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Register")"><i class="fas fa-user-plus me-2"></i>Register</a>
+                                </div>
+                            }
                         </li>
                     </ul>
                 </div>
@@ -563,6 +763,53 @@
                     menu.classList.toggle('show');
                 });
             }
+
+            $(document).ready(function () {
+                // Global wishlist toggle functionality
+                $('.wishlist-btn, .btn-wishlist, .btn-heart, .wishlist-btn-corner').click(function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    var $button = $(this);
+                    var jobId = $button.data('job-id');
+
+                    $.ajax({
+                        url: '@Url.Action("ToggleWishlist", "Worker")',
+                        type: 'POST',
+                        data: { jobId: jobId },
+                        success: function (response) {
+                            if (response.isInWishlist) {
+                                $button.addClass('active');
+                                $button.find('i').removeClass('far').addClass('fas');
+                                $button.attr('data-is-in-wishlist', 'true');
+                                $button.attr('title', 'Remove from wishlist');
+
+                                // Show success toast if you have toastr library
+                                if (typeof toastr !== 'undefined') {
+                                    toastr.success('Job added to wishlist');
+                                }
+                            } else {
+                                $button.removeClass('active');
+                                $button.find('i').removeClass('fas').addClass('far');
+                                $button.attr('data-is-in-wishlist', 'false');
+                                $button.attr('title', 'Add to wishlist');
+
+                                // Show info toast if you have toastr library
+                                if (typeof toastr !== 'undefined') {
+                                    toastr.info('Job removed from wishlist');
+                                }
+                            }
+                        },
+                        error: function () {
+                            // Show error toast if you have toastr library
+                            if (typeof toastr !== 'undefined') {
+                                toastr.error('Error updating wishlist');
+                            }
+                        }
+                    });
+                });
+            });
+
             
             // Close dropdowns when clicking outside
             document.addEventListener('click', function(e) {

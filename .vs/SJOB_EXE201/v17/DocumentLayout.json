@@ -3,72 +3,44 @@
   "WorkspaceRootPath": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\shared\\_workerlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\shared\\_workerlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\controllers\\workercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:controllers\\workercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\worker\\jobdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\worker\\jobdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\controllers\\workercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:controllers\\workercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:wwwroot\\js\\site.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\customer\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\customer\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\worker\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\worker\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\worker\\employerprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\worker\\employerprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\viewmodels\\workerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:viewmodels\\workerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\worker\\searchresults.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\worker\\searchresults.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\wwwroot\\css\\worker.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:wwwroot\\css\\worker.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\wwwroot\\css\\modern-pages.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:wwwroot\\css\\modern-pages.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\worker\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\worker\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\worker\\wishlist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\worker\\wishlist.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\worker\\myapplications.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\worker\\myapplications.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\worker\\editprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\worker\\editprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\worker\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\worker\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\worker\\categoryjobs.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\worker\\categoryjobs.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\shared\\components\\jobcategoriesmenu\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\shared\\components\\jobcategoriesmenu\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\viewcomponents\\jobcategoriesmenuviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:viewcomponents\\jobcategoriesmenuviewcomponent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -78,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 23,
+          "SelectedChildIndex": 28,
           "Children": [
             {
               "$type": "Bookmark",
@@ -174,223 +146,132 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "site.css",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\wwwroot\\css\\site.css",
-              "RelativeDocumentMoniker": "wwwroot\\css\\site.css",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\wwwroot\\css\\site.css",
-              "RelativeToolTip": "wwwroot\\css\\site.css",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-05-03T16:44:27.102Z",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Customer\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Customer\\Index.cshtml",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Customer\\Index.cshtml",
+              "RelativeToolTip": "Views\\Customer\\Index.cshtml",
+              "ViewState": "AQIAAAQAAAAAAAAAAAAqwBcAAAA8AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-06T07:14:10.214Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "_AdminLayout.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Shared\\_AdminLayout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_AdminLayout.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Shared\\_AdminLayout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_AdminLayout.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-03T16:42:27.654Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "_WorkerLayout.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Shared\\_WorkerLayout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_WorkerLayout.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Shared\\_WorkerLayout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_WorkerLayout.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-03T05:53:25.246Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "JobDetails.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\JobDetails.cshtml",
-              "RelativeDocumentMoniker": "Views\\Worker\\JobDetails.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\JobDetails.cshtml",
-              "RelativeToolTip": "Views\\Worker\\JobDetails.cshtml",
-              "ViewState": "AQIAAB4AAAAAAAAAAAAAAD4AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-03T05:57:25.264Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "MyApplications.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\MyApplications.cshtml",
-              "RelativeDocumentMoniker": "Views\\Worker\\MyApplications.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\MyApplications.cshtml",
-              "RelativeToolTip": "Views\\Worker\\MyApplications.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEkAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-03T05:57:54.88Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "EditProfile.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\EditProfile.cshtml",
-              "RelativeDocumentMoniker": "Views\\Worker\\EditProfile.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\EditProfile.cshtml",
-              "RelativeToolTip": "Views\\Worker\\EditProfile.cshtml",
-              "ViewState": "AQIAAHYAAAAAAAAAAAAkwKYAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-03T05:56:36.44Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "ChangePassword.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\ChangePassword.cshtml",
-              "RelativeDocumentMoniker": "Views\\Worker\\ChangePassword.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\ChangePassword.cshtml",
-              "RelativeToolTip": "Views\\Worker\\ChangePassword.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACcAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-03T05:56:08.696Z",
+              "Title": "CustomerController.cs",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\CustomerController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CustomerController.cs",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\CustomerController.cs",
+              "RelativeToolTip": "Controllers\\CustomerController.cs",
+              "ViewState": "AQIAADIAAAAAAAAAAAAswEgAAABAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-06T07:14:59.482Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "WorkerController.cs",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\WorkerController.cs",
-              "RelativeDocumentMoniker": "Controllers\\WorkerController.cs",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\WorkerController.cs",
-              "RelativeToolTip": "Controllers\\WorkerController.cs",
-              "ViewState": "AQIAAMgAAAAAAAAAAADwv/oAAAANAAAA",
+              "Title": "LoginController.cs",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\LoginController.cs",
+              "RelativeDocumentMoniker": "Controllers\\LoginController.cs",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\LoginController.cs",
+              "RelativeToolTip": "Controllers\\LoginController.cs",
+              "ViewState": "AQIAAMQAAAAAAAAAAADwv94AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T05:49:46.394Z",
+              "WhenOpened": "2025-05-06T07:13:13.31Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "site.js",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\wwwroot\\js\\site.js",
-              "RelativeDocumentMoniker": "wwwroot\\js\\site.js",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\wwwroot\\js\\site.js",
-              "RelativeToolTip": "wwwroot\\js\\site.js",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2025-05-03T07:48:22.415Z",
+              "Title": "EmployerProfile.cshtml",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\EmployerProfile.cshtml",
+              "RelativeDocumentMoniker": "Views\\Worker\\EmployerProfile.cshtml",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\EmployerProfile.cshtml",
+              "RelativeToolTip": "Views\\Worker\\EmployerProfile.cshtml",
+              "ViewState": "AQIAABUAAAAAAAAAAAAAADkAAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-06T07:06:47.304Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Worker\\Index.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\Index.cshtml",
-              "RelativeToolTip": "Views\\Worker\\Index.cshtml",
-              "ViewState": "AQIAACEAAAAAAAAAAAAAAAAAAAAkAAAA",
+              "Title": "SearchResults.cshtml",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\SearchResults.cshtml",
+              "RelativeDocumentMoniker": "Views\\Worker\\SearchResults.cshtml",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\SearchResults.cshtml",
+              "RelativeToolTip": "Views\\Worker\\SearchResults.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAFUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-03T05:56:52.101Z",
+              "WhenOpened": "2025-05-06T04:39:59.257Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Program.cs",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEoAAAAKAAAA",
+              "DocumentIndex": 0,
+              "Title": "WorkerController.cs",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\WorkerController.cs",
+              "RelativeDocumentMoniker": "Controllers\\WorkerController.cs",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\WorkerController.cs",
+              "RelativeToolTip": "Controllers\\WorkerController.cs",
+              "ViewState": "AQIAAIEDAAAAAAAAAAAUwJQDAAA4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T06:50:28.585Z",
+              "WhenOpened": "2025-05-06T04:33:05.294Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Profile.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\Profile.cshtml",
-              "RelativeDocumentMoniker": "Views\\Worker\\Profile.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\Profile.cshtml",
-              "RelativeToolTip": "Views\\Worker\\Profile.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAJ8AAAAAAAAA",
+              "DocumentIndex": 1,
+              "Title": "JobDetails.cshtml",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\JobDetails.cshtml",
+              "RelativeDocumentMoniker": "Views\\Worker\\JobDetails.cshtml",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\JobDetails.cshtml",
+              "RelativeToolTip": "Views\\Worker\\JobDetails.cshtml",
+              "ViewState": "AQIAAPcAAAAAAAAAAAAswBgBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-03T05:58:11.153Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "worker.css",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\wwwroot\\css\\worker.css",
-              "RelativeDocumentMoniker": "wwwroot\\css\\worker.css",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\wwwroot\\css\\worker.css",
-              "RelativeToolTip": "wwwroot\\css\\worker.css",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAKkAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-05-03T05:58:23.89Z",
+              "WhenOpened": "2025-05-06T06:43:32.546Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "WorkerViewModel.cs",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\ViewModels\\WorkerViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModels\\WorkerViewModel.cs",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\ViewModels\\WorkerViewModel.cs",
-              "RelativeToolTip": "ViewModels\\WorkerViewModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAuwAcAAAAXAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T05:51:26.218Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "CategoryJobs.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\CategoryJobs.cshtml",
-              "RelativeDocumentMoniker": "Views\\Worker\\CategoryJobs.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\CategoryJobs.cshtml",
-              "RelativeToolTip": "Views\\Worker\\CategoryJobs.cshtml",
-              "ViewState": "AQIAAEYAAAAAAAAAAAAAwE8AAAAuAAAA",
+              "Title": "Wishlist.cshtml",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\Wishlist.cshtml",
+              "RelativeDocumentMoniker": "Views\\Worker\\Wishlist.cshtml",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\Wishlist.cshtml",
+              "RelativeToolTip": "Views\\Worker\\Wishlist.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAA1AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-03T05:54:06.642Z",
+              "WhenOpened": "2025-05-06T04:27:29.833Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "Default.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Shared\\Components\\JobCategoriesMenu\\Default.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\Components\\JobCategoriesMenu\\Default.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Shared\\Components\\JobCategoriesMenu\\Default.cshtml",
-              "RelativeToolTip": "Views\\Shared\\Components\\JobCategoriesMenu\\Default.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAAAAAA",
+              "DocumentIndex": 9,
+              "Title": "MyApplications.cshtml",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\MyApplications.cshtml",
+              "RelativeDocumentMoniker": "Views\\Worker\\MyApplications.cshtml",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Worker\\MyApplications.cshtml",
+              "RelativeToolTip": "Views\\Worker\\MyApplications.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAF0AAAAGAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-03T05:52:39.682Z",
+              "WhenOpened": "2025-05-06T04:27:13.853Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "JobCategoriesMenuViewComponent.cs",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\ViewComponents\\JobCategoriesMenuViewComponent.cs",
-              "RelativeDocumentMoniker": "ViewComponents\\JobCategoriesMenuViewComponent.cs",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\ViewComponents\\JobCategoriesMenuViewComponent.cs",
-              "RelativeToolTip": "ViewComponents\\JobCategoriesMenuViewComponent.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABwAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-03T05:50:49.45Z",
+              "DocumentIndex": 7,
+              "Title": "modern-pages.css",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\wwwroot\\css\\modern-pages.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\modern-pages.css",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\wwwroot\\css\\modern-pages.css",
+              "RelativeToolTip": "wwwroot\\css\\modern-pages.css",
+              "ViewState": "AQIAALkAAAAAAAAAAAAiwCsBAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-05-06T04:25:52.904Z",
               "EditorCaption": ""
             }
           ]

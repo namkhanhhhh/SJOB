@@ -1,4 +1,3 @@
-/* General Styles */
 body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
@@ -156,6 +155,57 @@ body {
     .related-job-item:hover {
         background-color: #f8f9fa;
     }
+
+/* Dropdown hover styles */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Improve dropdown appearance */
+.dropdown-menu {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border: none;
+    padding: 0.5rem 0;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    transition: background-color 0.2s;
+}
+
+    .dropdown-item:hover {
+        background-color: rgba(13, 110, 253, 0.1);
+    }
+
+    .dropdown-item i {
+        width: 20px;
+        text-align: center;
+    }
+
+/* User avatar styles */
+.user-dropdown-toggle img {
+    border: 2px solid #fff;
+    transition: transform 0.2s;
+}
+
+.user-dropdown-toggle:hover img {
+    transform: scale(1.1);
+}
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
