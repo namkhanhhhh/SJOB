@@ -1,0 +1,14 @@
+﻿@{
+    ViewData["Title"] = "Nạp tiền";
+}
+
+<h2>Nạp tiền vào tài khoản</h2>
+
+<form asp-action="CreatePayment" method="post">
+    <div class="form-group">
+        <label for="amount">Số tiền (VNĐ):</label>
+        <input id="amount" name="amount" type="number" class="form-control" required min="2000" step="1000" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Nạp tiền</button>
+</form>
+

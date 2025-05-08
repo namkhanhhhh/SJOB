@@ -1,0 +1,108 @@
+﻿@model SJOB_EXE201.Models.JobPost
+
+@{
+    ViewData["Title"] = "Tạo Tin Tuyển Dụng";
+}
+
+<h2 class="mb-4 text-primary">
+    <i class="bi bi-plus-circle"></i> @ViewData["Title"]
+</h2>
+
+<form asp-action="Create" class="p-4 border rounded bg-light shadow-sm">
+    @Html.AntiForgeryToken()
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="Title" class="form-label"><i class="bi bi-pencil"></i> Tiêu đề</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Location" class="form-label"><i class="bi bi-geo-alt"></i> Địa điểm</label>
+            <input asp-for="Location" class="form-control" />
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="SalaryMin" class="form-label"><i class="bi bi-cash"></i> Lương tối thiểu</label>
+            <input asp-for="SalaryMin" class="form-control" />
+            <span asp-validation-for="SalaryMin" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="SalaryMax" class="form-label"><i class="bi bi-cash-stack"></i> Lương tối đa</label>
+            <input asp-for="SalaryMax" class="form-control" />
+            <span asp-validation-for="SalaryMax" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="JobType" class="form-label"><i class="bi bi-briefcase"></i> Hình thức</label>
+            <input asp-for="JobType" class="form-control" />
+            <span asp-validation-for="JobType" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="ExperienceLevel" class="form-label"><i class="bi bi-award"></i> Kinh nghiệm</label>
+            <input asp-for="ExperienceLevel" class="form-control" />
+            <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Deadline" class="form-label"><i class="bi bi-calendar"></i> Hạn chót</label>
+            <input asp-for="Deadline" class="form-control" type="date" />
+            <span asp-validation-for="Deadline" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="PostType" class="form-label"><i class="bi bi-tag"></i> Loại tin</label>
+            <input asp-for="PostType" class="form-control" />
+            <span asp-validation-for="PostType" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-12">
+            <label asp-for="Description" class="form-label"><i class="bi bi-textarea-resize"></i> Mô tả</label>
+            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Requirements" class="form-label"><i class="bi bi-list-check"></i> Yêu cầu</label>
+            <textarea asp-for="Requirements" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Requirements" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Benefits" class="form-label"><i class="bi bi-gift"></i> Phúc lợi</label>
+            <textarea asp-for="Benefits" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Benefits" class="text-danger"></span>
+        </div>
+@* 
+        <div class="col-md-12">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="IsFeatured" value="true" id="IsFeatured" @(Model.IsFeatured == true ? "checked" : "") />
+                <label class="form-check-label" for="IsFeatured">
+                    <i class="bi bi-star-fill text-warning"></i> Tin nổi bật
+                </label>
+            </div>
+        </div> *@
+    </div>
+
+    <div class="mt-4">
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-check-circle"></i> Tạo mới
+        </button>
+
+        <a asp-action="Index" class="btn btn-secondary ms-2">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
