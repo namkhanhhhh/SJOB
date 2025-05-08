@@ -1,47 +1,242 @@
 ﻿@model List<SJOB_EXE201.Models.JobPost>
-@using System.Globalization
-
 @{
-    ViewData["Title"] = "Job Posts";
+    ViewData["Title"] = "Danh sách bài đăng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var username = User.Identity?.Name ?? "User";
+    var searchTerm = Context.Request.Query["search"].ToString();
+    var fromDate = Context.Request.Query["from"].ToString();
+    var toDate = Context.Request.Query["to"].ToString();
+    var status = Context.Request.Query["status"].ToString();
 }
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between mb-3">
-        <h2><i class="fas fa-briefcase"></i> Bài đăng của bạn</h2>
-        <a class="btn btn-primary" asp-action="Create"><i class="fas fa-plus-circle"></i> Đăng bài mới</a>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #1e2a38;
+        color: white;
+        padding: 0.5rem;
+    }
+
+    .main-content {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+    }
+</style>
+
+<div class="sidebar">
+    <h5 class="text-center">SJOB</h5>
+    <hr class="bg-light" />
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link text-white" href="#">
+                <i class="bi bi-card-checklist me-2"></i> Quản lý bài đăng
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-white" href="#">
+                <i class="bi bi-box-seam me-2"></i> Quản lý các gói dịch vụ
+            </a>
+        </li>
+        <li class="nav-item ps-3">
+            <a class="nav-link text-white" href="#">
+                <i class="bi bi-cart-plus me-2"></i> Mua dịch vụ
+            </a>
+        </li>
+        <li class="nav-item ps-3">
+            <a class="nav-link text-white" href="#">
+                <i class="bi bi-bag-check me-2"></i> Dịch vụ của tôi
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-white" href="#">
+                <i class="bi bi-gear me-2"></i> Cài đặt tài khoản
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-white" href="#">
+                <i class="bi bi-clock-history me-2"></i> Lịch sử hoạt động
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+<div class="main-content">
+    <!-- Top bar -->
+    <div class="bg-light d-flex justify-content-between align-items-center px-4 py-2 border-bottom">
+        <div class="d-flex align-items-center gap-2">
+            <h7>xem với:</h7>
+            <select id="viewMode" class="form-select form-select-sm w-auto" onchange="updateViewModeUrl(this.value)">
+                <option value="recruiter" selected="@(ViewBag.ViewMode == "recruiter")">Nhà tuyển dụng</option>
+                <option value="jobseeker" selected="@(ViewBag.ViewMode == "jobseeker")">Người tìm việc</option>
+            </select>
+
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <!-- số tiền của người dùng -->
+            <span class="badge bg-warning text-dark">@ViewData["Balance"] CD</span>
+            <!-- link nạp tiền -->
+            <a href="/Credit/Deposit" class="btn btn-danger">Nạp tiền</a>
+
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">@username</button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#">Tài khoản</a></li>
+                    <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 
-    @foreach (var post in Model)
-    {
-        var levelColor = post.PriorityLevel == 3 ? "bg-info text-white" : post.PriorityLevel == 2 ? "bg-warning" : "bg-light";
-        var levelText = post.PriorityLevel == 3 ? "KIM CƯƠNG" : post.PriorityLevel == 2 ? "VÀNG" : "BẠC";
-
-        <div class="card mb-3 border @levelColor">
-            <div class="row g-0">
-                <div class="col-md-2 text-center d-flex align-items-center justify-content-center">
-                    <img src="@post.ImageMain" class="img-fluid rounded-start" alt="logo" style="max-height:80px">
-                    <span class="badge bg-danger position-absolute">@levelText</span>
+    <div class="container-fluid mt-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0">Danh sách bài đăng</h4>
+            <div class="d-flex align-items-center gap-2">
+                <div class="btn btn-primary d-flex align-items-center px-3">
+                    Lượt đăng còn lại: <strong class="ms-1">@ViewBag.PostCredits</strong>
                 </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">@post.Title</h5>
-                        <p class="card-text mb-0">Địa điểm: <strong>@post.Location</strong></p>
-                        <p class="card-text mb-0">Mức lương: <strong>@post.SalaryMin?.ToString("C0", CultureInfo.CreateSpecificCulture("vi-VN")) - @post.SalaryMax?.ToString("C0", CultureInfo.CreateSpecificCulture("vi-VN"))</strong></p>
-                        <p class="card-text"><small class="text-muted">Đăng lúc: @post.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</small></p>
+                <a href="/jobPost/Create" class="btn btn-success">
+                    <i class="bi bi-plus-lg me-1"></i> Thêm mới
+                </a>
+            </div>
+        </div>
+
+
+        <!-- Tabs with links -->
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item">
+                <a class="nav-link @(ViewBag.Status == null ? "active" : "")" href="?status=">
+                    Tất cả bài đăng (@ViewBag.CountAll)
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @(ViewBag.Status == "active" ? "active" : "")" href="?status=active">
+                    Bài đăng đang hoạt động (@ViewBag.CountActive)
+                </a>
+            </li>
+
+             @if (ViewBag.ViewMode == "recruiter")
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-danger @(ViewBag.Status == "hidden" ? "active" : "")" href="?status=hidden">
+                    Bài đăng bị ẩn (@ViewBag.CountHidden)
+                </a>
+            </li>
+            }
+
+            <li class="nav-item">
+                <a class="nav-link @(ViewBag.Status == "expired" ? "active" : "")" href="?status=expired">
+                    Bài đăng hết hạn (@ViewBag.CountExpired)
+                </a>
+            </li>
+        </ul>
+
+        <!-- Bộ lọc -->
+        <form method="get" class="row mb-3">
+            <div class="col-md-6">
+                <input name="search" value="@searchTerm" class="form-control" placeholder="Tìm theo tiêu đề">
+            </div>
+            <div class="col-md-3">
+                <input name="from" value="@fromDate" class="form-control" type="date">
+            </div>
+            <div class="col-md-3">
+                <input name="to" value="@toDate" class="form-control" type="date">
+            </div>
+        </form>
+
+        <!-- Danh sách bài -->
+        <div class="list-group">
+            @foreach (var post in Model)
+            {
+                <div class="list-group-item mb-3 border-top">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h4><strong style="color :coral">Poster:</strong>@post.User.Username</h4>
+                            <h5>@post.Title</h5>
+                            <p>@post.Description</p>
+                            <p><strong>Yêu cầu:</strong> @post.Requirements</p>
+                            <p><strong>Phúc lợi:</strong> @post.Benefits</p>
+                            <p><strong>Địa điểm:</strong> @post.Location</p>
+                            <p><strong>Lương:</strong> @post.SalaryMin - @post.SalaryMax</p>
+                            <p><strong>Loại công việc:</strong> @post.JobType</p>
+                            <p><strong>Kinh nghiệm:</strong> @post.ExperienceLevel</p>
+                            <p><strong>Hạn nộp:</strong> @post.Deadline</p>
+                            <p><strong>Loại bài:</strong> @post.PostType | <strong>Lượt xem:</strong> @post.ViewCount</p>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+
+                                <li><a class="dropdown-item" href="/jobPost/Edit/@post.Id">Sửa</a></li>
+
+                                <li>
+                                    <form method="post" action="/jobPost/Hidden/@post.Id">
+                                        <button class="dropdown-item" type="submit">ẩn bài đăng</button>
+                                    </form>
+                                </li>
+
+                                <li>
+                                    <form asp-controller="JobPost" asp-action="PushToTop" asp-route-id="@post.Id" method="post">
+                                        <button class="dropdown-item" type="submit">Đẩy bài</button>
+                                    </form>
+                                </li>
+
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-2 text-end pe-3 d-flex flex-column justify-content-center">
-                    <a class="btn btn-outline-primary mb-2" asp-action="Edit" asp-route-id="@post.Id"><i class="fas fa-edit"></i></a>
-                    <a class="btn btn-outline-danger mb-2" asp-action="Delete" asp-route-id="@post.Id" onclick="return confirm('Bạn có chắc chắn muốn xoá?')"><i class="fas fa-trash"></i></a>
-                    <a class="btn btn-outline-success" asp-action="Up" asp-route-id="@post.Id"><i class="fas fa-arrow-up"></i></a>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- popup khi không đủ lượt đăng bài -->
+@if (TempData["ShowBuyPopup"]?.ToString() == "true")
+{
+    <script>
+        window.onload = function () {
+            var myModal = new bootstrap.Modal(document.getElementById('buyModal'));
+            myModal.show();
+        }
+    </script>
+
+    <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="buyModalLabel">Thông báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn không đủ lượt đăng bài!</p>
+                    <p>Vui lòng mua thêm để tiếp tục.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="/serviceOrder/buy" class="btn btn-primary">Mua thêm lượt đăng</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </div>
-    }
-</div>
+    </div>
+}
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+<!--chuyển chế độ xem -->
+<script>
+    function updateViewModeUrl(mode) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('viewMode', mode);
+        window.location.href = url.toString();  // chuyển hướng ở đây luôn
+    }
+</script>

@@ -2,9 +2,29 @@
 using SJOB_EXE201.Models;
 using SJOB_EXE201.Middleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Net.payOS.Types;
+using Net.payOS;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+//payment
+IConfiguration configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
+    .Build();
+
+builder.Services.AddSingleton<PayOSService>(sp =>
+{
+    var configuration = sp.GetRequiredService<IConfiguration>();
+    var payos = new PayOS(
+        configuration["Environment:PAYOS_CLIENT_ID"] ?? throw new Exception("Missing PAYOS_CLIENT_ID"),
+        configuration["Environment:PAYOS_API_KEY"] ?? throw new Exception("Missing PAYOS_API_KEY"),
+        configuration["Environment:PAYOS_CHECKSUM_KEY"] ?? throw new Exception("Missing PAYOS_CHECKSUM_KEY")
+    );
+
+    return new PayOSService(payos, configuration);
+});
+
 
 // Add services to the container.
 builder.Services.AddSingleton<EmailService>();
@@ -14,6 +34,7 @@ builder.Services.AddDbContext<SjobContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DB"));
 });
+
 
 // Thêm Authentication với Cookie
 builder.Services.AddAuthentication(options =>
@@ -44,9 +65,10 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddDistributedMemoryCache(); // Cần thiết để sử dụng Session
-var app = builder.Build();
 
+builder.Services.AddDistributedMemoryCache(); // Cần thiết để sử dụng Session
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -58,16 +80,18 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
+
+app.UseSession(); // nên để trước Authentication
+app.UseMiddleware<ExceptionMiddleware>(); // nên đặt đầu tiên để bắt lỗi toàn cục
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseSession();
-app.UseMiddleware<ExceptionMiddleware>();
 app.UseMiddleware<CheckUserStatusMiddleware>();
+app.UseCustomExceptionMiddleware();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+

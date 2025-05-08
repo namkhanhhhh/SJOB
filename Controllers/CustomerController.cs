@@ -86,7 +86,7 @@ namespace SJOB_EXE201.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Employer");
+                return RedirectToAction("Index", "JobPost");
             }
         }
     }

@@ -1,62 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\",
+  "WorkspaceRootPath": "D:\\data_Learn\\SJOB\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|d:\\data_learn\\sjob\\controllers\\creditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:controllers\\creditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\customer\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\customer\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\middleware\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:middleware\\exceptionmiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\views\\account\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\account\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\views\\account\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\account\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\views\\account\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\account\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\views\\account\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\account\\changepassword.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\views\\account\\verifyotp.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\account\\verifyotp.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|d:\\data_learn\\sjob\\services\\payosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:services\\payosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -66,44 +18,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 23,
+          "SelectedChildIndex": 15,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:3:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:6:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
@@ -114,225 +30,112 @@
             },
             {
               "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
               "Name": "ST:0:0:{74946827-37a0-11d2-a273-00c04f8ef4ff}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:4:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:7:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+              "Name": "ST:13:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:130:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+              "Name": "ST:14:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:20:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+              "Name": "ST:16:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+              "Name": "ST:2:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:28:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+              "Name": "ST:3:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+              "Name": "ST:6:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+              "Name": "ST:7:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:131:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+              "Name": "ST:4:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:1:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+              "Name": "ST:8:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "CustomerController.cs",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\CustomerController.cs",
-              "RelativeDocumentMoniker": "Controllers\\CustomerController.cs",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\CustomerController.cs",
-              "RelativeToolTip": "Controllers\\CustomerController.cs",
-              "ViewState": "AQIAACwAAAAAAAAAAAAgwF0AAAAAAAAA",
+              "Title": "CreditController.cs",
+              "DocumentMoniker": "D:\\data_Learn\\SJOB\\Controllers\\CreditController.cs",
+              "RelativeDocumentMoniker": "Controllers\\CreditController.cs",
+              "ToolTip": "D:\\data_Learn\\SJOB\\Controllers\\CreditController.cs",
+              "RelativeToolTip": "Controllers\\CreditController.cs",
+              "ViewState": "AQIAAIUAAAAAAAAAAAAUwJMAAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T07:58:25.648Z",
+              "WhenOpened": "2025-05-08T12:44:09.822Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Customer\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Customer\\Index.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Customer\\Index.cshtml",
-              "RelativeToolTip": "Views\\Customer\\Index.cshtml",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAAB0AAAAmAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-21T07:52:57.895Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Profile.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Account\\Profile.cshtml",
-              "RelativeDocumentMoniker": "Views\\Account\\Profile.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Account\\Profile.cshtml",
-              "RelativeToolTip": "Views\\Account\\Profile.cshtml",
-              "ViewState": "AQIAAF0AAAAAAAAAAAAtwIgAAABsAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-20T14:26:53.116Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ChangePassword.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Account\\ChangePassword.cshtml",
-              "RelativeDocumentMoniker": "Views\\Account\\ChangePassword.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Account\\ChangePassword.cshtml",
-              "RelativeToolTip": "Views\\Account\\ChangePassword.cshtml",
-              "ViewState": "AQIAAC0AAAAAAAAAAAAAAAMAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-20T14:27:09.749Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\appsettings.json",
-              "RelativeDocumentMoniker": "appsettings.json",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\appsettings.json",
-              "RelativeToolTip": "appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAADAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-04-20T12:33:51.396Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Program.cs",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAADAAAAAAAAAAAAAAAEAAAAARAAAA",
+              "Title": "PayOSService.cs",
+              "DocumentMoniker": "D:\\data_Learn\\SJOB\\Services\\PayOSService.cs",
+              "RelativeDocumentMoniker": "Services\\PayOSService.cs",
+              "ToolTip": "D:\\data_Learn\\SJOB\\Services\\PayOSService.cs",
+              "RelativeToolTip": "Services\\PayOSService.cs",
+              "ViewState": "AQIAABIAAAAAAAAAAAAIwB8AAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-20T12:34:01.618Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T12:43:59.355Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 65,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LoginController.cs",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\LoginController.cs",
-              "RelativeDocumentMoniker": "Controllers\\LoginController.cs",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\LoginController.cs",
-              "RelativeToolTip": "Controllers\\LoginController.cs",
-              "ViewState": "AQIAAMcAAAAAAAAAAAAAAN8AAABRAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-19T14:24:16.8Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1432,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:11:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ExceptionMiddleware.cs",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Middleware\\ExceptionMiddleware.cs",
-              "RelativeDocumentMoniker": "Middleware\\ExceptionMiddleware.cs",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Middleware\\ExceptionMiddleware.cs",
-              "RelativeToolTip": "Middleware\\ExceptionMiddleware.cs",
-              "ViewState": "AQIAAIwAAAAAAAAAAAAgwKUAAAAuAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-21T06:36:24.7Z",
-              "EditorCaption": ""
+              "$type": "Bookmark",
+              "Name": "ST:12:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Role.cs",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Models\\Role.cs",
-              "RelativeDocumentMoniker": "Models\\Role.cs",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Models\\Role.cs",
-              "RelativeToolTip": "Models\\Role.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-18T15:38:22.576Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-20T12:29:18.646Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Details.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Account\\Details.cshtml",
-              "RelativeDocumentMoniker": "Views\\Account\\Details.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Account\\Details.cshtml",
-              "RelativeToolTip": "Views\\Account\\Details.cshtml",
-              "ViewState": "AQIAAJMAAAAAAAAAAAAAAAsAAAAuAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-19T16:56:01.768Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Account\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Account\\Index.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Account\\Index.cshtml",
-              "RelativeToolTip": "Views\\Account\\Index.cshtml",
-              "ViewState": "AQIAAHIAAAAAAAAAAAAvwH8AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-19T16:56:23.548Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Register.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Account\\Register.cshtml",
-              "RelativeDocumentMoniker": "Views\\Account\\Register.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Account\\Register.cshtml",
-              "RelativeToolTip": "Views\\Account\\Register.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-18T17:45:28.046Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "VerifyOtp.cshtml",
-              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Account\\VerifyOtp.cshtml",
-              "RelativeDocumentMoniker": "Views\\Account\\VerifyOtp.cshtml",
-              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Account\\VerifyOtp.cshtml",
-              "RelativeToolTip": "Views\\Account\\VerifyOtp.cshtml",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAC4AAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-04-19T08:27:08.5Z"
+              "$type": "Bookmark",
+              "Name": "ST:10:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
             }
           ]
         }

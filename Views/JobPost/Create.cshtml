@@ -1,86 +1,108 @@
 ﻿@model SJOB_EXE201.Models.JobPost
+
 @{
-    ViewData["Title"] = "Tạo bài đăng việc làm" ;
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Tạo Tin Tuyển Dụng";
 }
 
-<div class="container mt-5">
-    <div class="card shadow-sm rounded-4">
-        <div class="card-header bg-primary text-white d-flex align-items-center">
-            <i class="bi bi-briefcase-fill me-2"></i>
-            <h4 class="mb-0">@ViewData["Title"]</h4>
+<h2 class="mb-4 text-primary">
+    <i class="bi bi-plus-circle"></i> @ViewData["Title"]
+</h2>
+
+<form asp-action="Create" class="p-4 border rounded bg-light shadow-sm">
+    @Html.AntiForgeryToken()
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label asp-for="Title" class="form-label"><i class="bi bi-pencil"></i> Tiêu đề</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
         </div>
-        <div class="card-body">
-            <form asp-action="Create" method="post">
-                <input type="hidden" asp-for="Id" />
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label asp-for="Title" class="form-label">Tiêu đề</label>
-                        <input asp-for="Title" class="form-control" />
-                    </div>
-                    <div class="col-md-6">
-                        <label asp-for="JobType" class="form-label">Loại công việc</label>
-                        <input asp-for="JobType" class="form-control" />
-                    </div>
-                    <div class="col-md-6">
-                        <label asp-for="ExperienceLevel" class="form-label">Kinh nghiệm</label>
-                        <input asp-for="ExperienceLevel" class="form-control" />
-                    </div>
-                    <div class="col-md-6">
-                        <label asp-for="Location" class="form-label">Địa điểm</label>
-                        <input asp-for="Location" class="form-control" />
-                    </div>
-                    <div class="col-md-6">
-                        <label asp-for="SalaryMin" class="form-label">Lương tối thiểu</label>
-                        <input asp-for="SalaryMin" class="form-control" type="number" />
-                    </div>
-                    <div class="col-md-6">
-                        <label asp-for="SalaryMax" class="form-label">Lương tối đa</label>
-                        <input asp-for="SalaryMax" class="form-control" type="number" />
-                    </div>
-                    <div class="col-md-12">
-                        <label asp-for="Description" class="form-label">Mô tả</label>
-                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
-                    </div>
-                    <div class="col-md-12">
-                        <label asp-for="Requirements" class="form-label">Yêu cầu</label>
-                        <textarea asp-for="Requirements" class="form-control" rows="2"></textarea>
-                    </div>
-                    <div class="col-md-12">
-                        <label asp-for="Benefits" class="form-label">Quyền lợi</label>
-                        <textarea asp-for="Benefits" class="form-control" rows="2"></textarea>
-                    </div>
-                    <div class="col-md-4">
-                        <label asp-for="Deadline" class="form-label">Hạn chót</label>
-                        <input asp-for="Deadline" class="form-control" type="date" />
-                    </div>
-                    <div class="col-md-8">
-                        <label asp-for="ImageMain" class="form-label">Ảnh chính</label>
-                        <input asp-for="ImageMain" class="form-control" type="text" />
-                    </div>
-                    <div class="col-md-4">
-                        <label asp-for="Image2" class="form-label">Ảnh phụ 2</label>
-                        <input asp-for="Image2" class="form-control" type="text" />
-                    </div>
-                    <div class="col-md-4">
-                        <label asp-for="Image3" class="form-label">Ảnh phụ 3</label>
-                        <input asp-for="Image3" class="form-control" type="text" />
-                    </div>
-                    <div class="col-md-4">
-                        <label asp-for="Image4" class="form-label">Ảnh phụ 4</label>
-                        <input asp-for="Image4" class="form-control" type="text" />
-                    </div>
-                </div>
-                <div class="mt-4 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-success px-4">
-                        <i class="bi bi-save me-2">Đăng bài</i>
-                    </button>
-                </div>
-            </form>
+
+        <div class="col-md-6">
+            <label asp-for="Location" class="form-label"><i class="bi bi-geo-alt"></i> Địa điểm</label>
+            <input asp-for="Location" class="form-control" />
+            <span asp-validation-for="Location" class="text-danger"></span>
         </div>
+
+        <div class="col-md-6">
+            <label asp-for="SalaryMin" class="form-label"><i class="bi bi-cash"></i> Lương tối thiểu</label>
+            <input asp-for="SalaryMin" class="form-control" />
+            <span asp-validation-for="SalaryMin" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="SalaryMax" class="form-label"><i class="bi bi-cash-stack"></i> Lương tối đa</label>
+            <input asp-for="SalaryMax" class="form-control" />
+            <span asp-validation-for="SalaryMax" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="JobType" class="form-label"><i class="bi bi-briefcase"></i> Hình thức</label>
+            <input asp-for="JobType" class="form-control" />
+            <span asp-validation-for="JobType" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="ExperienceLevel" class="form-label"><i class="bi bi-award"></i> Kinh nghiệm</label>
+            <input asp-for="ExperienceLevel" class="form-control" />
+            <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Deadline" class="form-label"><i class="bi bi-calendar"></i> Hạn chót</label>
+            <input asp-for="Deadline" class="form-control" type="date" />
+            <span asp-validation-for="Deadline" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="PostType" class="form-label"><i class="bi bi-tag"></i> Loại tin</label>
+            <input asp-for="PostType" class="form-control" />
+            <span asp-validation-for="PostType" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-12">
+            <label asp-for="Description" class="form-label"><i class="bi bi-textarea-resize"></i> Mô tả</label>
+            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Requirements" class="form-label"><i class="bi bi-list-check"></i> Yêu cầu</label>
+            <textarea asp-for="Requirements" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Requirements" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-6">
+            <label asp-for="Benefits" class="form-label"><i class="bi bi-gift"></i> Phúc lợi</label>
+            <textarea asp-for="Benefits" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Benefits" class="text-danger"></span>
+        </div>
+@* 
+        <div class="col-md-12">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" name="IsFeatured" value="true" id="IsFeatured" @(Model.IsFeatured == true ? "checked" : "") />
+                <label class="form-check-label" for="IsFeatured">
+                    <i class="bi bi-star-fill text-warning"></i> Tin nổi bật
+                </label>
+            </div>
+        </div> *@
     </div>
-</div>
+
+    <div class="mt-4">
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <button type="submit" class="btn btn-success">
+            <i class="bi bi-check-circle"></i> Tạo mới
+        </button>
+
+        <a asp-action="Index" class="btn btn-secondary ms-2">
+            <i class="bi bi-arrow-left"></i> Quay lại
+        </a>
+    </div>
+</form>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
