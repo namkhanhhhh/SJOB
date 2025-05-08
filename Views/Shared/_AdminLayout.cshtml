@@ -1,0 +1,565 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SJ Management System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/pagination.css" />
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #4cb050;
+            --dark-color: #333;
+            --light-color: #f5f5f5;
+            --sidebar-width: 250px;
+            --header-height: 60px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Main Layout */
+        .layout-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--dark-color);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar-brand {
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            height: var(--header-height);
+        }
+
+            .sidebar-brand img {
+                height: 36px;
+                margin-right: 10px;
+            }
+
+            .sidebar-brand h2 {
+                color: white;
+                margin: 0;
+                font-size: 1.2rem;
+                font-weight: 600;
+            }
+
+        .sidebar-menu {
+            padding: 0;
+            list-style: none;
+            margin-top: 20px;
+        }
+
+            .sidebar-menu li {
+                margin-bottom: 5px;
+            }
+
+            .sidebar-menu .nav-link {
+                color: rgba(255, 255, 255, 0.8);
+                padding: 12px 20px;
+                display: flex;
+                align-items: center;
+                font-size: 0.9rem;
+                transition: all 0.3s;
+                border-left: 3px solid transparent;
+            }
+
+                .sidebar-menu .nav-link:hover,
+                .sidebar-menu .nav-link.active {
+                    color: white;
+                    background-color: rgba(255, 255, 255, 0.1);
+                    border-left: 3px solid var(--secondary-color);
+                }
+
+                .sidebar-menu .nav-link i {
+                    margin-right: 10px;
+                    font-size: 1.1rem;
+                }
+
+            .sidebar-menu .nav-header {
+                text-transform: uppercase;
+                font-size: 0.75rem;
+                color: rgba(255, 255, 255, 0.5);
+                padding: 10px 20px;
+                font-weight: 500;
+            }
+
+            .sidebar-menu .menu-dropdown {
+                margin-left: 20px;
+                display: none;
+            }
+
+            .sidebar-menu .menu-item.open .menu-dropdown {
+                display: block;
+            }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .main-header {
+            height: var(--header-height);
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Changed to align items to the right */
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .toggle-sidebar {
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-right: 20px;
+            color: var(--dark-color);
+        }
+
+        .header-search {
+            position: relative;
+            width: 300px; /* Increased width for better balance */
+            margin-right: 20px; /* Added margin for spacing */
+        }
+
+            .header-search input {
+                padding: 8px 15px 8px 40px; /* Adjusted padding */
+                border-radius: 20px;
+                border: 1px solid #ddd;
+                background-color: #f5f5f5;
+                width: 100%;
+                height: 40px; /* Fixed height for better alignment */
+                font-size: 0.9rem;
+                transition: all 0.3s;
+            }
+
+                .header-search input:focus {
+                    border-color: var(--primary-color);
+                    box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+                    background-color: white;
+                }
+
+            .header-search i {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: #888;
+            }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icons {
+            display: flex;
+            margin-right: 20px;
+        }
+
+        .header-icon {
+            position: relative;
+            margin-left: 15px;
+            font-size: 1.3rem;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-dropdown {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 20px;
+            transition: all 0.3s;
+        }
+
+            .user-info:hover {
+                background-color: #f5f5f5;
+            }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+        }
+
+        .user-name {
+            font-weight: 500;
+            margin-right: 5px;
+        }
+
+        .user-role {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .user-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 220px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 1000;
+            margin-top: 10px;
+        }
+
+        .user-dropdown.open .user-menu {
+            display: block;
+        }
+
+        .user-menu .user-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .user-menu .user-body {
+            padding: 10px 0;
+        }
+
+        .user-menu .user-item {
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            color: var(--dark-color);
+            transition: all 0.2s;
+        }
+
+            .user-menu .user-item:hover {
+                background-color: #f5f5f5;
+            }
+
+            .user-menu .user-item i {
+                margin-right: 10px;
+                width: 20px;
+                text-align: center;
+            }
+
+        .user-menu .user-footer {
+            padding: 10px 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .user-menu .btn-logout {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .user-menu .btn-logout i {
+                margin-right: 8px;
+            }
+
+        /* Content Area */
+        .content-wrapper {
+            padding: 20px;
+            flex: 1;
+        }
+
+        .content-header {
+            margin-bottom: 20px;
+        }
+
+            .content-header h1 {
+                font-size: 1.8rem;
+                font-weight: 600;
+                margin: 0;
+                color: var(--dark-color);
+            }
+
+        .breadcrumb {
+            background: transparent;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Cards */
+        .card {
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            font-weight: 600;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+            .card-header.bg-primary {
+                background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
+            }
+
+        /* Tables */
+        .table th {
+            font-weight: 500;
+            border-top: none;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0,0,0,0.02);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border: none;
+        }
+
+        .view-btn, .toggle-status-btn, .options-btn {
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 2px;
+            font-size: 0.9rem;
+        }
+
+        /* Pagination */
+        .pagination .page-link {
+            color: var(--primary-color);
+            border-radius: 3px;
+            margin: 0 2px;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Disabled pagination items */
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <img src="~/assets/img/noBackground.png" alt="SJ Logo" class="brand-image">
+                <h2>Admin Dashboard</h2>
+            </div>
+
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#" class="nav-link">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="nav-header">MANAGEMENT</li>
+
+                <li>
+                    <a asp-action="Index" asp-controller="Account" class="nav-link active">
+                        <i class="bi bi-people"></i>
+                        <span>User Management</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="nav-link">
+                        <i class="bi bi-cash-coin"></i>
+                        <span>Transaction Management</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" class="nav-link">
+                        <i class="bi bi-gear"></i>
+                        <span>Service Management</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <!-- Moved header elements to the right -->
+                <div class="header-right">
+                    <div class="header-icons">
+                        <div class="header-icon">
+                            <i class="bi bi-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </div>
+                    </div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                <i class="bi bi-person"></i>
+                            </div>
+                            <div>
+                                <div class="user-name">Admin</div>
+                                <div class="user-role">System Administrator</div>
+                            </div>
+                            <i class="bi bi-chevron-down ms-2"></i>
+                        </div>
+
+                        <div class="user-menu">
+                            <div class="user-header">
+                                <div class="user-avatar mx-auto mb-2" style="width: 60px; height: 60px; font-size: 1.5rem;">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                                <h6 class="mb-0">Admin</h6>
+                                <small>System Administrator</small>
+                            </div>
+                            <div class="user-body">
+                                <a asp-action="Profile" class="user-item">
+                                    <i class="bi bi-person"></i>
+                                    <span>My Profile</span>
+                                </a>
+                                <a asp-action="ChangePassword" class="user-item">
+                                    <i class="bi bi-shield-lock"></i>
+                                    <span>Change Password</span>
+                                </a>
+                            </div>
+                            <div class="user-footer">
+                                <form asp-controller="Account" asp-action="Logout" method="post">
+                                    <button type="submit" class="btn btn-danger btn-sm btn-logout">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        <span>Sign Out</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <main role="main">
+                @RenderBody()
+            </main>
+
+            <!-- Footer -->
+            <footer class="main-footer py-3 px-4 text-center text-md-start">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span>&copy; 2025 SJ Management System. All rights reserved.</span>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <span>Developed by SJ Team</span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Toggle sidebar
+            const toggleSidebar = document.querySelector('.toggle-sidebar');
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+
+            if (toggleSidebar) {
+                toggleSidebar.addEventListener('click', function () {
+                    sidebar.classList.toggle('show');
+                    mainContent.classList.toggle('sidebar-open');
+                });
+            }
+
+            // User dropdown
+            const userDropdown = document.getElementById('userDropdown');
+            if (userDropdown) {
+                userDropdown.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    this.classList.toggle('open');
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function () {
+                    userDropdown.classList.remove('open');
+                });
+            }
+
+            // Tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

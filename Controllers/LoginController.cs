@@ -213,28 +213,36 @@ namespace SJOB_EXE201.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
             if (string.IsNullOrEmpty(userWithRole.Role.Name))
-                return RedirectToAction("Index", "LandingPage");
+                return RedirectToAction("Index", "Login");
 
             else if (DbConstants.User_Role_Admin.Equals(userWithRole.Role.Name))
                 return RedirectToAction("Index", "Account");
-            else if (DbConstants.User_Role_MANAGER.Equals(userWithRole.Role.Name))
-                return RedirectToAction("Index", "Manager");
+            else if (DbConstants.User_Role_CUSTOMER.Equals(userWithRole.Role.Name))
+                return RedirectToAction("Index", "Customer"); // Redirect to Customer controller
+            else if (DbConstants.User_Role_WORKER.Equals(userWithRole.Role.Name))
+                return RedirectToAction("Index", "Worker");
+            else if (DbConstants.User_Role_EMPLOYER.Equals(userWithRole.Role.Name))
+                return RedirectToAction("Index", "Employer");
 
-            return RedirectToAction("Index", "Customer");
+            return RedirectToAction("Index", "Customer"); // Default to Customer
         }
 
         [HttpGet]
         public IActionResult NavigateHomePageForRole(string role)
         {
             if (string.IsNullOrEmpty(role))
-                return RedirectToAction("Index", "LandingPage");
+                return RedirectToAction("Index", "Login");
 
             else if (DbConstants.User_Role_Admin.Equals(role))
-                return RedirectToAction("Index", "AdminDashboard");
-            else if (DbConstants.User_Role_MANAGER.Equals(role))
-                return RedirectToAction("Index", "Manager");
+                return RedirectToAction("Index", "Account");
+            else if (DbConstants.User_Role_CUSTOMER.Equals(role))
+                return RedirectToAction("Index", "Customer"); // Redirect to Customer controller
+            else if (DbConstants.User_Role_WORKER.Equals(role))
+                return RedirectToAction("Index", "Worker");
+            else if (DbConstants.User_Role_EMPLOYER.Equals(role))
+                return RedirectToAction("Index", "Employer");
 
-            return RedirectToAction("Index", "Customer");
+            return RedirectToAction("Index", "Customer"); // Default to Customer
         }
     }
 }

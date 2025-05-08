@@ -11,5 +11,7 @@ namespace SJOB_EXE201.Models
         public string SearchTerm { get; set; }
         public string SortBy { get; set; }
         public string SortOrder { get; set; }
+        public int TotalUsers { get; set; }
+
     }
 }
