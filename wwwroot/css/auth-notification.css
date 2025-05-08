@@ -1,0 +1,170 @@
+/* Authentication Notification Styles */
+.auth-notification-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 2000;
+    padding-top: 10vh;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+    .auth-notification-overlay.show {
+        display: flex;
+        opacity: 1;
+    }
+
+.auth-notification-modal {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 500px;
+    overflow: hidden;
+    position: relative;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.auth-notification-overlay.show .auth-notification-modal {
+    transform: translateY(0);
+}
+
+.auth-notification-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 20px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.auth-notification-icon {
+    background-color: rgba(255, 255, 255, 0.2);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+    .auth-notification-icon i {
+        font-size: 24px;
+    }
+
+.auth-notification-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    flex-grow: 1;
+}
+
+.auth-notification-close {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+}
+
+    .auth-notification-close:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+.auth-notification-body {
+    padding: 25px;
+}
+
+.auth-notification-message {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.auth-notification-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.auth-login-btn {
+    flex-grow: 2;
+    padding: 12px 20px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 102, 204, 0.2);
+}
+
+    .auth-login-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 102, 204, 0.3);
+    }
+
+.auth-register-btn {
+    flex-grow: 1;
+    padding: 12px 20px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+    .auth-register-btn:hover {
+        background-color: rgba(0, 102, 204, 0.1);
+        transform: translateY(-3px);
+    }
+
+/* Animation classes */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.pulse {
+    animation: pulse 1.5s infinite;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 576px) {
+    .auth-notification-actions {
+        flex-direction: column;
+    }
+
+    .auth-notification-header {
+        padding: 15px;
+    }
+
+    .auth-notification-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .auth-notification-header h3 {
+        font-size: 1.2rem;
+    }
+}

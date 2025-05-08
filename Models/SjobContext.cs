@@ -53,6 +53,8 @@ public partial class SjobContext : DbContext
 
     public virtual DbSet<WorkerVisit> WorkerVisits { get; set; }
 
+    public virtual DbSet<Wishlist> Wishlists { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
@@ -807,6 +809,39 @@ public partial class SjobContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_worker_visits_users");
+        });
+
+        modelBuilder.Entity<Wishlist>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__wishlist__3213E83F");
+
+            entity.ToTable("wishlists");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.JobPostId).HasColumnName("job_post_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+
+            // Create a unique index to prevent duplicate wishlist entries
+            entity.HasIndex(e => new { e.UserId, e.JobPostId })
+                .IsUnique()
+                .HasName("UQ__wishlists__user_job");
+
+            // Configure relationships
+            entity.HasOne(d => d.User)
+                .WithMany()
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_wishlists_users");
+
+            entity.HasOne(d => d.JobPost)
+                .WithMany()
+                .HasForeignKey(d => d.JobPostId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_wishlists_job_posts");
         });
 
         OnModelCreatingPartial(modelBuilder);

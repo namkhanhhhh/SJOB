@@ -50,4 +50,6 @@ public partial class User
     public virtual ICollection<UserDetail> UserDetails { get; set; } = new List<UserDetail>();
 
     public virtual ICollection<WorkerVisit> WorkerVisits { get; set; } = new List<WorkerVisit>();
+
+    public virtual ICollection<Wishlist> Wishlists { get; set; } = new List<Wishlist>();
 }

@@ -133,16 +133,19 @@ namespace SJOB_EXE201.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]  // Add this attribute
         public IActionResult Logout()
         {
             return View();
         }
 
+
         [HttpPost]
+        [AllowAnonymous]  // Add this attribute
         public async Task<IActionResult> Logout(string returnUrl = null)
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Login");
+            return RedirectToAction("Index", "HomePage");
         }
 
         [HttpGet]

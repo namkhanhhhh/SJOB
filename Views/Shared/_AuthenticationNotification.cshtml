@@ -1,0 +1,26 @@
+﻿<div id="authNotificationOverlay" class="auth-notification-overlay">
+    <div class="auth-notification-modal animate__animated animate__fadeInDown">
+        <div class="auth-notification-header">
+            <div class="auth-notification-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h3>Authentication Required</h3>
+            <button class="auth-notification-close" onclick="closeAuthNotification()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="auth-notification-body">
+            <p class="auth-notification-message">
+                You need to be logged in to access this feature. Please log in to continue.
+            </p>
+            <div class="auth-notification-actions">
+                <a href="@Url.Action("Login", "Account")" class="btn btn-primary auth-login-btn">
+                    <i class="fas fa-sign-in-alt me-2"></i> Log In
+                </a>
+                <a href="@Url.Action("Register", "Account")" class="btn btn-outline-secondary auth-register-btn">
+                    <i class="fas fa-user-plus me-2"></i> Register
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
