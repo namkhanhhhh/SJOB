@@ -220,7 +220,7 @@ namespace SJOB_EXE201.Controllers
             else if (DbConstants.User_Role_CUSTOMER.Equals(userWithRole.Role.Name))
                 return RedirectToAction("Index", "Customer"); // Redirect to Customer controller
             else if (DbConstants.User_Role_WORKER.Equals(userWithRole.Role.Name))
-                return RedirectToAction("Index", "Worker");
+                return RedirectToAction("Index", "HomePage");
             else if (DbConstants.User_Role_EMPLOYER.Equals(userWithRole.Role.Name))
                 return RedirectToAction("Index", "JobPost");
 
@@ -238,7 +238,7 @@ namespace SJOB_EXE201.Controllers
             else if (DbConstants.User_Role_CUSTOMER.Equals(role))
                 return RedirectToAction("Index", "Customer"); // Redirect to Customer controller
             else if (DbConstants.User_Role_WORKER.Equals(role))
-                return RedirectToAction("Index", "Worker");
+                return RedirectToAction("Index", "HomePage");
             else if (DbConstants.User_Role_EMPLOYER.Equals(role))
                 return RedirectToAction("Index", "JobPost");
 

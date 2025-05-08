@@ -69,4 +69,6 @@ public partial class JobPost
     public virtual User? User { get; set; } = null!;
 
     public virtual ICollection<WorkerVisit> WorkerVisits { get; set; } = new List<WorkerVisit>();
+
+    public virtual ICollection<Wishlist> Wishlists { get; set; } = new List<Wishlist>();
 }

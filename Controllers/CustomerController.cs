@@ -82,7 +82,7 @@ namespace SJOB_EXE201.Controllers
             // Redirect based on the selected role
             if (role == DbConstants.User_Role_WORKER)
             {
-                return RedirectToAction("Index", "Worker");
+                return RedirectToAction("Index", "HomePage");
             }
             else
             {
