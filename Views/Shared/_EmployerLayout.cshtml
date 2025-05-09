@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SJOB Platform</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/employer.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+    <div class="employer-dashboard">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="/" class="logo">
+                    <img src="~/assets/img/noBackground.png" alt="SJOB Logo" />
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "JobPost" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                        <a href="/JobPost" class="nav-link">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>Quản lý bài đăng</span>
+                        </a>
+                    </li>
+                    <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "ServiceOrder" ? "active" : "")">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-box-open"></i>
+                            <span>Quản lý các gói dịch vụ</span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Buy" ? "active" : "")">
+                                <a href="/ServiceOrder/Buy" class="nav-link">
+                                    <i class="fas fa-cart-plus"></i>
+                                    <span>Mua dịch vụ</span>
+                                </a>
+                            </li>
+                            <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "MyServices" ? "active" : "")">
+                                <a href="/ServiceOrder/MyServices" class="nav-link">
+                                    <i class="fas fa-bag-shopping"></i>
+                                    <span>Dịch vụ của tôi</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "Employer" && ViewContext.RouteData.Values["action"].ToString() == "Profile" ? "active" : "")">
+                        <a href="/Employer/Profile" class="nav-link">
+                            <i class="fas fa-gear"></i>
+                            <span>Cài đặt tài khoản</span>
+                        </a>
+                    </li>
+                    <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "Employer" && ViewContext.RouteData.Values["action"].ToString() == "History" ? "active" : "")">
+                        <a href="/Employer/History" class="nav-link">
+                            <i class="fas fa-clock-rotate-left"></i>
+                            <span>Lịch sử hoạt động</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    @{
+                        var userId = User.FindFirst("UserId")?.Value;
+                        var userAvatar = "/images/avatars/default.png";
+
+                        if (!string.IsNullOrEmpty(userId))
+                        {
+                            var dbContext = Context.RequestServices.GetService<SJOB_EXE201.Models.SjobContext>();
+                            var user = dbContext?.Users.FirstOrDefault(u => u.Id == int.Parse(userId));
+                            if (user != null && !string.IsNullOrEmpty(user.Avatar))
+                            {
+                                userAvatar = user.Avatar;
+                            }
+                        }
+                    }
+                    <img src="@userAvatar" alt="User Avatar" class="user-avatar" />
+                    <div class="user-details">
+                        <span class="user-name">@User.Identity?.Name</span>
+                        <span class="user-role">Nhà tuyển dụng</span>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+        <main class="main-wrapper">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i> @TempData["Success"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i> @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/employer.js" asp-append-version="true"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Toggle submenu
+            const menuItems = document.querySelectorAll('.sidebar-nav .nav-item');
+
+            menuItems.forEach(item => {
+                const link = item.querySelector('.nav-link');
+                const subMenu = item.querySelector('.sub-menu');
+
+                if (subMenu) {
+                    link.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        item.classList.toggle('expanded');
+
+                        const isExpanded = item.classList.contains('expanded');
+
+                        if (isExpanded) {
+                            subMenu.style.maxHeight = subMenu.scrollHeight + 'px';
+                        } else {
+                            subMenu.style.maxHeight = '0';
+                        }
+                    });
+
+                    // Auto expand if a child is active
+                    if (item.querySelector('.sub-menu .active')) {
+                        item.classList.add('expanded');
+                        subMenu.style.maxHeight = subMenu.scrollHeight + 'px';
+                    }
+                }
+            });
+
+            // Mobile sidebar toggle
+            const sidebarToggle = document.querySelector('.sidebar-toggle');
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function () {
+                    document.querySelector('.employer-dashboard').classList.toggle('sidebar-collapsed');
+                });
+            }
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
