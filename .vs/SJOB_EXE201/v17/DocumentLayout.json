@@ -1,13 +1,45 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\data_Learn\\SJOB\\",
+  "WorkspaceRootPath": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|d:\\data_learn\\sjob\\controllers\\creditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\shared\\_employerlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\shared\\_employerlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\employer\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\employer\\profile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\employer\\editprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\employer\\editprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\controllers\\employercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:controllers\\employercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\wwwroot\\js\\employer.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:wwwroot\\js\\employer.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\wwwroot\\css\\employer.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:wwwroot\\css\\employer.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\views\\jobpost\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:views\\jobpost\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|f:\\fptu\\ky 8-su25\\exe201\\sjob\\controllers\\creditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:controllers\\creditcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|d:\\data_learn\\sjob\\services\\payosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\services\\payosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{47DC9B16-22D9-46EB-B2D9-1FC475B8E45E}|SJOB_EXE201.csproj|solutionrelative:services\\payosservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -18,8 +50,36 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 15,
+          "SelectedChildIndex": 34,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:3:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:6:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
@@ -30,11 +90,51 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "Name": "ST:0:0:{74946827-37a0-11d2-a273-00c04f8ef4ff}"
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{74946827-37a0-11d2-a273-00c04f8ef4ff}"
+              "Name": "ST:4:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:7:0:{57d563b6-44a5-47df-85be-f4199ad6b651}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:20:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:28:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
             },
             {
               "$type": "Bookmark",
@@ -82,24 +182,128 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EditProfile.cshtml",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Employer\\EditProfile.cshtml",
+              "RelativeDocumentMoniker": "Views\\Employer\\EditProfile.cshtml",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Employer\\EditProfile.cshtml",
+              "RelativeToolTip": "Views\\Employer\\EditProfile.cshtml",
+              "ViewState": "AQIAACEAAAAAAAAAAAAAAA0BAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-09T08:23:31.586Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Profile.cshtml",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Employer\\Profile.cshtml",
+              "RelativeDocumentMoniker": "Views\\Employer\\Profile.cshtml",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Employer\\Profile.cshtml",
+              "RelativeToolTip": "Views\\Employer\\Profile.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAA5AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-09T08:22:01.365Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "_EmployerLayout.cshtml",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Shared\\_EmployerLayout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_EmployerLayout.cshtml",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\Shared\\_EmployerLayout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_EmployerLayout.cshtml",
+              "ViewState": "AQIAAC8AAAAAAAAAAAAuwJ8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-09T08:16:08.303Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EmployerController.cs",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\EmployerController.cs",
+              "RelativeDocumentMoniker": "Controllers\\EmployerController.cs",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\EmployerController.cs",
+              "RelativeToolTip": "Controllers\\EmployerController.cs",
+              "ViewState": "AQIAAHMAAAAAAAAAAAAgwG8AAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-09T08:17:56.122Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "employer.js",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\wwwroot\\js\\employer.js",
+              "RelativeDocumentMoniker": "wwwroot\\js\\employer.js",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\wwwroot\\js\\employer.js",
+              "RelativeToolTip": "wwwroot\\js\\employer.js",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-05-09T08:17:06.683Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "employer.css",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\wwwroot\\css\\employer.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\employer.css",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\wwwroot\\css\\employer.css",
+              "RelativeToolTip": "wwwroot\\css\\employer.css",
+              "ViewState": "AQIAANQCAAAAAAAAAAAYwDsDAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-05-09T08:16:37.498Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\JobPost\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\JobPost\\Index.cshtml",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Views\\JobPost\\Index.cshtml",
+              "RelativeToolTip": "Views\\JobPost\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAC8BAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-09T08:15:24.162Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAABUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-09T07:48:32.502Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "CreditController.cs",
-              "DocumentMoniker": "D:\\data_Learn\\SJOB\\Controllers\\CreditController.cs",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\CreditController.cs",
               "RelativeDocumentMoniker": "Controllers\\CreditController.cs",
-              "ToolTip": "D:\\data_Learn\\SJOB\\Controllers\\CreditController.cs",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Controllers\\CreditController.cs",
               "RelativeToolTip": "Controllers\\CreditController.cs",
-              "ViewState": "AQIAAIUAAAAAAAAAAAAUwJMAAAAqAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAJMAAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-08T12:44:09.822Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 9,
               "Title": "PayOSService.cs",
-              "DocumentMoniker": "D:\\data_Learn\\SJOB\\Services\\PayOSService.cs",
+              "DocumentMoniker": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Services\\PayOSService.cs",
               "RelativeDocumentMoniker": "Services\\PayOSService.cs",
-              "ToolTip": "D:\\data_Learn\\SJOB\\Services\\PayOSService.cs",
+              "ToolTip": "F:\\FPTU\\Ky 8-Su25\\EXE201\\SJOB\\Services\\PayOSService.cs",
               "RelativeToolTip": "Services\\PayOSService.cs",
               "ViewState": "AQIAABIAAAAAAAAAAAAIwB8AAAAsAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -122,7 +326,7 @@
           ]
         },
         {
-          "DockedWidth": 1432,
+          "DockedWidth": 65,
           "SelectedChildIndex": -1,
           "Children": [
             {

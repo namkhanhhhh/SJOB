@@ -9,6 +9,10 @@ namespace SJOB_EXE201.ViewModels
     {
         public User Employer { get; set; }
         public CompanyProfile CompanyProfile { get; set; }
+        public UserDetail UserDetail { get; set; }
+        public int? JobPostsCount { get; set; }
+        public int? ApplicationsCount { get; set; }
+        public int? ViewsCount { get; set; }
         public int TotalJobPosts { get; set; }
         public List<JobPost> JobPosts { get; set; }
         public int ProfileViewCount { get; set; }
