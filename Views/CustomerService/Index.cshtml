@@ -1,0 +1,79 @@
+﻿@model (List<AdditionalService> additionalServices, List<SubscriptionPlan> subscriptionPlans)
+
+@{
+    ViewData["Title"] = "Gói dịch vụ";
+    Layout = "~/Views/Shared/_EmployerLayout.cshtml";
+}
+
+<div class="container py-5">
+    <h2 class="mb-5 text-center fw-bold text-primary">Mua Gói Dịch Vụ</h2>
+
+    <!-- GÓI LẺ -->
+    <h4 class="mb-3 fw-semibold text-dark">Gói lẻ</h4>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+        @foreach (var service in Model.additionalServices.Where(s => s.IsActive == true))
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm border-0">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-star fa-2x text-warning"></i>
+                        </div>
+                        <h5 class="card-title fw-bold">@service.Name</h5>
+                        <p class="card-text text-muted">@service.Price.ToString("0") <strong>CREDIT</strong></p>
+                        <button class="btn btn-outline-primary px-4">Mua</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- GÓI COMBO -->
+    <h4 class="mb-3 fw-semibold text-dark">Gói combo</h4>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var combo in Model.subscriptionPlans.Where(p => p.IsActive == true))
+        {
+            var borderColor = "border-success";
+            var bgColor = "bg-success";
+            var btnColor = "btn-success";
+            if (combo.Id % 3 == 2) { borderColor = "border-primary"; bgColor = "bg-primary"; btnColor = "btn-primary"; }
+            else if (combo.Id % 3 == 0) { borderColor = "border-danger"; bgColor = "bg-danger"; btnColor = "btn-danger"; }
+
+            <div class="col">
+                <div class="card h-100 shadow border @borderColor rounded-4">
+                    <div class="card-header @bgColor text-white text-center rounded-top-4">
+                        <h5 class="fw-bold mb-1">@combo.Name</h5>
+                        <p class="mb-0 fs-6">@combo.Price.ToString("0") <strong>CREDIT</strong></p>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled small">
+                            @if (combo.SilverPosts > 0)
+                            {
+                                <li><i class="fas fa-check-circle text-success me-2"></i>@combo.SilverPosts Silver posts</li>
+                            }
+                            @if (combo.GoldPosts > 0)
+                            {
+                                <li><i class="fas fa-check-circle text-success me-2"></i>@combo.GoldPosts Gold posts</li>
+                            }
+                            @if (combo.DiamondPosts > 0)
+                            {
+                                <li><i class="fas fa-check-circle text-success me-2"></i>@combo.DiamondPosts Diamond posts</li>
+                            }
+                            @if (combo.PushTopTimes > 0)
+                            {
+                                <li><i class="fas fa-check-circle text-success me-2"></i>@combo.PushTopTimes lần đẩy top</li>
+                            }
+                            @if (combo.MarketingPackage == true)
+                            {
+                                <li><i class="fas fa-check-circle text-success me-2"></i>Gói marketing cao cấp</li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="card-footer text-center bg-white border-0">
+                        <button class="btn @btnColor fw-semibold w-100">Mua gói này</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

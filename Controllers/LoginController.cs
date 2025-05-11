@@ -192,6 +192,9 @@ namespace SJOB_EXE201.Controllers
                 }
                 _context.UserDetails.Add(userDetail);
                 await _context.SaveChangesAsync();
+
+                //thêm 5 lượt đăng vào đây
+                
             }
 
             //// Tạo claims để đăng nhập

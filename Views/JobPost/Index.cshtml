@@ -63,12 +63,14 @@
                         Tất cả bài đăng <span class="count">(@ViewBag.CountAll)</span>
                     </a>
                 </li>
-                <li class="tab-item @(ViewBag.Status == "active" ? "active" : "")">
-                    <a href="?status=active">
-                        <i class="fas fa-check-circle"></i>
-                        Bài đăng đang hoạt động <span class="count">(@ViewBag.CountActive)</span>
-                    </a>
-                </li>
+                @if (ViewBag.ViewMode == "recruiter"){
+                    <li class="tab-item @(ViewBag.Status == "active" ? "active" : "")">
+                        <a href="?status=active">
+                            <i class="fas fa-check-circle"></i>
+                            Bài đăng đang hoạt động <span class="count">(@ViewBag.CountActive)</span>
+                        </a>
+                    </li>
+                }
 
                 @if (ViewBag.ViewMode == "recruiter")
                 {
@@ -80,12 +82,14 @@
                     </li>
                 }
 
-                <li class="tab-item @(ViewBag.Status == "expired" ? "active" : "")">
-                    <a href="?status=expired">
-                        <i class="fas fa-calendar-times"></i>
-                        Bài đăng hết hạn <span class="count">(@ViewBag.CountExpired)</span>
-                    </a>
-                </li>
+                @if (ViewBag.ViewMode == "recruiter"){
+                    <li class="tab-item @(ViewBag.Status == "expired" ? "active" : "")">
+                        <a href="?status=expired">
+                            <i class="fas fa-calendar-times"></i>
+                            Bài đăng hết hạn <span class="count">(@ViewBag.CountExpired)</span>
+                        </a>
+                    </li>
+                }
             </ul>
         </div>
 
@@ -125,34 +129,38 @@
                             </div>
                             <h3 class="job-title">@post.Title</h3>
                         </div>
-                        <div class="job-actions">
-                            <div class="dropdown">
-                                <button class="btn btn-action dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li>
-                                        <a class="dropdown-item" href="/jobPost/Edit/@post.Id">
-                                            <i class="fas fa-edit"></i> Sửa
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <form method="post" action="/jobPost/Hidden/@post.Id">
-                                            <button class="dropdown-item" type="submit">
-                                                <i class="fas fa-eye-slash"></i> Ẩn bài đăng
-                                            </button>
-                                        </form>
-                                    </li>
-                                    <li>
-                                        <form asp-controller="JobPost" asp-action="PushToTop" asp-route-id="@post.Id" method="post">
-                                            <button class="dropdown-item" type="submit">
-                                                <i class="fas fa-arrow-up"></i> Đẩy bài
-                                            </button>
-                                        </form>
-                                    </li>
-                                </ul>
+
+                        @if (ViewBag.ViewMode == "recruiter")
+                        {
+                            <div class="job-actions">
+                                <div class="dropdown">
+                                    <button class="btn btn-action dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-display="static">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-start text-start">
+                                        <li>
+                                            <a class="dropdown-item" href="/jobPost/Edit/@post.Id">
+                                                <i class="fas fa-edit"></i> Sửa
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <form method="post" action="/jobPost/Hidden/@post.Id">
+                                                <button class="dropdown-item" type="submit">
+                                                    <i class="fas fa-eye-slash"></i> Ẩn bài đăng
+                                                </button>
+                                            </form>
+                                        </li>
+                                        <li>
+                                            <form asp-controller="JobPost" asp-action="PushToTop" asp-route-id="@post.Id" method="post">
+                                                <button class="dropdown-item" type="submit">
+                                                    <i class="fas fa-arrow-up"></i> Đẩy bài
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                        }
                     </div>
                     <div class="job-card-body">
                         <div class="job-description">@post.Description</div>
@@ -247,9 +255,14 @@
                     <p>Vui lòng mua thêm để tiếp tục.</p>
                 </div>
                 <div class="modal-footer">
-                    <a href="/serviceOrder/buy" class="btn btn-primary">
+
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#servicePackagesModal">
                         <i class="fas fa-shopping-cart"></i> Mua thêm lượt đăng
-                    </a>
+                    </button>
+
+                    @* <a href="#" class="btn btn-primary">
+                        <i class="fas fa-shopping-cart"></i> Mua thêm lượt đăng
+                    </a> *@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="fas fa-times"></i> Đóng
                     </button>
@@ -265,6 +278,63 @@
         });
     </script>
 }
+
+<!-- Modal hiển thị gói dịch vụ -->
+<div class="modal fade" id="servicePackagesModal" tabindex="-1" aria-labelledby="servicePackagesLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="servicePackagesLabel">Chọn gói dịch vụ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body">
+                <h6>Các gói lẻ:</h6>
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Silver posts <span class="badge bg-primary rounded-pill">29 CREDIT</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Gold posts <span class="badge bg-warning text-dark rounded-pill">49 CREDIT</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Diamond posts <span class="badge bg-danger rounded-pill">69 CREDIT</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Push post to top <span class="badge bg-secondary rounded-pill">15 CREDIT</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Premium marketing (1 tháng) <span class="badge bg-success rounded-pill">359 CREDIT</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Banner quảng cáo (có đấu giá) <span class="badge bg-dark rounded-pill">599 CREDIT</span>
+                    </li>
+                </ul>
+                <h6>Các gói combo:</h6>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>Combo 1: JOB ECO</strong> – 99 CREDIT<br>
+                        3 silver posts, 2 gold posts, 1 lần đẩy top
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Combo 2: JOB PLUS</strong> – 199 CREDIT<br>
+                        5 silver posts, 2 gold posts, 1 diamond post, 5 lần đẩy top
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Combo 3: JOB PRO</strong> – 499 CREDIT<br>
+                        10 silver posts, 5 gold posts, 3 diamond posts, 10 lần đẩy top
+                    </li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <a href="/Credit/Deposit" class="btn btn-success">
+                    <i class="fas fa-wallet"></i> Nạp credit
+                </a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <!--chuyển chế độ xem -->
 <script>

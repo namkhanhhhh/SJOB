@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SJOB_EXE201.Models;
 
 namespace SJOB_EXE201.Controllers;
-[Authorize]
+[Authorize(Roles = "Employer")]
 public class JobPostController : Controller
 {
     private readonly SjobContext _context;
@@ -55,6 +55,14 @@ public class JobPostController : Controller
             posts = posts.Include(u => u.User).Where(p => p.Status == "active");
         }
 
+        // Lấy bản sao để thống kê
+        var allPosts = posts.ToList();
+
+        ViewBag.CountAll = allPosts.Count;
+        ViewBag.CountActive = allPosts.Count(p => p.Status == "active");
+        ViewBag.CountHidden = allPosts.Count(p => p.Status == "hidden");
+        ViewBag.CountExpired = allPosts.Count(p => p.Deadline.HasValue && p.Deadline < DateOnly.FromDateTime(DateTime.Today));
+
         //lọc bài viết theo status
         if (!string.IsNullOrEmpty(status))
         {
@@ -90,18 +98,10 @@ public class JobPostController : Controller
             .ThenByDescending(p => p.PushedToTopUntil ?? p.CreatedAt)
             .ToList();
 
-        // Lấy bản sao để thống kê
-        var allPosts = posts.ToList();
-
-        ViewBag.CountAll = allPosts.Count;
-        ViewBag.CountActive = allPosts.Count(p => p.Status == "active");
-        ViewBag.CountHidden = allPosts.Count(p => p.Status == "hidden");
-        ViewBag.CountExpired = allPosts.Count(p => p.Deadline.HasValue && p.Deadline < DateOnly.FromDateTime(DateTime.Today));
-
-/*        var postCredits = _context.ServiceOrders
+        var postCredits = _context.ServiceOrders
         .Count(s => s.UserId == userId && s.JobPostId == null && s.Status == "active");
 
-        ViewBag.PostCredits = postCredits;*/
+        ViewBag.PostCredits = postCredits;
 
         //lấy số tiền của người dùng
         var userCredit = await _context.UserCredits.FirstOrDefaultAsync(x => x.UserId == userId);
@@ -282,5 +282,28 @@ public class JobPostController : Controller
         await _context.SaveChangesAsync();
 
         return RedirectToAction("Index");
+    }
+
+    // history transaction
+    public async Task<IActionResult> History()
+    {
+        int userId = GetCurrentUserId();
+        if (userId == null)
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        var transactions = await _context.CreditTransactions
+            .Where(t => t.UserId == user.Id)
+            .OrderByDescending(t => t.CreatedAt)
+            .ToListAsync();
+
+        return View(transactions);
     }
 }

@@ -101,7 +101,7 @@ public class CreditController : Controller
             {
                 UserId = userId,
                 Amount = amount,
-                TransactionType = "Topup",
+                TransactionType = "NapTien",
                 BalanceAfter = userCredit.Balance ?? 0,
                 Description = "Thanh toán thành công qua PayOS",
                 CreatedAt = DateTime.UtcNow
