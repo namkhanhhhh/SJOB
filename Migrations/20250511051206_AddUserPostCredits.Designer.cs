@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SJOB_EXE201.Models;
 
@@ -11,9 +12,11 @@ using SJOB_EXE201.Models;
 namespace SJOB_EXE201.Migrations
 {
     [DbContext(typeof(SjobContext))]
-    partial class SjobContextModelSnapshot : ModelSnapshot
+    [Migration("20250511051206_AddUserPostCredits")]
+    partial class AddUserPostCredits
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

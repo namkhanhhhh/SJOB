@@ -17,6 +17,13 @@ public partial class AdditionalService
 
     public string? ServiceType { get; set; }
 
+    // Add properties to track post counts included in this service
+    public int? SilverPostsIncluded { get; set; }
+
+    public int? GoldPostsIncluded { get; set; }
+
+    public int? DiamondPostsIncluded { get; set; }
+
     public bool? IsActive { get; set; }
 
     public DateTime? CreatedAt { get; set; }

@@ -44,6 +44,7 @@ public partial class SjobContext : DbContext
     public virtual DbSet<Subscription> Subscriptions { get; set; }
 
     public virtual DbSet<SubscriptionPlan> SubscriptionPlans { get; set; }
+    public virtual DbSet<UserPostCredit> UserPostCredits { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -88,6 +89,16 @@ public partial class SjobContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("service_type");
+            // Add these properties to your existing configuration
+            entity.Property(e => e.SilverPostsIncluded)
+                .HasDefaultValue(0)
+                .HasColumnName("silver_posts_included");
+            entity.Property(e => e.GoldPostsIncluded)
+                .HasDefaultValue(0)
+                .HasColumnName("gold_posts_included");
+            entity.Property(e => e.DiamondPostsIncluded)
+                .HasDefaultValue(0)
+                .HasColumnName("diamond_posts_included");
         });
 
         modelBuilder.Entity<Application>(entity =>
@@ -512,6 +523,19 @@ public partial class SjobContext : DbContext
             entity.HasIndex(e => e.Status, "idx_service_orders_status");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            // Add these properties to your existing configuration
+            entity.Property(e => e.SilverPostsApplied)
+                .HasDefaultValue(0)
+                .HasColumnName("silver_posts_applied");
+            entity.Property(e => e.GoldPostsApplied)
+                .HasDefaultValue(0)
+                .HasColumnName("gold_posts_applied");
+            entity.Property(e => e.DiamondPostsApplied)
+                .HasDefaultValue(0)
+                .HasColumnName("diamond_posts_applied");
+            entity.Property(e => e.PostCreditsApplied)
+                .HasDefaultValue(false)
+                .HasColumnName("post_credits_applied");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
@@ -519,7 +543,6 @@ public partial class SjobContext : DbContext
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
                 .HasColumnName("end_date");
-            entity.Property(e => e.JobPostId).HasColumnName("job_post_id");
             entity.Property(e => e.ServiceId).HasColumnName("service_id");
             entity.Property(e => e.StartDate)
                 .HasDefaultValueSql("(getdate())")
@@ -662,6 +685,32 @@ public partial class SjobContext : DbContext
             entity.Property(e => e.PriorityLevel).HasColumnName("priority_level");
             entity.Property(e => e.PushTopTimes).HasColumnName("push_top_times");
             entity.Property(e => e.SilverPosts).HasColumnName("silver_posts");
+        });
+
+        modelBuilder.Entity<UserPostCredit>(entity =>
+        {
+            entity.ToTable("user_post_credits");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.SilverPostsAvailable)
+                .HasDefaultValue(0)
+                .HasColumnName("silver_posts_available");
+            entity.Property(e => e.GoldPostsAvailable)
+                .HasDefaultValue(0)
+                .HasColumnName("gold_posts_available");
+            entity.Property(e => e.DiamondPostsAvailable)
+                .HasDefaultValue(0)
+                .HasColumnName("diamond_posts_available");
+            entity.Property(e => e.LastUpdated)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("last_updated");
+
+            entity.HasOne(d => d.User).WithOne(p => p.UserPostCredit)
+                .HasForeignKey<UserPostCredit>(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_user_post_credits_users");
         });
 
         modelBuilder.Entity<User>(entity =>

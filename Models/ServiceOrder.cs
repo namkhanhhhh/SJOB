@@ -11,7 +11,14 @@ public partial class ServiceOrder
 
     public int ServiceId { get; set; }
 
-    public int? JobPostId { get; set; }
+    // Add properties to track post credits applied from this order
+    public int? SilverPostsApplied { get; set; }
+
+    public int? GoldPostsApplied { get; set; }
+
+    public int? DiamondPostsApplied { get; set; }
+
+    public bool? PostCreditsApplied { get; set; }
 
     public DateTime? StartDate { get; set; }
 
