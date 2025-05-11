@@ -1,0 +1,290 @@
+﻿@model SJOB_EXE201.ViewModels.CreditTransactionDetailsViewModel
+@{
+    ViewData["Title"] = "Transaction Details";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Transaction Details</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/Admin">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="/CreditTransaction">Credit Transactions</a></li>
+        <li class="breadcrumb-item active">Transaction #@Model.Transaction.Id</li>
+    </ol>
+
+    <div class="row">
+        <div class="col-xl-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Transaction Information
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <h5>Transaction ID</h5>
+                            <p class="lead">@Model.Transaction.Id</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Transaction Date</h5>
+                            <p class="lead">@(Model.Transaction.CreatedAt.HasValue ? Model.Transaction.CreatedAt.Value.ToString("yyyy-MM-dd HH:mm:ss") : "N/A")</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <h5>Amount</h5>
+                            <p class="lead @(Model.Transaction.TransactionType == "Topup" ? "text-success" : "text-danger")">
+                                @(Model.Transaction.TransactionType == "Topup" ? "+" : "-")@Model.Transaction.Amount.ToString("C")
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Transaction Type</h5>
+                            <p class="lead">
+                                <span class="badge @(Model.Transaction.TransactionType == "Topup" ? "bg-success" : "bg-primary")">
+                                    @Model.Transaction.TransactionType
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <h5>Balance After</h5>
+                            <p class="lead">@Model.Transaction.BalanceAfter.ToString("C")</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Description</h5>
+                            <p class="lead">@Model.Transaction.Description</p>
+                        </div>
+                    </div>
+
+                    @if (Model.Transaction.ReferenceId.HasValue)
+                    {
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h5>Reference ID</h5>
+                                <p class="lead">@Model.Transaction.ReferenceId</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Reference Type</h5>
+                                <p class="lead">@Model.Transaction.ReferenceType</p>
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.ServiceOrder != null)
+                    {
+                        <hr />
+                        <h4>Related Service Order</h4>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h5>Service</h5>
+                                <p class="lead">@Model.ServiceOrder.Service.Name</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Status</h5>
+                                <p class="lead">
+                                    <span class="badge @(Model.ServiceOrder.Status == "active" ? "bg-success" : "bg-secondary")">
+                                        @Model.ServiceOrder.Status
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h5>Start Date</h5>
+                                <p class="lead">@(Model.ServiceOrder.StartDate.HasValue ? Model.ServiceOrder.StartDate.Value.ToString("yyyy-MM-dd") : "N/A")</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>End Date</h5>
+                                <p class="lead">@(Model.ServiceOrder.EndDate.HasValue ? Model.ServiceOrder.EndDate.Value.ToString("yyyy-MM-dd") : "N/A")</p>
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.Subscription != null)
+                    {
+                        <hr />
+                        <h4>Related Subscription</h4>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h5>Plan</h5>
+                                <p class="lead">@Model.Subscription.Plan.Name</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Status</h5>
+                                <p class="lead">
+                                    <span class="badge @(Model.Subscription.Status == "active" ? "bg-success" : "bg-secondary")">
+                                        @Model.Subscription.Status
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <h5>Start Date</h5>
+                                <p class="lead">@(Model.Subscription.StartDate.HasValue ? Model.Subscription.StartDate.Value.ToString("yyyy-MM-dd") : "N/A")</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>End Date</h5>
+                                <p class="lead">@Model.Subscription.EndDate.ToString("yyyy-MM-dd")</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-user me-1"></i>
+                    User Information
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <img src="@(string.IsNullOrEmpty(Model.Transaction.User.Avatar) ? "/images/default-avatar.png" : Model.Transaction.User.Avatar)"
+                             alt="User Avatar" class="img-fluid rounded-circle" style="width: 100px; height: 100px; object-fit: cover;">
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <h5>Username</h5>
+                            <p class="lead">@Model.Transaction.User.Username</p>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <h5>Email</h5>
+                            <p class="lead">@Model.Transaction.User.Email</p>
+                        </div>
+                    </div>
+                    @if (Model.Transaction.User.UserDetails.Any())
+                    {
+                        var userDetails = Model.Transaction.User.UserDetails.First();
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <h5>Full Name</h5>
+                                <p class="lead">@userDetails.FirstName @userDetails.LastName</p>
+                            </div>
+                        </div>
+                        @if (!string.IsNullOrEmpty(userDetails.PhoneNumber))
+                        {
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <h5>Phone</h5>
+                                    <p class="lead">@userDetails.PhoneNumber</p>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie me-1"></i>
+                    User Activity
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="card bg-primary text-white mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Transactions</h5>
+                                    <p class="card-text display-6">@Model.TotalTransactions</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card bg-success text-white mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Credit Balance</h5>
+                                    <p class="card-text display-6">@Model.CreditBalance.ToString("C0")</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="card bg-info text-white mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Topup</h5>
+                                    <p class="card-text display-6">@Model.TotalTopup.ToString("C0")</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card bg-warning text-white mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Spent</h5>
+                                    <p class="card-text display-6">@Model.TotalSpent.ToString("C0")</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="card bg-secondary text-white mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Active Services</h5>
+                                    <p class="card-text display-6">@Model.ActiveServices</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card bg-dark text-white mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">Subscriptions</h5>
+                                    <p class="card-text display-6">@Model.ActiveSubscriptions</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model.RecentTransactions.Any())
+            {
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-history me-1"></i>
+                        Recent Transactions
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var transaction in Model.RecentTransactions)
+                                    {
+                                        <tr>
+                                            <td>@(transaction.CreatedAt.HasValue ? transaction.CreatedAt.Value.ToString("yyyy-MM-dd") : "N/A")</td>
+                                            <td>
+                                                <span class="badge @(transaction.TransactionType == "Topup" ? "bg-success" : "bg-primary")">
+                                                    @transaction.TransactionType
+                                                </span>
+                                            </td>
+                                            <td class="@(transaction.TransactionType == "Topup" ? "text-success" : "text-danger")">
+                                                @(transaction.TransactionType == "Topup" ? "+" : "-")@transaction.Amount.ToString("C")
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="/CreditTransaction/Index?searchEmail=@Model.Transaction.User.Email" class="btn btn-primary">
+                                View All User Transactions
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

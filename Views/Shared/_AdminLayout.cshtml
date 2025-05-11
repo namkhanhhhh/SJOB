@@ -3,28 +3,53 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - SJ Management System</title>
+    <title>@ViewData["Title"] - SJ Admin</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/pagination.css" />
     <style>
         :root {
-            --primary-color: #0066cc;
-            --secondary-color: #4cb050;
-            --dark-color: #333;
-            --light-color: #f5f5f5;
-            --sidebar-width: 250px;
-            --header-height: 60px;
+            --primary-color: #4361ee;
+            --primary-light: #4895ef;
+            --primary-dark: #3f37c9;
+            --secondary-color: #4cc9f0;
+            --success-color: #4ade80;
+            --warning-color: #fbbf24;
+            --danger-color: #f87171;
+            --info-color: #60a5fa;
+            
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-sidebar: #1e293b;
+            --bg-sidebar-hover: #334155;
+            
+            --sidebar-width: 260px;
+            --sidebar-collapsed-width: 70px;
+            --header-height: 64px;
+            
+            --border-radius: 8px;
+            --card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --transition-speed: 0.3s;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
+            line-height: 1.5;
         }
 
-        /* Main Layout */
+        /* Layout */
         .layout-container {
             display: flex;
             min-height: 100vh;
@@ -33,83 +58,112 @@
         /* Sidebar */
         .sidebar {
             width: var(--sidebar-width);
-            background-color: var(--dark-color);
+            background-color: var(--bg-sidebar);
             color: white;
             position: fixed;
             height: 100vh;
             overflow-y: auto;
-            transition: all 0.3s;
+            transition: all var(--transition-speed) ease;
             z-index: 1000;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed-width);
         }
 
         .sidebar-brand {
-            padding: 12px 20px;
+            padding: 16px 20px;
             display: flex;
             align-items: center;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             height: var(--header-height);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-            .sidebar-brand img {
-                height: 36px;
-                margin-right: 10px;
-            }
+        .sidebar-brand img {
+            height: 32px;
+            transition: all var(--transition-speed) ease;
+        }
 
-            .sidebar-brand h2 {
-                color: white;
-                margin: 0;
-                font-size: 1.2rem;
-                font-weight: 600;
-            }
+        .sidebar-brand h2 {
+            color: white;
+            margin: 0 0 0 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: opacity var(--transition-speed) ease;
+        }
+
+        .sidebar.collapsed .sidebar-brand h2 {
+            opacity: 0;
+            width: 0;
+            margin: 0;
+        }
 
         .sidebar-menu {
             padding: 0;
             list-style: none;
-            margin-top: 20px;
+            margin: 16px 0 0 0;
         }
 
-            .sidebar-menu li {
-                margin-bottom: 5px;
-            }
+        .sidebar-menu li {
+            margin-bottom: 4px;
+        }
 
-            .sidebar-menu .nav-link {
-                color: rgba(255, 255, 255, 0.8);
-                padding: 12px 20px;
-                display: flex;
-                align-items: center;
-                font-size: 0.9rem;
-                transition: all 0.3s;
-                border-left: 3px solid transparent;
-            }
+        .sidebar-menu .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            transition: all var(--transition-speed) ease;
+            border-radius: 0;
+            position: relative;
+            overflow: hidden;
+        }
 
-                .sidebar-menu .nav-link:hover,
-                .sidebar-menu .nav-link.active {
-                    color: white;
-                    background-color: rgba(255, 255, 255, 0.1);
-                    border-left: 3px solid var(--secondary-color);
-                }
+        .sidebar-menu .nav-link:hover,
+        .sidebar-menu .nav-link.active {
+            color: white;
+            background-color: var(--bg-sidebar-hover);
+        }
 
-                .sidebar-menu .nav-link i {
-                    margin-right: 10px;
-                    font-size: 1.1rem;
-                }
+        .sidebar-menu .nav-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background-color: var(--primary-light);
+        }
 
-            .sidebar-menu .nav-header {
-                text-transform: uppercase;
-                font-size: 0.75rem;
-                color: rgba(255, 255, 255, 0.5);
-                padding: 10px 20px;
-                font-weight: 500;
-            }
+        .sidebar-menu .nav-link i {
+            margin-right: 12px;
+            font-size: 1.1rem;
+            min-width: 24px;
+            text-align: center;
+        }
 
-            .sidebar-menu .menu-dropdown {
-                margin-left: 20px;
-                display: none;
-            }
+        .sidebar.collapsed .sidebar-menu .nav-link span {
+            opacity: 0;
+            width: 0;
+            white-space: nowrap;
+        }
 
-            .sidebar-menu .menu-item.open .menu-dropdown {
-                display: block;
-            }
+        .sidebar-menu .nav-header {
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 10px 20px;
+            font-weight: 500;
+            margin-top: 16px;
+            transition: opacity var(--transition-speed) ease;
+        }
+
+        .sidebar.collapsed .sidebar-menu .nav-header {
+            opacity: 0;
+        }
 
         /* Main Content Area */
         .main-content {
@@ -118,17 +172,22 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            transition: margin-left var(--transition-speed) ease;
+        }
+
+        .main-content.expanded {
+            margin-left: var(--sidebar-collapsed-width);
         }
 
         /* Header */
         .main-header {
             height: var(--header-height);
-            padding: 0 20px;
+            padding: 0 24px;
             display: flex;
             align-items: center;
-            justify-content: flex-end; /* Changed to align items to the right */
-            background-color: white;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            justify-content: space-between;
+            background-color: var(--bg-primary);
+            box-shadow: var(--card-shadow);
             position: sticky;
             top: 0;
             z-index: 900;
@@ -142,40 +201,27 @@
         .toggle-sidebar {
             font-size: 1.5rem;
             cursor: pointer;
-            margin-right: 20px;
-            color: var(--dark-color);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: all var(--transition-speed) ease;
         }
 
-        .header-search {
-            position: relative;
-            width: 300px; /* Increased width for better balance */
-            margin-right: 20px; /* Added margin for spacing */
+        .toggle-sidebar:hover {
+            background-color: var(--bg-secondary);
+            color: var(--primary-color);
         }
 
-            .header-search input {
-                padding: 8px 15px 8px 40px; /* Adjusted padding */
-                border-radius: 20px;
-                border: 1px solid #ddd;
-                background-color: #f5f5f5;
-                width: 100%;
-                height: 40px; /* Fixed height for better alignment */
-                font-size: 0.9rem;
-                transition: all 0.3s;
-            }
-
-                .header-search input:focus {
-                    border-color: var(--primary-color);
-                    box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
-                    background-color: white;
-                }
-
-            .header-search i {
-                position: absolute;
-                left: 15px;
-                top: 50%;
-                transform: translateY(-50%);
-                color: #888;
-            }
+        .page-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0 0 0 16px;
+            color: var(--text-primary);
+        }
 
         .header-right {
             display: flex;
@@ -184,22 +230,34 @@
 
         .header-icons {
             display: flex;
-            margin-right: 20px;
+            margin-right: 16px;
         }
 
         .header-icon {
             position: relative;
-            margin-left: 15px;
-            font-size: 1.3rem;
-            color: #666;
+            margin-left: 8px;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
             cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .header-icon:hover {
+            background-color: var(--bg-secondary);
+            color: var(--primary-color);
         }
 
         .notification-badge {
             position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--secondary-color);
+            top: 0;
+            right: 0;
+            background: var(--danger-color);
             color: white;
             border-radius: 50%;
             width: 18px;
@@ -208,6 +266,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 2px solid var(--bg-primary);
         }
 
         .user-dropdown {
@@ -218,14 +277,16 @@
         .user-info {
             display: flex;
             align-items: center;
-            padding: 5px 10px;
-            border-radius: 20px;
-            transition: all 0.3s;
+            padding: 6px 12px;
+            border-radius: 40px;
+            transition: all var(--transition-speed) ease;
+            border: 1px solid transparent;
         }
 
-            .user-info:hover {
-                background-color: #f5f5f5;
-            }
+        .user-info:hover {
+            background-color: var(--bg-secondary);
+            border-color: #e2e8f0;
+        }
 
         .user-avatar {
             width: 36px;
@@ -243,24 +304,27 @@
         .user-name {
             font-weight: 500;
             margin-right: 5px;
+            color: var(--text-primary);
         }
 
         .user-role {
             font-size: 0.8rem;
-            color: #888;
+            color: var(--text-secondary);
         }
 
         .user-menu {
             position: absolute;
             top: 100%;
             right: 0;
-            width: 220px;
+            width: 240px;
             background: white;
-            border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
             display: none;
             z-index: 1000;
             margin-top: 10px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
         }
 
         .user-dropdown.open .user-menu {
@@ -268,36 +332,38 @@
         }
 
         .user-menu .user-header {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
+            padding: 16px;
+            border-bottom: 1px solid #e2e8f0;
             text-align: center;
         }
 
         .user-menu .user-body {
-            padding: 10px 0;
+            padding: 8px 0;
         }
 
         .user-menu .user-item {
-            padding: 10px 15px;
+            padding: 10px 16px;
             display: flex;
             align-items: center;
-            color: var(--dark-color);
+            color: var(--text-primary);
             transition: all 0.2s;
+            text-decoration: none;
         }
 
-            .user-menu .user-item:hover {
-                background-color: #f5f5f5;
-            }
+        .user-menu .user-item:hover {
+            background-color: var(--bg-secondary);
+        }
 
-            .user-menu .user-item i {
-                margin-right: 10px;
-                width: 20px;
-                text-align: center;
-            }
+        .user-menu .user-item i {
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
 
         .user-menu .user-footer {
-            padding: 10px 15px;
-            border-top: 1px solid #eee;
+            padding: 12px 16px;
+            border-top: 1px solid #e2e8f0;
         }
 
         .user-menu .btn-logout {
@@ -305,117 +371,201 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            transition: all var(--transition-speed) ease;
+            background-color: #fee2e2;
+            color: #ef4444;
+            border: none;
         }
 
-            .user-menu .btn-logout i {
-                margin-right: 8px;
-            }
+        .user-menu .btn-logout:hover {
+            background-color: #fecaca;
+        }
+
+        .user-menu .btn-logout i {
+            margin-right: 8px;
+        }
 
         /* Content Area */
         .content-wrapper {
-            padding: 20px;
+            padding: 24px;
             flex: 1;
-        }
-
-        .content-header {
-            margin-bottom: 20px;
-        }
-
-            .content-header h1 {
-                font-size: 1.8rem;
-                font-weight: 600;
-                margin: 0;
-                color: var(--dark-color);
-            }
-
-        .breadcrumb {
-            background: transparent;
-            padding: 0;
-            margin: 0;
         }
 
         /* Cards */
         .card {
             border: none;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 24px;
+            background-color: var(--bg-primary);
+            overflow: hidden;
         }
 
         .card-header {
+            padding: 16px 20px;
             font-weight: 600;
             border-bottom: 1px solid rgba(0,0,0,0.05);
+            background-color: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-            .card-header.bg-primary {
-                background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%) !important;
-            }
+        .card-header .card-title {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .card-header .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
 
         /* Tables */
+        .table {
+            margin-bottom: 0;
+        }
+
         .table th {
             font-weight: 500;
+            color: var(--text-secondary);
             border-top: none;
+            padding: 12px 16px;
+            background-color: var(--bg-secondary);
+            white-space: nowrap;
         }
 
         .table td {
             vertical-align: middle;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            border-color: #e2e8f0;
         }
 
-        .table-striped tbody tr:nth-of-type(odd) {
-            background-color: rgba(0,0,0,0.02);
+        .table-hover tbody tr:hover {
+            background-color: rgba(0,0,0,0.01);
         }
 
         /* Buttons */
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            border: none;
+        .btn {
+            border-radius: var(--border-radius);
+            padding: 8px 16px;
+            font-weight: 500;
+            transition: all var(--transition-speed) ease;
         }
 
-        .view-btn, .toggle-status-btn, .options-btn {
-            width: 34px;
-            height: 34px;
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .btn-warning {
+            background-color: var(--warning-color);
+            border-color: var(--warning-color);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            border-color: var(--danger-color);
+        }
+
+        .btn-info {
+            background-color: var(--info-color);
+            border-color: var(--info-color);
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
             padding: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 2px;
+            border-radius: var(--border-radius);
+        }
+
+        /* Footer */
+        .main-footer {
+            padding: 16px 24px;
+            background-color: var(--bg-primary);
+            border-top: 1px solid #e2e8f0;
+            color: var(--text-secondary);
             font-size: 0.9rem;
         }
 
-        /* Pagination */
-        .pagination .page-link {
-            color: var(--primary-color);
-            border-radius: 3px;
-            margin: 0 2px;
+        /* Utilities */
+        .text-truncate {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
-        .pagination .page-item.active .page-link {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            color: white;
+        .badge {
+            padding: 0.35em 0.65em;
+            font-weight: 500;
+            border-radius: 30px;
         }
 
-        /* Disabled pagination items */
-        .pagination .page-item.disabled .page-link {
-            color: #6c757d;
-            background-color: #e9ecef;
-            border-color: #dee2e6;
-            cursor: not-allowed;
+        .badge-success {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-danger {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .badge-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-primary {
+            background-color: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .badge-secondary {
+            background-color: #f1f5f9;
+            color: #475569;
         }
     </style>
 </head>
 <body>
     <div class="layout-container">
         <!-- Sidebar -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="sidebar-brand">
                 <img src="~/assets/img/noBackground.png" alt="SJ Logo" class="brand-image">
-                <h2>Admin Dashboard</h2>
+                <h2>SJ Admin</h2>
             </div>
 
             <ul class="sidebar-menu">
                 <li>
-                    <a href="#" class="nav-link">
+                    <a asp-controller="Home" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Home" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
                         <i class="bi bi-speedometer2"></i>
                         <span>Dashboard</span>
                     </a>
@@ -424,36 +574,42 @@
                 <li class="nav-header">MANAGEMENT</li>
 
                 <li>
-                    <a asp-action="Index" asp-controller="Account" class="nav-link active">
+                    <a asp-controller="Account" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "Account" ? "active" : "")">
                         <i class="bi bi-people"></i>
-                        <span>User Management</span>
+                        <span>Users</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#" class="nav-link">
+                    <a asp-controller="CreditTransaction" asp-action="Index" class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "CreditTransaction" ? "active" : "")">
                         <i class="bi bi-cash-coin"></i>
-                        <span>Transaction Management</span>
+                        <span>Credit Transactions</span>
                     </a>
                 </li>
 
                 <li>
-                    <a href="#" class="nav-link">
-                        <i class="bi bi-gear"></i>
-                        <span>Service Management</span>
+                    <a asp-controller="CreditTransaction" asp-action="Dashboard" class="nav-link @(ViewContext.RouteData.Values["controller"].ToString() == "CreditTransaction" && ViewContext.RouteData.Values["action"].ToString() == "Dashboard" ? "active" : "")">
+                        <i class="bi bi-bar-chart"></i>
+                        <span>Analytics</span>
                     </a>
                 </li>
             </ul>
         </aside>
 
         <!-- Main Content -->
-        <div class="main-content">
+        <div class="main-content" id="mainContent">
             <!-- Header -->
             <header class="main-header">
-                <!-- Moved header elements to the right -->
+                <div class="header-left">
+                    <div class="toggle-sidebar" id="toggleSidebar">
+                        <i class="bi bi-list"></i>
+                    </div>
+                    <h1 class="page-title">@ViewData["Title"]</h1>
+                </div>
+                
                 <div class="header-right">
                     <div class="header-icons">
-                        <div class="header-icon">
+                        <div class="header-icon" title="Notifications">
                             <i class="bi bi-bell"></i>
                             <span class="notification-badge">3</span>
                         </div>
@@ -463,9 +619,9 @@
                             <div class="user-avatar">
                                 <i class="bi bi-person"></i>
                             </div>
-                            <div>
+                            <div class="user-details">
                                 <div class="user-name">Admin</div>
-                                <div class="user-role">System Administrator</div>
+                                <div class="user-role">Administrator</div>
                             </div>
                             <i class="bi bi-chevron-down ms-2"></i>
                         </div>
@@ -476,21 +632,25 @@
                                     <i class="bi bi-person"></i>
                                 </div>
                                 <h6 class="mb-0">Admin</h6>
-                                <small>System Administrator</small>
+                                <small>Administrator</small>
                             </div>
                             <div class="user-body">
-                                <a asp-action="Profile" class="user-item">
+                                <a asp-controller="Account" asp-action="Profile" class="user-item">
                                     <i class="bi bi-person"></i>
                                     <span>My Profile</span>
                                 </a>
-                                <a asp-action="ChangePassword" class="user-item">
+                                <a asp-controller="Account" asp-action="ChangePassword" class="user-item">
                                     <i class="bi bi-shield-lock"></i>
                                     <span>Change Password</span>
+                                </a>
+                                <a href="#" class="user-item">
+                                    <i class="bi bi-gear"></i>
+                                    <span>Settings</span>
                                 </a>
                             </div>
                             <div class="user-footer">
                                 <form asp-controller="Account" asp-action="Logout" method="post">
-                                    <button type="submit" class="btn btn-danger btn-sm btn-logout">
+                                    <button type="submit" class="btn btn-logout">
                                         <i class="bi bi-box-arrow-right"></i>
                                         <span>Sign Out</span>
                                     </button>
@@ -502,19 +662,19 @@
             </header>
 
             <!-- Content -->
-            <main role="main">
+            <main class="content-wrapper">
                 @RenderBody()
             </main>
 
             <!-- Footer -->
-            <footer class="main-footer py-3 px-4 text-center text-md-start">
+            <footer class="main-footer">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6">
-                            <span>&copy; 2025 SJ Management System. All rights reserved.</span>
+                            <span>&copy; @DateTime.Now.Year SJ Platform. All rights reserved.</span>
                         </div>
                         <div class="col-md-6 text-md-end">
-                            <span>Developed by SJ Team</span>
+                            <span>Version 1.0</span>
                         </div>
                     </div>
                 </div>
@@ -527,14 +687,29 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Toggle sidebar
-            const toggleSidebar = document.querySelector('.toggle-sidebar');
-            const sidebar = document.querySelector('.sidebar');
-            const mainContent = document.querySelector('.main-content');
+            const toggleSidebar = document.getElementById('toggleSidebar');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            
+            // Check if sidebar state is saved in localStorage
+            const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            
+            // Apply initial state
+            if (sidebarCollapsed) {
+                sidebar.classList.add('collapsed');
+                mainContent.classList.add('expanded');
+            }
 
             if (toggleSidebar) {
                 toggleSidebar.addEventListener('click', function () {
+                    sidebar.classList.toggle('collapsed');
+                    mainContent.classList.toggle('expanded');
+                    
+                    // Save state to localStorage
+                    localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+                    
+                    // For mobile
                     sidebar.classList.toggle('show');
-                    mainContent.classList.toggle('sidebar-open');
                 });
             }
 
@@ -552,10 +727,23 @@
                 });
             }
 
-            // Tooltips
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
+            // Initialize tooltips if Bootstrap 5 is loaded
+            if (typeof bootstrap !== 'undefined') {
+                const tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'));
+                tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl, {
+                        placement: 'bottom'
+                    });
+                });
+            }
+            
+            // Add active class to parent menu items if submenu is active
+            const activeLinks = document.querySelectorAll('.sidebar-menu .nav-link.active');
+            activeLinks.forEach(function(link) {
+                const parentLi = link.closest('li');
+                if (parentLi) {
+                    parentLi.classList.add('active');
+                }
             });
         });
     </script>

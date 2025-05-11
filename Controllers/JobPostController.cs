@@ -98,10 +98,10 @@ public class JobPostController : Controller
         ViewBag.CountHidden = allPosts.Count(p => p.Status == "hidden");
         ViewBag.CountExpired = allPosts.Count(p => p.Deadline.HasValue && p.Deadline < DateOnly.FromDateTime(DateTime.Today));
 
-        var postCredits = _context.ServiceOrders
+/*        var postCredits = _context.ServiceOrders
         .Count(s => s.UserId == userId && s.JobPostId == null && s.Status == "active");
 
-        ViewBag.PostCredits = postCredits;
+        ViewBag.PostCredits = postCredits;*/
 
         //lấy số tiền của người dùng
         var userCredit = await _context.UserCredits.FirstOrDefaultAsync(x => x.UserId == userId);
@@ -124,14 +124,14 @@ public class JobPostController : Controller
     {
         var userId = GetCurrentUserId(); // Hàm của bạn để lấy ID người dùng hiện tại
 
-        var postCredits = _context.ServiceOrders
+/*        var postCredits = _context.ServiceOrders
             .Count(s => s.UserId == userId && s.JobPostId == null && s.Status == "active");
 
         if (postCredits <= 0)
         {
             TempData["ShowBuyPopup"] = "true";
             return RedirectToAction("Index", "JobPost");
-        }
+        }*/
 
         return View( new JobPost());
     }
@@ -157,7 +157,7 @@ public class JobPostController : Controller
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
         // Kiểm tra lượt đăng còn lại
-        var availableCredit = await _context.ServiceOrders
+/*        var availableCredit = await _context.ServiceOrders
             .Where(s => s.UserId == userId && s.JobPostId == null && s.Status == "active")
             .OrderBy(s => s.CreatedAt)
             .FirstOrDefaultAsync();
@@ -167,7 +167,7 @@ public class JobPostController : Controller
             // Không còn lượt đăng -> có thể hiển thị popup/mẫu redirect
             TempData["ShowBuyPopup"] = "true";
             return RedirectToAction("Index", "JobPost");
-        }
+        }*/
 
         // Tạo bài đăng
         jobPost.UserId = userId;
@@ -180,9 +180,9 @@ public class JobPostController : Controller
         await _context.SaveChangesAsync();
 
         // Gán bài đăng vào ServiceOrder để trừ lượt
-        availableCredit.JobPostId = jobPost.Id;
+/*        availableCredit.JobPostId = jobPost.Id;
         availableCredit.Status = "use";
-        _context.ServiceOrders.Update(availableCredit);
+        _context.ServiceOrders.Update(availableCredit);*/
         await _context.SaveChangesAsync();
 
         return RedirectToAction("Index");

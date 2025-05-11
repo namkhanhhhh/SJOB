@@ -17,11 +17,14 @@ public partial class User
 
     public string? Avatar { get; set; }
 
-    public bool Status { get; set; } = true; // Thêm trạng thái người dùng: true = hoạt động, false = không hoạt động
+    public bool Status { get; set; }
 
     public string? AuthProvider { get; set; }
 
     public string? AuthProviderId { get; set; }
+
+    // Add property to track available post counts
+    public virtual UserPostCredit? UserPostCredit { get; set; }
 
     public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
 
@@ -50,6 +53,4 @@ public partial class User
     public virtual ICollection<UserDetail> UserDetails { get; set; } = new List<UserDetail>();
 
     public virtual ICollection<WorkerVisit> WorkerVisits { get; set; } = new List<WorkerVisit>();
-
-    public virtual ICollection<Wishlist> Wishlists { get; set; } = new List<Wishlist>();
 }
