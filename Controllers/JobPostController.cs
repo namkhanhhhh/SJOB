@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SJOB_EXE201.Models;
 
 namespace SJOB_EXE201.Controllers;
-[Authorize]
+[Authorize(Roles = "Employer")]
 public class JobPostController : Controller
 {
     private readonly SjobContext _context;
@@ -55,6 +55,14 @@ public class JobPostController : Controller
             posts = posts.Include(u => u.User).Where(p => p.Status == "active");
         }
 
+        // Lấy bản sao để thống kê
+        var allPosts = posts.ToList();
+
+        ViewBag.CountAll = allPosts.Count;
+        ViewBag.CountActive = allPosts.Count(p => p.Status == "active");
+        ViewBag.CountHidden = allPosts.Count(p => p.Status == "hidden");
+        ViewBag.CountExpired = allPosts.Count(p => p.Deadline.HasValue && p.Deadline < DateOnly.FromDateTime(DateTime.Today));
+
         //lọc bài viết theo status
         if (!string.IsNullOrEmpty(status))
         {
@@ -90,24 +98,31 @@ public class JobPostController : Controller
             .ThenByDescending(p => p.PushedToTopUntil ?? p.CreatedAt)
             .ToList();
 
-        // Lấy bản sao để thống kê
-        var allPosts = posts.ToList();
+        //lấy số lượt đăng bài còn lại
+        var userPostCredit = _context.UserPostCredits
+        .FirstOrDefault(upc => upc.UserId == userId);
 
-        ViewBag.CountAll = allPosts.Count;
-        ViewBag.CountActive = allPosts.Count(p => p.Status == "active");
-        ViewBag.CountHidden = allPosts.Count(p => p.Status == "hidden");
-        ViewBag.CountExpired = allPosts.Count(p => p.Deadline.HasValue && p.Deadline < DateOnly.FromDateTime(DateTime.Today));
+        if (userPostCredit != null)
+        {
+            ViewBag.Silver = userPostCredit.SilverPostsAvailable;
+            ViewBag.Gold = userPostCredit.GoldPostsAvailable;
+            ViewBag.Diamond = userPostCredit.DiamondPostsAvailable;
+            ViewBag.PushToTop = userPostCredit.PushToTopAvailable;
+            ViewBag.verify = userPostCredit.AuthenLogoAvailable;
 
-/*        var postCredits = _context.ServiceOrders
-        .Count(s => s.UserId == userId && s.JobPostId == null && s.Status == "active");
-
-        ViewBag.PostCredits = postCredits;*/
+        }
+        else
+        {
+            ViewBag.Silver = 0;
+            ViewBag.Gold = 0;
+            ViewBag.Diamond = 0;
+        }
 
         //lấy số tiền của người dùng
         var userCredit = await _context.UserCredits.FirstOrDefaultAsync(x => x.UserId == userId);
         if (userCredit != null)
         {
-            ViewData["Balance"] = userCredit.Balance;
+            ViewData["Balance"] = userCredit.Balance / 1000;
         }
         else
         {
@@ -119,24 +134,31 @@ public class JobPostController : Controller
     }
 
 
-    // create
+    // GET: JobPost/Create
     public IActionResult Create()
     {
-        var userId = GetCurrentUserId(); // Hàm của bạn để lấy ID người dùng hiện tại
+        var userId = GetCurrentUserId();
 
-/*        var postCredits = _context.ServiceOrders
-            .Count(s => s.UserId == userId && s.JobPostId == null && s.Status == "active");
+        var userPostCredit = _context.UserPostCredits
+            .FirstOrDefault(upc => upc.UserId == userId);
 
-        if (postCredits <= 0)
+        // Nếu không có dữ liệu hoặc không còn bất kỳ lượt đăng nào
+        if (userPostCredit == null ||
+            (userPostCredit.SilverPostsAvailable <= 0 &&
+             userPostCredit.GoldPostsAvailable <= 0 &&
+             userPostCredit.DiamondPostsAvailable <= 0))
         {
             TempData["ShowBuyPopup"] = "true";
             return RedirectToAction("Index", "JobPost");
-        }*/
+        }
 
-        return View( new JobPost());
+        // Gửi số lượt còn lại vào ViewBag để hiển thị trong dropdown
+        ViewBag.SilverCredits = userPostCredit.SilverPostsAvailable;
+        ViewBag.GoldCredits = userPostCredit.GoldPostsAvailable;
+        ViewBag.DiamondCredits = userPostCredit.DiamondPostsAvailable;
+
+        return View(new JobPost());
     }
-
-
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -149,41 +171,79 @@ public class JobPostController : Controller
         }
 
         var userId = GetCurrentUserId();
-        if (userId == null)
+
+        var user = await _context.Users
+            .Include(u => u.UserPostCredit)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        var userPostCredit = user?.UserPostCredit;
+
+        if (userPostCredit == null ||
+            (userPostCredit.SilverPostsAvailable <= 0 &&
+             userPostCredit.GoldPostsAvailable <= 0 &&
+             userPostCredit.DiamondPostsAvailable <= 0))
         {
-            return Unauthorized();
-        }
-
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-
-        // Kiểm tra lượt đăng còn lại
-/*        var availableCredit = await _context.ServiceOrders
-            .Where(s => s.UserId == userId && s.JobPostId == null && s.Status == "active")
-            .OrderBy(s => s.CreatedAt)
-            .FirstOrDefaultAsync();
-
-        if (availableCredit == null)
-        {
-            // Không còn lượt đăng -> có thể hiển thị popup/mẫu redirect
             TempData["ShowBuyPopup"] = "true";
             return RedirectToAction("Index", "JobPost");
-        }*/
+        }
 
         // Tạo bài đăng
         jobPost.UserId = userId;
         jobPost.User = user;
         jobPost.CreatedAt = DateTime.Now;
         jobPost.Status = "active";
-        jobPost.PriorityLevel = 1;
+        // Gán PriorityLevel dựa trên loại tin
+        switch (jobPost.PostType?.ToLower())
+        {
+            case "diamond":
+                jobPost.PriorityLevel = 3;
+                break;
+            case "gold":
+                jobPost.PriorityLevel = 2;
+                break;
+            case "silver":
+            default:
+                jobPost.PriorityLevel = 1;
+                break;
+        }
+
 
         _context.JobPosts.Add(jobPost);
         await _context.SaveChangesAsync();
 
-        // Gán bài đăng vào ServiceOrder để trừ lượt
-/*        availableCredit.JobPostId = jobPost.Id;
-        availableCredit.Status = "use";
-        _context.ServiceOrders.Update(availableCredit);*/
+        // Trừ lượt theo loại bài đăng
+        if (userPostCredit != null)
+        {
+            switch (jobPost.PostType?.ToLower())
+            {
+                case "silver":
+                    if (userPostCredit.SilverPostsAvailable > 0)
+                        userPostCredit.SilverPostsAvailable--;
+                    break;
+                case "gold":
+                    if (userPostCredit.GoldPostsAvailable > 0)
+                        userPostCredit.GoldPostsAvailable--;
+                    break;
+                case "diamond":
+                    if (userPostCredit.DiamondPostsAvailable > 0)
+                        userPostCredit.DiamondPostsAvailable--;
+                    break;
+            }
+
+            userPostCredit.LastUpdated = DateTime.Now;
+            _context.UserPostCredits.Update(userPostCredit);
+        }
+
+        await AddCreditTransaction(
+            userId,
+            $"use_{jobPost.PostType.ToLower()}_post",
+            jobPost.Id,
+            $"Sử dụng 1 lượt đăng bài {jobPost.PostType} cho bài '{jobPost.Title}'"
+        );
+
         await _context.SaveChangesAsync();
+
+        TempData["SuccessMessage"] = "Đăng bài thành công!";
 
         return RedirectToAction("Index");
     }
@@ -225,7 +285,7 @@ public class JobPostController : Controller
 
         try
         {
-            // Cập nhật từng trường cần thiết
+            // Cập nhật các trường được phép chỉnh sửa
             original.Title = jobPost.Title;
             original.Description = jobPost.Description;
             original.Requirements = jobPost.Requirements;
@@ -236,10 +296,9 @@ public class JobPostController : Controller
             original.JobType = jobPost.JobType;
             original.ExperienceLevel = jobPost.ExperienceLevel;
             original.Deadline = jobPost.Deadline;
-            original.PostType = jobPost.PostType;
 
-            // Các trường không được chỉnh sửa vẫn giữ nguyên
-            // original.UserId, CreatedAt, Status, ViewCount, IsFeatured giữ nguyên
+            // Không cho phép sửa PostType hoặc PriorityLevel
+            // original.PostType và original.PriorityLevel giữ nguyên
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -253,6 +312,7 @@ public class JobPostController : Controller
             throw;
         }
     }
+
 
     // delete 
     /*    [HttpPost]
@@ -272,15 +332,109 @@ public class JobPostController : Controller
     [HttpPost]
     public async Task<IActionResult> PushToTop(int id)
     {
+        var userID = GetCurrentUserId();
+        var pushtotopAvailable = await _context.UserPostCredits.FirstOrDefaultAsync(u => u.UserId == userID);
         var jobPost = await _context.JobPosts.FirstOrDefaultAsync(p => p.Id == id);
-        if (jobPost == null || jobPost.UserId != GetCurrentUserId())
+
+        if (jobPost == null || jobPost.UserId != userID)
         {
             return NotFound();
         }
 
+        // Kiểm tra xem bài đăng đã được đẩy lên trong 1 giờ qua chưa
+        if (jobPost.PushedToTopUntil.HasValue && jobPost.PushedToTopUntil.Value.AddHours(1) > DateTime.Now)
+        {
+            TempData["InfoMessage"] = "Bài đăng đã được đẩy lên gần đây và vẫn đang ở vị trí ưu tiên.";
+            return RedirectToAction("Index");
+        }
+
+        if (pushtotopAvailable?.PushToTopAvailable < 1)
+        {
+            TempData["ErrorMessage"] = "Không đủ lượt đẩy bài, vui lòng mua thêm!";
+            return RedirectToAction("Index");
+        }
+
+        //trừ lượt đăng 
         jobPost.PushedToTopUntil = DateTime.Now;
+        pushtotopAvailable.PushToTopAvailable--;
+
+        // Trong PushToTop sau khi trừ lượt
+        await AddCreditTransaction(
+            userID,
+            "use_push_to_top",
+            jobPost.Id,
+            $"Sử dụng 1 lượt đẩy bài cho bài '{jobPost.Title}'"
+        );
+
         await _context.SaveChangesAsync();
+
+        TempData["SuccessMessage"] = "Đẩy bài thành công!";
+        return RedirectToAction("Index");
+    }
+
+    //ẩn bài đăng
+    [HttpPost]
+    public async Task<IActionResult> Hidden(int id)
+    {
+        var userId = GetCurrentUserId();
+        var post = await _context.JobPosts.FindAsync(id);
+
+        if (post == null || post.UserId != userId)
+        {
+            return NotFound();
+        }
+
+        post.Status = "hidden";
+        _context.Update(post);
+        await _context.SaveChangesAsync();
+
+        TempData["SuccessMessage"] = "Bài đăng đã được ẩn.";
+        return RedirectToAction("Index");
+    }
+
+    //hiện bài đăng 
+    [HttpPost]
+    public async Task<IActionResult> Unhide(int id)
+    {
+        var post = await _context.JobPosts.FindAsync(id);
+        if (post == null)
+        {
+            return NotFound();
+        }
+
+        // Kiểm tra nếu bài đăng đang bị ẩn
+        if (post.Status == "hidden")
+        {
+            post.Status = "active"; // Đặt lại trạng thái thành "active" để bài đăng hiển thị
+            _context.Update(post);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Bài đăng đã được hiển thị lại.";
+        }
+        else
+        {
+            TempData["ErrorMessage"] = "Bài đăng đã ở trạng thái hiển thị.";
+        }
 
         return RedirectToAction("Index");
     }
+
+    //thêm vào các lượt giao dịch 
+    private async Task AddCreditTransaction(int userId, string type, int referenceId, string description)
+    {
+        var transaction = new CreditTransaction
+        {
+            UserId = userId,
+            Amount = 0, // Không liên quan đến tiền
+            TransactionType = type,
+            ReferenceId = referenceId,
+            ReferenceType = "job_post",
+            Description = description,
+            CreatedAt = DateTime.Now
+        };
+
+        _context.CreditTransactions.Add(transaction);
+        await _context.SaveChangesAsync();
+    }
 }
+

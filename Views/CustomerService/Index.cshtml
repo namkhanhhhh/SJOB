@@ -1,0 +1,155 @@
+﻿@using SJOB_EXE201.ViewModels
+@model CustomerServiceViewModel
+
+@{
+    ViewData["Title"] = "Gói dịch vụ";
+    Layout = "~/Views/Shared/_EmployerLayout.cshtml";
+}
+
+<div class="container py-5">
+    <h2 class="mb-4 fw-bold text-center text-primary">Mua Gói Dịch Vụ</h2>
+
+    <!-- Hiển thị số dư và lưu ý tỷ giá -->
+    <div class="alert bg-light border rounded-3 p-3 mb-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+            <div class="mb-2 mb-md-0">
+                <span class="fw-semibold">Số dư hiện tại:</span>
+                <span class="text-success fw-bold">@((int)(decimal)ViewData["Balance"]) CREDIT</span>
+            </div>
+            <div class="text-md-end">
+                <small class="text-danger fst-italic d-block">*Lưu ý: Bạn cần đủ số dư để mua gói dịch vụ.</small>
+                <small class="text-muted fst-italic">1 CREDIT (CD) = 1.000 VND</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- THÔNG BÁO LỖI / THÀNH CÔNG -->
+@*     @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+        </div>
+    } *@
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+        </div>
+    }
+
+    <!-- GÓI LẺ -->
+    <h4 class="mb-3 fw-semibold text-dark">Gói lẻ</h4>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+        @foreach (var service in Model.AdditionalServices)
+        {
+            if(service.Id != 5){
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="fas fa-bolt fa-2x text-warning"></i>
+                            </div>
+                            <h5 class="card-title fw-bold">@service.Name</h5>
+                            <p class="card-text text-muted">@service.Price.ToString("0") <strong>CREDIT</strong></p>
+
+                            @if (!string.IsNullOrEmpty(service.Description))
+                            {
+                                <p class="text-muted small">@service.Description</p>
+                            }
+
+                            <ul class="list-unstyled small text-start">
+                                @if (service.ServiceType == "silver_post")
+                                {
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>@service.SilverPostsIncluded Silver posts</li>
+                                }
+                                else if (service.ServiceType == "gold_post")
+                                {
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>@service.GoldPostsIncluded Gold posts</li>
+                                }
+                                else if (service.ServiceType == "diamond_post")
+                                {
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>@service.DiamondPostsIncluded Diamond posts</li>
+                                }
+                                else if (service.ServiceType == "push_to_top")
+                                {
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>@service.PushToTopAvailable Push to top</li>
+                                }
+                                else if (service.ServiceType == "verified_badge")
+                                {
+                                    <li><i class="fas fa-check-circle text-success me-2"></i>@service.AuthenLogoAvailable Verified badge</li>
+                                }
+                            </ul>
+                            <form method="get" asp-action="Buy" asp-controller="CustomerService">
+                                <input type="hidden" name="id" value="@service.Id" />
+                                <input type="hidden" name="type" value="service" />
+                                <button type="submit">Mua</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    <!-- GÓI COMBO -->
+    <h4 class="mb-3 fw-semibold text-dark">Gói combo</h4>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var combo in Model.SubscriptionPlans)
+        {
+            var borderColor = "border-success";
+            var bgColor = "bg-success";
+            var btnColor = "btn-success";
+
+            if (combo.Id % 3 == 2) { borderColor = "border-primary"; bgColor = "bg-primary"; btnColor = "btn-primary"; }
+            else if (combo.Id % 3 == 0) { borderColor = "border-danger"; bgColor = "bg-danger"; btnColor = "btn-danger"; }
+
+            <div class="col">
+                <div class="card h-100 shadow border @borderColor rounded-4">
+                    <div class="card-header @bgColor text-white text-center rounded-top-4">
+                        <h5 class="fw-bold mb-1">@combo.Name</h5>
+                        <p class="mb-0 fs-6">@combo.Price.ToString("0") <strong>CREDIT</strong></p>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled small">
+                            @if (combo.SilverPosts > 0)
+                            {
+                                <li><i class="fas fa-check-circle text-success me-2"></i>@combo.SilverPosts Silver posts</li>
+                            }
+                            @if (combo.GoldPosts > 0)
+                            {
+                                <li><i class="fas fa-check-circle text-success me-2"></i>@combo.GoldPosts Gold posts</li>
+                            }
+                            @if (combo.DiamondPosts > 0)
+                            {
+                                <li><i class="fas fa-check-circle text-success me-2"></i>@combo.DiamondPosts Diamond posts</li>
+                            }
+                            @if (combo.PushTopTimes > 0)
+                            {
+                                <li><i class="fas fa-check-circle text-success me-2"></i>@combo.PushTopTimes lần đẩy top</li>
+                            }
+@*                             @if (combo.MarketingPackage == true)
+                            {
+                                <li><i class="fas fa-check-circle text-success me-2"></i>Gói marketing cao cấp</li>
+                            } *@
+                        </ul>
+                        @if (!string.IsNullOrEmpty(combo.Description))
+                        {
+                            <p class="text-muted small mt-2">@combo.Description</p>
+                        }
+                    </div>
+                    <div class="card-footer text-center bg-white border-0">
+                        <form method="get" asp-action="Buy" asp-controller="CustomerService">
+                            <input type="hidden" name="id" value="@combo.Id" />
+                            <input type="hidden" name="type" value="combo" />
+                            <button type="submit">Mua</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+

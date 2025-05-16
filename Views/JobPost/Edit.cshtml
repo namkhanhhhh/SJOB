@@ -62,8 +62,8 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="PostType" class="form-label"></label>
-        <input asp-for="PostType" class="form-control" />
+        <label class="form-label">Loại bài đăng</label>
+        <input class="form-control" value="@Model.PostType.ToString()" readonly />
     </div>
 
     <div asp-validation-summary="All" class="text-danger"></div>

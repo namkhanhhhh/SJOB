@@ -824,4 +824,19 @@ a {
         margin-left: 0;
         align-self: flex-end;
     }
+
+    .verified-logo-container .logo-img {
+        object-fit: cover;
+        border: 2px solid #ccc;
+    }
+
+    .verified-logo-container .verified-badge {
+        font-size: 0.75rem;
+        width: 1.5rem;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
 }

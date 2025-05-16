@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SJOB_EXE201.Models;
 
@@ -11,9 +12,11 @@ using SJOB_EXE201.Models;
 namespace SJOB_EXE201.Migrations
 {
     [DbContext(typeof(SjobContext))]
-    partial class SjobContextModelSnapshot : ModelSnapshot
+    [Migration("20250513152953_updateUserService")]
+    partial class updateUserService
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,12 +33,6 @@ namespace SJOB_EXE201.Migrations
                         .HasColumnName("id");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AuthenLogoAvailable")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0)
-                        .HasColumnName("authen_logo_available");
 
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -78,12 +75,6 @@ namespace SJOB_EXE201.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(15, 2)")
                         .HasColumnName("price");
-
-                    b.Property<int>("PushToTopAvailable")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0)
-                        .HasColumnName("push_to_top_available");
 
                     b.Property<string>("ServiceType")
                         .HasMaxLength(50)

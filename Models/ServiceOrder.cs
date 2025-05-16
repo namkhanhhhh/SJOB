@@ -18,7 +18,7 @@ public partial class ServiceOrder
 
     public int? DiamondPostsApplied { get; set; }
 
-    public bool? PostCreditsApplied { get; set; }
+	public bool? PostCreditsApplied { get; set; }
 
     public DateTime? StartDate { get; set; }
 

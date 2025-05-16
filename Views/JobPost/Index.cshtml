@@ -22,7 +22,7 @@
         </div>
         <div class="user-actions">
             <div class="balance-display">
-                <span class="balance-amount">@ViewData["Balance"] CD</span>
+                <span class="balance-amount">@string.Format("{0:0}", ViewData["Balance"]) CD</span>
                 <a href="/Credit/Deposit" class="btn btn-deposit">
                     <i class="fas fa-plus-circle"></i> Nạp tiền
                 </a>
@@ -40,19 +40,49 @@
         </div>
     </div>
 
+    <!--số lượt đăng bài-->
     <div class="content-container">
         <div class="page-header">
             <h1>Danh sách bài đăng</h1>
             <div class="action-buttons">
                 <div class="post-credits">
                     <i class="fas fa-ticket-alt"></i>
-                    Lượt đăng còn lại: <strong>@ViewBag.PostCredits</strong>
+                    Lượt đăng còn lại:
+                    <strong>Bạc: @ViewBag.Silver</strong> |
+                    <strong>Vàng: @ViewBag.Gold</strong> |
+                    <strong>Kim cương: @ViewBag.Diamond</strong> |
+                    <strong>lượt đẩy bài : @ViewBag.PushToTop</strong>
+                    <strong>xác thực công ty : @ViewBag.verify</strong>
                 </div>
                 <a href="/jobPost/Create" class="btn btn-create">
                     <i class="fas fa-plus"></i> Thêm mới
                 </a>
             </div>
         </div>
+    </div>
+
+    <!-- THÔNG BÁO LỖI / THÀNH CÔNG -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+        </div>
+    }
+    @if (TempData["InfoMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["InfoMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+        </div>
+    }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+        </div>
+    }
 
         <!-- Tabs with links -->
         <div class="tabs-container">
@@ -63,12 +93,14 @@
                         Tất cả bài đăng <span class="count">(@ViewBag.CountAll)</span>
                     </a>
                 </li>
-                <li class="tab-item @(ViewBag.Status == "active" ? "active" : "")">
-                    <a href="?status=active">
-                        <i class="fas fa-check-circle"></i>
-                        Bài đăng đang hoạt động <span class="count">(@ViewBag.CountActive)</span>
-                    </a>
-                </li>
+                @if (ViewBag.ViewMode == "recruiter"){
+                    <li class="tab-item @(ViewBag.Status == "active" ? "active" : "")">
+                        <a href="?status=active">
+                            <i class="fas fa-check-circle"></i>
+                            Bài đăng đang hoạt động <span class="count">(@ViewBag.CountActive)</span>
+                        </a>
+                    </li>
+                }
 
                 @if (ViewBag.ViewMode == "recruiter")
                 {
@@ -80,12 +112,14 @@
                     </li>
                 }
 
-                <li class="tab-item @(ViewBag.Status == "expired" ? "active" : "")">
-                    <a href="?status=expired">
-                        <i class="fas fa-calendar-times"></i>
-                        Bài đăng hết hạn <span class="count">(@ViewBag.CountExpired)</span>
-                    </a>
-                </li>
+                @if (ViewBag.ViewMode == "recruiter"){
+                    <li class="tab-item @(ViewBag.Status == "expired" ? "active" : "")">
+                        <a href="?status=expired">
+                            <i class="fas fa-calendar-times"></i>
+                            Bài đăng hết hạn <span class="count">(@ViewBag.CountExpired)</span>
+                        </a>
+                    </li>
+                }
             </ul>
         </div>
 
@@ -125,34 +159,54 @@
                             </div>
                             <h3 class="job-title">@post.Title</h3>
                         </div>
-                        <div class="job-actions">
-                            <div class="dropdown">
-                                <button class="btn btn-action dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li>
-                                        <a class="dropdown-item" href="/jobPost/Edit/@post.Id">
-                                            <i class="fas fa-edit"></i> Sửa
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <form method="post" action="/jobPost/Hidden/@post.Id">
-                                            <button class="dropdown-item" type="submit">
-                                                <i class="fas fa-eye-slash"></i> Ẩn bài đăng
-                                            </button>
-                                        </form>
-                                    </li>
-                                    <li>
-                                        <form asp-controller="JobPost" asp-action="PushToTop" asp-route-id="@post.Id" method="post">
-                                            <button class="dropdown-item" type="submit">
-                                                <i class="fas fa-arrow-up"></i> Đẩy bài
-                                            </button>
-                                        </form>
-                                    </li>
-                                </ul>
+
+                        @if (ViewBag.ViewMode == "recruiter")
+                        {
+                            <div class="job-actions">
+                                <div class="dropdown">
+                                    <button class="btn btn-action dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-display="static">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-start text-start">
+                                        <li>
+                                            <a class="dropdown-item" href="/jobPost/Edit/@post.Id">
+                                                <i class="fas fa-edit"></i> Sửa
+                                            </a>
+                                        </li>
+
+                                        @if (post.Status == "active")
+                                        {
+                                            <li>
+                                                <form method="post" asp-action="Hidden" asp-controller="JobPost" asp-route-id="@post.Id">
+                                                    <button class="dropdown-item" type="submit">
+                                                        <i class="fas fa-eye-slash"></i> Ẩn bài đăng
+                                                    </button>
+                                                </form>
+                                            </li>
+                                        }
+
+                                        @if (post.Status == "hidden")
+                                        {
+                                            <li>
+                                                <form method="post" asp-action="Unhide" asp-controller="JobPost" asp-route-id="@post.Id">
+                                                    <button class="dropdown-item" type="submit">
+                                                        <i class="fas fa-eye"></i> Hiển thị lại
+                                                    </button>
+                                                </form>
+                                            </li>
+                                        }
+
+                                        <li>
+                                            <form asp-controller="JobPost" asp-action="PushToTop" asp-route-id="@post.Id" method="post">
+                                                <button class="dropdown-item" type="submit">
+                                                    <i class="fas fa-arrow-up"></i> Đẩy bài
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                        }
                     </div>
                     <div class="job-card-body">
                         <div class="job-description">@post.Description</div>
@@ -247,9 +301,15 @@
                     <p>Vui lòng mua thêm để tiếp tục.</p>
                 </div>
                 <div class="modal-footer">
-                    <a href="/serviceOrder/buy" class="btn btn-primary">
+
+                    <a href="/CustomerService/Index" class="btn btn-primary">
                         <i class="fas fa-shopping-cart"></i> Mua thêm lượt đăng
                     </a>
+
+
+                    @* <a href="#" class="btn btn-primary">
+                        <i class="fas fa-shopping-cart"></i> Mua thêm lượt đăng
+                    </a> *@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                         <i class="fas fa-times"></i> Đóng
                     </button>
