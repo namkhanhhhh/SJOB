@@ -40,7 +40,7 @@ public class PayOSService
         PaymentData paymentData = new(
             orderCode,
             (int)amount,
-            userId.ToString(), // Dùng userId làm description để webhook nhận diện
+            $"NAPTIENSJOB+{userId}", // Dùng userId làm description để webhook nhận diện
             items,
             cancelUrl,
             successUrl
@@ -57,7 +57,15 @@ public class PayOSService
             return null;
         }
     }
+
+    private DateTime GetVietnamTime()
+    {
+        var vnTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+        return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vnTimeZone);
+    }
+
 }
+
 
 
 

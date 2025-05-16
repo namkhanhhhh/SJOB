@@ -4,9 +4,22 @@ using SJOB_EXE201.Middleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Net.payOS.Types;
 using Net.payOS;
+using Hangfire;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+// tự động trừ gói khi hết hạn 
+builder.Services.AddHangfire(configuration => configuration
+    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UseSqlServerStorage(builder.Configuration.GetConnectionString("DB")));
+
+builder.Services.AddHangfireServer();
+
+// đăng kí middleware xử lý các gói hết hạn 
+builder.Services.AddScoped<SJOB_EXE201.Services.ExpiredSubscriptionService>();
 
 //payment
 IConfiguration configuration = new ConfigurationBuilder()
@@ -75,6 +88,15 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+// Cấu hình Hangfire Dashboard
+app.UseHangfireDashboard();
+// Đăng ký recurring job để chạy hàng ngày vào 00:00
+RecurringJob.AddOrUpdate<SJOB_EXE201.Services.ExpiredSubscriptionService>(
+    "check-expired-subscriptions",
+    service => service.ProcessExpiredSubscriptions(),
+    Cron.Daily);
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -82,6 +104,8 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
+// Đăng ký middleware trong Program.cs
+app.UseMiddleware<SJOB_EXE201.Middleware.ExpiredSubscriptionMiddleware>();
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseMiddleware<CheckUserStatusMiddleware>();
 app.UseCustomExceptionMiddleware();

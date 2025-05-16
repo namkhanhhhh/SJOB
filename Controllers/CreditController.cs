@@ -4,7 +4,9 @@ using Net.payOS.Types;
 using Net.payOS;
 using SJOB_EXE201.Models;
 using System.Security.Policy;
+using Microsoft.AspNetCore.Authorization;
 
+[Authorize(Roles = "Employer")]
 public class CreditController : Controller
 {
     private readonly SjobContext _context;
@@ -87,14 +89,14 @@ public class CreditController : Controller
                 {
                     UserId = userId,
                     Balance = amount,
-                    LastUpdated = DateTime.UtcNow
+                    LastUpdated = GetVietnamTime()
                 };
                 _context.UserCredits.Add(userCredit);
             }
             else
             {
                 userCredit.Balance += amount;
-                userCredit.LastUpdated = DateTime.UtcNow;
+                userCredit.LastUpdated = GetVietnamTime();
             }
 
             var creditTransaction = new CreditTransaction
@@ -104,7 +106,7 @@ public class CreditController : Controller
                 TransactionType = "NapTien",
                 BalanceAfter = userCredit.Balance ?? 0,
                 Description = "Thanh toán thành công qua PayOS",
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = GetVietnamTime()
             };
             _context.CreditTransactions.Add(creditTransaction);
 
@@ -141,22 +143,30 @@ public class CreditController : Controller
 
         if (payload.Status == "PAID")
         {
-            int userId;
-            if (!int.TryParse(payload.Description, out userId)) return BadRequest("Invalid description");
+            if (!payload.Description.StartsWith("NAPTIENSJOB+"))
+                return BadRequest("Invalid description format");
+
+            var userIdStr = payload.Description.Replace("NAPTIENSJOB+", "");
+            if (!int.TryParse(userIdStr, out int userId))
+                return BadRequest("Invalid userId");
 
             var amount = payload.Amount;
             var userCredit = await _context.UserCredits.FirstOrDefaultAsync(x => x.UserId == userId);
 
             if (userCredit == null)
             {
-                userCredit = new UserCredit { UserId = userId, Balance = amount, LastUpdated = DateTime.UtcNow };
+                userCredit = new UserCredit
+                {
+                    UserId = userId,
+                    Balance = amount,
+                    LastUpdated = GetVietnamTime()
+                };
                 _context.UserCredits.Add(userCredit);
             }
             else
             {
-                userCredit.UserId = userId;
                 userCredit.Balance += amount;
-                userCredit.LastUpdated = DateTime.UtcNow;
+                userCredit.LastUpdated = GetVietnamTime();
             }
 
             var creditTransaction = new CreditTransaction
@@ -166,15 +176,23 @@ public class CreditController : Controller
                 TransactionType = "Topup",
                 BalanceAfter = userCredit.Balance ?? 0,
                 Description = "Thanh toán thành công qua PayOS (Webhook)",
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = GetVietnamTime()
             };
             _context.CreditTransactions.Add(creditTransaction);
 
             await _context.SaveChangesAsync();
         }
 
+
         // Trả về phản hồi 200 OK cho webhook sau khi xử lý xong
         return Ok();
     }
+
+    private DateTime GetVietnamTime()
+    {
+        var vnTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+        return TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, vnTimeZone);
+    }
+
 
 }

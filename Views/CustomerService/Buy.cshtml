@@ -1,0 +1,145 @@
+﻿@using SJOB_EXE201.ViewModels
+@model BuyViewModel
+
+@{
+    ViewData["Title"] = "Thanh toán gói dịch vụ";
+    var itemName = Model.Type == "service" ? Model.Service?.Name : Model.Combo?.Name;
+    var itemPrice = Model.Type == "service" ? Model.Service?.Price : Model.Combo?.Price;
+    // Chuyển đổi ViewData["Balance"] thành chuỗi JavaScript an toàn
+    var userBalanceJs = ViewData["Balance"] != null ? ViewData["Balance"].ToString() : "0";
+    var itemPriceJs = itemPrice != null ? itemPrice.ToString() : "0";
+    
+    //var debugBalance = ViewData["Balance"] != null ? Convert.ToDecimal(ViewData["Balance"]) : 0;
+    //var debugItemPrice = itemPrice != null ? itemPrice : 0;
+    //var hasEnoughBalance = debugItemPrice <= debugBalance;
+}
+
+<h2 class="mb-4">Thông tin gói</h2>
+
+@* <div class="alert alert-secondary mb-3">
+    <p><strong>Debug:</strong></p>
+    <p>Số dư (Balance): @debugBalance CD</p>
+    <p>Giá (ItemPrice): @debugItemPrice CD</p>
+    <p>Đủ tiền: @hasEnoughBalance</p>
+</div> *@
+
+<div class="card p-3 mb-3">
+    <p><strong>Tên gói:</strong> @itemName</p>
+    <p><strong>Giá:</strong> @itemPrice CD / gói</p>
+    <p><strong>Số dư hiện tại:</strong> @ViewData["Balance"] CD</p>
+
+    @if (Model.Type == "service" && Model.Service != null)
+    {
+        <div class="mt-2">
+            <p><strong>Bao gồm:</strong></p>
+            <ul>
+                @if (Model.Service.ServiceType == "silver_post")
+                {
+                    <p><strong>Số lượt Silver Post:</strong> @Model.Service.SilverPostsIncluded</p>
+                }
+                else if (Model.Service.ServiceType == "gold_post")
+                {
+                    <p><strong>Số lượt Gold Post:</strong> @Model.Service.GoldPostsIncluded</p>
+                }
+                else if (Model.Service.ServiceType == "diamond_post")
+                {
+                    <p><strong>Số lượt Diamond Post:</strong> @Model.Service.DiamondPostsIncluded</p>
+                }
+                else if (Model.Service.ServiceType == "push_to_top")
+                {
+                    <p><strong>Số lượt Push to top:</strong> @Model.Service.PushToTopAvailable</p>
+                }
+                else if (Model.Service.ServiceType == "verified_badge")
+                {
+                    <p><strong>Số lượt Authen logo:</strong> @Model.Service.AuthenLogoAvailable</p>
+                }
+
+            </ul>
+        </div>
+    }
+    @if (Model.Type == "combo" && Model.Combo != null)
+    {
+        <div class="mt-2">
+            <p><strong>Bao gồm:</strong></p>
+            <ul>
+                @if (Model.Combo.SilverPosts > 0)
+                {
+                    <li>@Model.Combo.SilverPosts tin bạc</li>
+                }
+                @if (Model.Combo.GoldPosts > 0)
+                {
+                    <li>@Model.Combo.GoldPosts tin vàng</li>
+                }
+                @if (Model.Combo.DiamondPosts > 0)
+                {
+                    <li>@Model.Combo.DiamondPosts tin kim cương</li>
+                }
+                @if (Model.Combo.PushTopTimes > 0)
+                {
+                    <li>@Model.Combo.PushTopTimes lượt đẩy tin</li>
+                }
+            </ul>
+        </div>
+    }
+</div>
+
+<form method="post" asp-action="Buy" asp-controller="CustomerService" asp-route-id="@Model.Id" asp-route-type="@Model.Type">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.Id" />
+    <input type="hidden" name="type" value="@Model.Type" />
+
+    <div class="form-group mb-2">
+        <label for="quantity"><strong>Số lượng:</strong></label>
+        <input type="number" name="quantity" id="quantity" class="form-control w-25" value="1" min="1" onchange="updateTotalPrice()" />
+    </div>
+
+    <div class="alert alert-info mb-3">
+        <p><strong>Tổng tiền:</strong> <span id="totalPrice">@itemPrice</span> CD</p>
+        @if (itemPrice > Convert.ToDecimal(ViewData["Balance"]))
+        {
+            <p class="text-danger">Số dư của bạn không đủ để mua gói này. Bạn cần thêm @(itemPrice - Convert.ToDecimal(ViewData["Balance"])) CD.</p>
+        }
+    </div>
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary" @(itemPrice > Convert.ToDecimal(ViewData["Balance"]) ? "disabled" : "")>Thanh toán</button>
+        <a href="@Url.Action("Index", "CustomerService")" class="btn btn-outline-secondary">Quay lại</a>
+    </div>
+</form>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger mt-3">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        @TempData["Error"]
+    </div>
+}
+
+@section Scripts {
+    <script>
+        function updateTotalPrice() {
+            const quantity = parseInt(document.getElementById('quantity').value) || 1;
+            const price = parseFloat('@Html.Raw(itemPriceJs)');
+            const userBalance = parseFloat('@Html.Raw(userBalanceJs)');
+
+            console.log("Price:", price, "Balance:", userBalance); // Debug
+
+            const totalPrice = price * quantity;
+            document.getElementById('totalPrice').textContent = totalPrice;
+
+            const submitButton = document.querySelector('button[type="submit"]');
+            if (totalPrice > userBalance) {
+                console.log("Not enough balance"); // Debug
+                submitButton.disabled = true;
+                // Rest of the code...
+            } else {
+                console.log("Has enough balance"); // Debug
+                submitButton.disabled = false;
+                // Rest of the code...
+            }
+        }
+
+        // Run once on page load
+        document.addEventListener('DOMContentLoaded', updateTotalPrice);
+    </script>
+}

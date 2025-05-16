@@ -55,9 +55,15 @@
 
         <div class="col-md-6">
             <label asp-for="PostType" class="form-label"><i class="bi bi-tag"></i> Loại tin</label>
-            <input asp-for="PostType" class="form-control" />
+            <select asp-for="PostType" class="form-select">
+                <option value="">-- Chọn loại bài đăng --</option>
+                <option value="silver">Tin Bạc</option>
+                <option value="gold">Tin Vàng</option>
+                <option value="diamond">Tin Kim Cương</option>
+            </select>
             <span asp-validation-for="PostType" class="text-danger"></span>
         </div>
+
 
         <div class="col-md-12">
             <label asp-for="Description" class="form-label"><i class="bi bi-textarea-resize"></i> Mô tả</label>
