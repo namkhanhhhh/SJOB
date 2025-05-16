@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/worker.css" />
     <link rel="stylesheet" href="~/css/modern-pages.css" />
+    <!-- Add this to the head section of your layout files -->
+    <link rel="stylesheet" href="~/css/notification.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <style>
         /* Modern Color Scheme for SJOB Platform */
@@ -628,6 +630,9 @@
                         </li>
                     </ul>
                     <ul class="navbar-nav user-profile-nav">
+                        <li class="nav-item">
+                            @await Html.PartialAsync("_NotificationPartial")
+                        </li>
                         <li class="nav-item dropdown">
                             @if (User.Identity.IsAuthenticated)
                             {
@@ -747,7 +752,8 @@
             </div>
         </div>
     </footer>
-
+    <!-- Add this before the closing body tag -->
+    <script src="~/js/notification.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

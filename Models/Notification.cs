@@ -13,18 +13,25 @@ namespace SJOB_EXE201.Models
         public int UserId { get; set; }
 
         [Required]
+        [StringLength(255)]
         public string Title { get; set; }
 
         [Required]
         public string Message { get; set; }
 
-        public string Type { get; set; } // "application", "system", etc.
+        [Required]
+        [StringLength(50)]
+        public string Type { get; set; } // application, job_post, system, etc.
 
-        public int? ReferenceId { get; set; } // ID of the related entity (e.g., ApplicationId)
+        public int? ReferenceId { get; set; } // ID of the related entity (application, job post, etc.)
 
-        public string ReferenceType { get; set; } // Type of the reference (e.g., "Application")
+        [Required]
+        [StringLength(50)]
+        public string ReferenceType { get; set; } // The type of entity referenced (application, job_post, etc.)
 
-        public string Url { get; set; } // URL to navigate to when clicked
+        [Required]
+        [StringLength(255)]
+        public string Url { get; set; } // URL to navigate to when clicking the notification
 
         public bool IsRead { get; set; }
 

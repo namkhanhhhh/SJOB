@@ -386,10 +386,19 @@ namespace SJOB_EXE201.Controllers
             }
             else
             {
-                // Handle the case when the claim is not found
-                // For example, redirect to login or set a default value
                 return RedirectToAction("Index", "Login");
             }
+
+            // Get job post details
+            var jobPost = await _context.JobPosts
+                .Include(jp => jp.User)
+                .FirstOrDefaultAsync(jp => jp.Id == jobId);
+
+            if (jobPost == null)
+            {
+                return NotFound();
+            }
+
             // Check if job exists in wishlist
             var existingWishlistItem = await _context.Wishlists
                 .FirstOrDefaultAsync(w => w.UserId == userId && w.JobPostId == jobId);
@@ -412,6 +421,19 @@ namespace SJOB_EXE201.Controllers
                 };
 
                 _context.Wishlists.Add(wishlistItem);
+
+                // Create notification for the employer
+                await NotificationController.CreateNotification(
+                    _context,
+                    jobPost.UserId,
+                    "Bài đăng được thêm vào danh sách yêu thích",
+                    $"Có người đã thêm bài đăng {jobPost.Title} vào danh sách yêu thích.",
+                    "wishlist",
+                    jobId,
+                    "job_post",
+                    $"/JobPost/Index"
+                );
+
                 await _context.SaveChangesAsync();
                 return Json(new { isInWishlist = true });
             }
@@ -551,7 +573,9 @@ namespace SJOB_EXE201.Controllers
             return View(viewModel);
         }
 
-        [AuthorizationRequired(Roles = "Worker")] // New
+        // Add this method to the WorkerController class
+
+        [AuthorizationRequired(Roles = "Worker")]
         [HttpPost]
         public async Task<IActionResult> ApplyJob(int jobId)
         {
@@ -565,6 +589,7 @@ namespace SJOB_EXE201.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+
             // Check if already applied
             var existingApplication = await _context.Applications
                 .FirstOrDefaultAsync(a => a.JobPostId == jobId && a.UserId == userId);
@@ -575,14 +600,38 @@ namespace SJOB_EXE201.Controllers
                 return RedirectToAction("JobDetails", new { id = jobId });
             }
 
+            // Get job post details
+            var jobPost = await _context.JobPosts
+                .Include(jp => jp.User)
+                .FirstOrDefaultAsync(jp => jp.Id == jobId);
+
+            if (jobPost == null)
+            {
+                return NotFound();
+            }
+
             // Create new application
-            _context.Applications.Add(new Application
+            var application = new Application
             {
                 JobPostId = jobId,
                 UserId = userId,
                 Status = "pending",
                 CreatedAt = DateTime.Now
-            });
+            };
+
+            _context.Applications.Add(application);
+
+            // Create notification for the employer
+            await NotificationController.CreateNotification(
+                _context,
+                jobPost.UserId,
+                "Đơn ứng tuyển mới",
+                $"Có người đã ứng tuyển vào vị trí {jobPost.Title} của bạn.",
+                "new_application",
+                jobId,
+                "job_post",
+                $"/Applications/Index?jobId={jobId}"
+            );
 
             await _context.SaveChangesAsync();
 

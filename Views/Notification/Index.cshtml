@@ -1,0 +1,102 @@
+﻿@model List<SJOB_EXE201.Models.Notification>
+@{
+    ViewData["Title"] = "Thông báo";
+    Layout = User.IsInRole("Employer") ? "~/Views/Shared/_EmployerLayout.cshtml" : "~/Views/Shared/_WorkerLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Tất cả thông báo</h5>
+                    @if (Model.Any(n => !n.IsRead))
+                    {
+                        <button id="markAllAsRead" class="btn btn-sm btn-outline-primary">Đánh dấu tất cả đã đọc</button>
+                    }
+                </div>
+                <div class="card-body p-0">
+                    @if (Model.Any())
+                    {
+                        <div class="list-group list-group-flush">
+                            @foreach (var notification in Model)
+                            {
+                                <a href="@notification.Url" class="list-group-item list-group-item-action notification-item @(notification.IsRead ? "" : "unread")" data-notification-id="@notification.Id">
+                                    <div class="d-flex w-100">
+                                        <div class="notification-icon">
+                                            @switch (notification.Type)
+                                            {
+                                                case "application":
+                                                    <i class="fas fa-file-alt"></i>
+                                                    break;
+                                                case "new_application":
+                                                    <i class="fas fa-user-plus"></i>
+                                                    break;
+                                                case "application_note":
+                                                    <i class="fas fa-sticky-note"></i>
+                                                    break;
+                                                case "wishlist":
+                                                    <i class="fas fa-heart"></i>
+                                                    break;
+                                                default:
+                                                    <i class="fas fa-bell"></i>
+                                                    break;
+                                            }
+                                        </div>
+                                        <div class="notification-content">
+                                            <h6 class="mb-1">@notification.Title</h6>
+                                            <p class="mb-1">@notification.Message</p>
+                                            <small class="text-muted">@notification.CreatedAt.ToString("dd/MM/yyyy HH:mm")</small>
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <i class="fas fa-bell fa-3x text-muted mb-3"></i>
+                            <p>Không có thông báo nào</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Mark notification as read when clicked
+            $('.notification-item').click(function () {
+                var notificationId = $(this).data('notification-id');
+
+                $.ajax({
+                    url: '@Url.Action("MarkAsRead", "Notification")',
+                    type: 'POST',
+                    data: { id: notificationId },
+                    success: function () {
+                        // Update UI if needed
+                    }
+                });
+            });
+
+            // Mark all notifications as read
+            $('#markAllAsRead').click(function () {
+                $.ajax({
+                    url: '@Url.Action("MarkAllAsRead", "Notification")',
+                    type: 'POST',
+                    success: function () {
+                        // Update UI
+                        $('.notification-item').removeClass('unread');
+                        $('.notification-badge').hide();
+                        $('#markAllAsRead').hide();
+                    }
+                });
+            });
+        });
+    </script>
+}
+    

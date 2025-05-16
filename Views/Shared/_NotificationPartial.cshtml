@@ -1,0 +1,87 @@
+﻿@using SJOB_EXE201.Models
+@{
+    var userId = User.FindFirst("UserId")?.Value;
+    var notifications = new List<Notification>();
+    var unreadCount = 0;
+
+    if (!string.IsNullOrEmpty(userId))
+    {
+        var dbContext = Context.RequestServices.GetService<SJOB_EXE201.Models.SjobContext>();
+        notifications = dbContext?.Notifications
+            .Where(n => n.UserId == int.Parse(userId))
+            .OrderByDescending(n => n.CreatedAt)
+            .Take(5)
+            .ToList() ?? new List<Notification>();
+
+        unreadCount = dbContext?.Notifications
+            .Count(n => n.UserId == int.Parse(userId) && !n.IsRead) ?? 0;
+    }
+}
+
+<div class="dropdown notification-dropdown">
+    <button class="btn btn-link notification-btn dropdown-toggle" type="button" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="far fa-bell"></i>
+        @if (unreadCount > 0)
+        {
+            <span class="notification-badge">@(unreadCount > 99 ? "99+" : unreadCount.ToString())</span>
+        }
+    </button>
+    <div class="dropdown-menu dropdown-menu-left notification-menu" aria-labelledby="notificationDropdown">
+        <div class="notification-header">
+            <h6 class="dropdown-header">Thông báo (@unreadCount mới)</h6>
+            @if (unreadCount > 0)
+            {
+                <button class="btn btn-sm btn-link mark-all-read">Đánh dấu tất cả đã đọc</button>
+            }
+        </div>
+        <div class="notification-list">
+            @if (notifications.Any())
+            {
+                foreach (var notification in notifications)
+                {
+                    <a href="@notification.Url" class="dropdown-item notification-item @(notification.IsRead ? "" : "unread")" data-notification-id="@notification.Id">
+                        <div class="notification-icon">
+                            @switch (notification.Type)
+                            {
+                                case "application":
+                                    <i class="fas fa-file-alt"></i>
+                                    break;
+                                case "new_application":
+                                    <i class="fas fa-user-plus"></i>
+                                    break;
+                                case "application_note":
+                                    <i class="fas fa-sticky-note"></i>
+                                    break;
+                                case "wishlist":
+                                    <i class="fas fa-heart"></i>
+                                    break;
+                                default:
+                                    <i class="fas fa-bell"></i>
+                                    break;
+                            }
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">@notification.Title</div>
+                            <div class="notification-message">@notification.Message</div>
+                            <div class="notification-time">
+                                @(notification.CreatedAt > DateTime.Now.AddDays(-1)
+                                    ? notification.CreatedAt.ToString("HH:mm")
+                                    : notification.CreatedAt.ToString("dd/MM/yyyy"))
+                            </div>
+                        </div>
+                    </a>
+                }
+            }
+            else
+            {
+                <div class="dropdown-item no-notifications">
+                    <p class="text-center text-muted my-2">Không có thông báo nào</p>
+                </div>
+            }
+        </div>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item text-center view-all" href="@Url.Action("Index", "Notification")">
+            Xem tất cả thông báo
+        </a>
+    </div>
+</div>

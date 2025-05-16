@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/employer.css" />
+    <!-- Add this to the head section of your layout files -->
+    <link rel="stylesheet" href="~/css/notification.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body>
@@ -24,6 +26,12 @@
                         <a href="/JobPost" class="nav-link">
                             <i class="fas fa-clipboard-list"></i>
                             <span>Quản lý bài đăng</span>
+                        </a>
+                    </li>
+                    <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "Application" ? "active" : "")">
+                        <a href="/Applications" class="nav-link">
+                            <i class="fas fa-users"></i>
+                            <span>Quản lý ứng viên</span>
                         </a>
                     </li>
                     <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "ServiceOrder" ? "active" : "")">
@@ -88,6 +96,8 @@
         </aside>
 
         <main class="main-wrapper">
+            @await Html.PartialAsync("_EmployerTopBar")
+
             @if (TempData["Success"] != null)
             {
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -108,6 +118,8 @@
         </main>
     </div>
 
+    <!-- Add this before the closing body tag -->
+    <script src="~/js/notification.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
