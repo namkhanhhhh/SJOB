@@ -1,49 +1,50 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SJOB_EXE201.Models;
 
-namespace SJOB_EXE201.Controllers
+namespace SJOB_EXE201.Controllers;
+[Authorize(Roles = "Employer")]
+public class HistoryTransactionController : Controller
 {
-    public class HistoryTransactionController : Controller
+    private readonly SjobContext _context;
+
+    public HistoryTransactionController(SjobContext context)
     {
-        private readonly SjobContext _context;
+        _context = context;
+    }
 
-        public HistoryTransactionController(SjobContext context)
+    private int GetCurrentUserId()
+    {
+        var userIdClaim = User.FindFirst("UserId")?.Value;
+
+        if (string.IsNullOrEmpty(userIdClaim))
+            throw new UnauthorizedAccessException("UserId claim is missing or user not authenticated.");
+
+        return int.Parse(userIdClaim);
+    }
+
+    // history transaction
+    public async Task<IActionResult> Index()
+    {
+        int userId = GetCurrentUserId();
+        if (userId == null)
         {
-            _context = context;
+            return RedirectToAction("Login", "Account");
         }
 
-        private int GetCurrentUserId()
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        if (user == null)
         {
-            var userIdClaim = User.FindFirst("UserId")?.Value;
-
-            if (string.IsNullOrEmpty(userIdClaim))
-                throw new UnauthorizedAccessException("UserId claim is missing or user not authenticated.");
-
-            return int.Parse(userIdClaim);
+            return NotFound();
         }
 
-        // history transaction
-        public async Task<IActionResult> Index()
-        {
-            int userId = GetCurrentUserId();
-            if (userId == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
+        var transactions = await _context.CreditTransactions
+            .Where(t => t.UserId == user.Id)
+            .OrderByDescending(t => t.CreatedAt)
+            .ToListAsync();
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var transactions = await _context.CreditTransactions
-                .Where(t => t.UserId == user.Id)
-                .OrderByDescending(t => t.CreatedAt)
-                .ToListAsync();
-
-            return View(transactions);
-        }
+        return View(transactions);
     }
 }
+

@@ -38,7 +38,8 @@ public partial class JobPost
 
     public DateOnly? Deadline { get; set; }
 
-    public string ImageMain { get; set; } = "image";
+	[Required(ErrorMessage = "ảnh này không được bỏ trống")]
+	public string ImageMain { get; set; } = "image";
 
     public string? Image2 { get; set; }
 

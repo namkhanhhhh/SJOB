@@ -1,13 +1,13 @@
 ﻿@model List<SJOB_EXE201.Models.JobPost>
 @{
-    ViewData["Title"] = "Quản lý bài đăng";
-    Layout = "~/Views/Shared/_EmployerLayout.cshtml";
+	ViewData["Title"] = "Quản lý bài đăng";
+	Layout = "~/Views/Shared/_EmployerLayout.cshtml";
 
-    var username = User.Identity?.Name ?? "User";
-    var searchTerm = Context.Request.Query["search"].ToString();
-    var fromDate = Context.Request.Query["from"].ToString();
-    var toDate = Context.Request.Query["to"].ToString();
-    var status = Context.Request.Query["status"].ToString();
+	var username = User.Identity?.Name ?? "User";
+	var searchTerm = Context.Request.Query["search"].ToString();
+	var fromDate = Context.Request.Query["from"].ToString();
+	var toDate = Context.Request.Query["to"].ToString();
+	var status = Context.Request.Query["status"].ToString();
 }
 
 <style>/* Job Post Management Styles */
@@ -473,303 +473,333 @@
         </div>
     </div>
 
-    <!-- THÔNG BÁO LỖI / THÀNH CÔNG -->
-    @if (TempData["ErrorMessage"] != null)
-    {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            @TempData["ErrorMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
-        </div>
-    }
-    @if (TempData["InfoMessage"] != null)
-    {
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            @TempData["InfoMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
-        </div>
-    }
-    @if (TempData["SuccessMessage"] != null)
-    {
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            @TempData["SuccessMessage"]
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
-        </div>
-    }
+	<!-- THÔNG BÁO LỖI / THÀNH CÔNG -->
+	@if (TempData["ErrorMessage"] != null)
+	{
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			@TempData["ErrorMessage"]
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+		</div>
+	}
+	@if (TempData["InfoMessage"] != null)
+	{
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			@TempData["InfoMessage"]
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+		</div>
+	}
+	@if (TempData["SuccessMessage"] != null)
+	{
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			@TempData["SuccessMessage"]
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Đóng"></button>
+		</div>
+	}
 
-        <!-- Tabs with links -->
-        <div class="tabs-container">
-            <ul class="nav-tabs">
-                <li class="tab-item @(ViewBag.Status == null ? "active" : "")">
-                    <a href="?status=">
-                        <i class="fas fa-list"></i>
-                        Tất cả bài đăng <span class="count">(@ViewBag.CountAll)</span>
-                    </a>
-                </li>
-                @if (ViewBag.ViewMode == "recruiter"){
-                    <li class="tab-item @(ViewBag.Status == "active" ? "active" : "")">
-                        <a href="?status=active">
-                            <i class="fas fa-check-circle"></i>
-                            Bài đăng đang hoạt động <span class="count">(@ViewBag.CountActive)</span>
-                        </a>
-                    </li>
-                }
+	<!-- Tabs with links -->
+	<div class="tabs-container">
+		<ul class="nav-tabs">
+			<li class="tab-item @(ViewBag.Status == null ? "active" : "")">
+				<a href="?status=">
+					<i class="fas fa-list"></i>
+					Tất cả bài đăng <span class="count">(@ViewBag.CountAll)</span>
+				</a>
+			</li>
+			@if (ViewBag.ViewMode == "recruiter")
+			{
+				<li class="tab-item @(ViewBag.Status == "active" ? "active" : "")">
+					<a href="?status=active">
+						<i class="fas fa-check-circle"></i>
+						Bài đăng đang hoạt động <span class="count">(@ViewBag.CountActive)</span>
+					</a>
+				</li>
+			}
 
-                @if (ViewBag.ViewMode == "recruiter")
-                {
-                    <li class="tab-item @(ViewBag.Status == "hidden" ? "active" : "")">
-                        <a href="?status=hidden">
-                            <i class="fas fa-eye-slash"></i>
-                            Bài đăng bị ẩn <span class="count">(@ViewBag.CountHidden)</span>
-                        </a>
-                    </li>
-                }
+			@if (ViewBag.ViewMode == "recruiter")
+			{
+				<li class="tab-item @(ViewBag.Status == "hidden" ? "active" : "")">
+					<a href="?status=hidden">
+						<i class="fas fa-eye-slash"></i>
+						Bài đăng bị ẩn <span class="count">(@ViewBag.CountHidden)</span>
+					</a>
+				</li>
+			}
 
-                @if (ViewBag.ViewMode == "recruiter"){
-                    <li class="tab-item @(ViewBag.Status == "expired" ? "active" : "")">
-                        <a href="?status=expired">
-                            <i class="fas fa-calendar-times"></i>
-                            Bài đăng hết hạn <span class="count">(@ViewBag.CountExpired)</span>
-                        </a>
-                    </li>
-                }
-            </ul>
-        </div>
+			@if (ViewBag.ViewMode == "recruiter")
+			{
+				<li class="tab-item @(ViewBag.Status == "expired" ? "active" : "")">
+					<a href="?status=expired">
+						<i class="fas fa-calendar-times"></i>
+						Bài đăng hết hạn <span class="count">(@ViewBag.CountExpired)</span>
+					</a>
+				</li>
+			}
+		</ul>
+	</div>
 
-        <!-- Bộ lọc -->
-        <div class="filter-container">
-            <form method="get" class="filter-form">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input name="search" value="@searchTerm" class="form-control" placeholder="Tìm theo tiêu đề">
-                </div>
-                <div class="date-filters">
-                    <div class="date-input">
-                        <i class="fas fa-calendar-alt"></i>
-                        <input name="from" value="@fromDate" class="form-control" type="date" placeholder="Từ ngày">
-                    </div>
-                    <div class="date-input">
-                        <i class="fas fa-calendar-alt"></i>
-                        <input name="to" value="@toDate" class="form-control" type="date" placeholder="Đến ngày">
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-filter">
-                    <i class="fas fa-filter"></i> Lọc
-                </button>
-            </form>
-        </div>
+	<!-- Bộ lọc -->
+	<div class="filter-container">
+		<form method="get" class="filter-form">
+			<div class="search-box">
+				<i class="fas fa-search"></i>
+				<input name="search" value="@searchTerm" class="form-control" placeholder="Tìm theo tiêu đề">
+			</div>
+			<div class="date-filters">
+				<div class="date-input">
+					<i class="fas fa-calendar-alt"></i>
+					<input name="from" value="@fromDate" class="form-control" type="date" placeholder="Từ ngày">
+				</div>
+				<div class="date-input">
+					<i class="fas fa-calendar-alt"></i>
+					<input name="to" value="@toDate" class="form-control" type="date" placeholder="Đến ngày">
+				</div>
+			</div>
+			<button type="submit" class="btn btn-filter">
+				<i class="fas fa-filter"></i> Lọc
+			</button>
+		</form>
+	</div>
 
-        <!-- Danh sách bài -->
-        <div class="job-list">
-            @foreach (var post in Model)
-            {
-                <div class="job-card">
-                    <div class="job-card-header">
-                        <div class="job-info">
-                            <div class="poster-info">
-                                <span class="poster-label">Người đăng:</span>
-                                <span class="poster-name">@post.User.Username</span>
-                            </div>
-                            <h3 class="job-title">@post.Title</h3>
-                        </div>
+	<!-- Danh sách bài -->
+	<div class="job-list">
+		@foreach (var post in Model)
+		{
+			<div class="job-card">
+				<div class="job-card-header">
+					<div class="job-info">
+						<div class="poster-info">
+							<span class="poster-label">Người đăng:</span>
+							<span class="poster-name">@post.User.Username</span>
+						</div>
+						<h3 class="job-title">@post.Title</h3>
+					</div>
 
-                        @if (ViewBag.ViewMode == "recruiter")
-                        {
-                            <div class="job-actions">
-                                <div class="dropdown">
-                                    <button class="btn btn-action dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-display="static">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </button>
-                                    <ul class="dropdown-menu dropdown-menu-start text-start">
-                                        <li>
-                                            <a class="dropdown-item" href="/jobPost/Edit/@post.Id">
-                                                <i class="fas fa-edit"></i> Sửa
-                                            </a>
-                                        </li>
+					@if (ViewBag.ViewMode == "recruiter")
+					{
+						<div class="job-actions">
+							<div class="dropdown">
+								<button class="btn btn-action dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-display="static">
+									<i class="fas fa-ellipsis-v"></i>
+								</button>
+								<ul class="dropdown-menu dropdown-menu-start text-start">
+									<li>
+										<a class="dropdown-item" href="/jobPost/Edit/@post.Id">
+											<i class="fas fa-edit"></i> Sửa
+										</a>
+									</li>
 
-                                        @if (post.Status == "active")
-                                        {
-                                            <li>
-                                                <form method="post" asp-action="Hidden" asp-controller="JobPost" asp-route-id="@post.Id">
-                                                    <button class="dropdown-item" type="submit">
-                                                        <i class="fas fa-eye-slash"></i> Ẩn bài đăng
-                                                    </button>
-                                                </form>
-                                            </li>
-                                        }
+									@if (post.Status == "active")
+									{
+										<li>
+											<form method="post" asp-action="Hidden" asp-controller="JobPost" asp-route-id="@post.Id">
+												<button class="dropdown-item" type="submit">
+													<i class="fas fa-eye-slash"></i> Ẩn bài đăng
+												</button>
+											</form>
+										</li>
+									}
 
-                                        @if (post.Status == "hidden")
-                                        {
-                                            <li>
-                                                <form method="post" asp-action="Unhide" asp-controller="JobPost" asp-route-id="@post.Id">
-                                                    <button class="dropdown-item" type="submit">
-                                                        <i class="fas fa-eye"></i> Hiển thị lại
-                                                    </button>
-                                                </form>
-                                            </li>
-                                        }
+									@if (post.Status == "hidden")
+									{
+										<li>
+											<form method="post" asp-action="Unhide" asp-controller="JobPost" asp-route-id="@post.Id">
+												<button class="dropdown-item" type="submit">
+													<i class="fas fa-eye"></i> Hiển thị lại
+												</button>
+											</form>
+										</li>
+									}
 
-                                        <li>
-                                            <form asp-controller="JobPost" asp-action="PushToTop" asp-route-id="@post.Id" method="post">
-                                                <button class="dropdown-item" type="submit">
-                                                    <i class="fas fa-arrow-up"></i> Đẩy bài
-                                                </button>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                    <div class="job-card-body">
-                        <div class="job-description">@post.Description</div>
+									<li>
+										<form asp-controller="JobPost" asp-action="PushToTop" asp-route-id="@post.Id" method="post">
+											<button class="dropdown-item" type="submit">
+												<i class="fas fa-arrow-up"></i> Đẩy bài
+											</button>
+										</form>
+									</li>
+								</ul>
+							</div>
+						</div>
+					}
+				</div>
+				<div class="job-card-body">
+					<div class="job-description">@post.Description</div>
 
-                        <div class="job-details">
-                            <div class="detail-row">
-                                <div class="detail-item">
-                                    <i class="fas fa-briefcase"></i>
-                                    <span class="detail-label">Yêu cầu:</span>
-                                    <span class="detail-value">@post.Requirements</span>
-                                </div>
-                            </div>
+					<!-- Ảnh bài đăng -->
+					<div class="row mt-3 g-2">
+						@if (!string.IsNullOrEmpty(post.ImageMain))
+						{
+							<div class="col-6 col-md-3">
+								<img src="@post.ImageMain" class="img-fluid rounded" alt="ImageMain" />
+							</div>
+						}
+						@if (!string.IsNullOrEmpty(post.Image2))
+						{
+							<div class="col-6 col-md-3">
+								<img src="@post.Image2" class="img-fluid rounded" alt="Image2" />
+							</div>
+						}
+						@if (!string.IsNullOrEmpty(post.Image3))
+						{
+							<div class="col-6 col-md-3">
+								<img src="@post.Image3" class="img-fluid rounded" alt="Image3" />
+							</div>
+						}
+						@if (!string.IsNullOrEmpty(post.Image4))
+						{
+							<div class="col-6 col-md-3">
+								<img src="@post.Image4" class="img-fluid rounded" alt="Image4" />
+							</div>
+						}
+					</div>
 
-                            <div class="detail-row">
-                                <div class="detail-item">
-                                    <i class="fas fa-gift"></i>
-                                    <span class="detail-label">Phúc lợi:</span>
-                                    <span class="detail-value">@post.Benefits</span>
-                                </div>
-                            </div>
+					<div class="job-details">
+						<div class="detail-row">
+							<div class="detail-item">
+								<i class="fas fa-briefcase"></i>
+								<span class="detail-label">Yêu cầu:</span>
+								<span class="detail-value">@post.Requirements</span>
+							</div>
+						</div>
 
-                            <div class="detail-row">
-                                <div class="detail-item">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                    <span class="detail-label">Địa điểm:</span>
-                                    <span class="detail-value">@post.Location</span>
-                                </div>
+						<div class="detail-row">
+							<div class="detail-item">
+								<i class="fas fa-gift"></i>
+								<span class="detail-label">Phúc lợi:</span>
+								<span class="detail-value">@post.Benefits</span>
+							</div>
+						</div>
 
-                                <div class="detail-item">
-                                    <i class="fas fa-money-bill-wave"></i>
-                                    <span class="detail-label">Lương:</span>
-                                    <span class="detail-value">@post.SalaryMin - @post.SalaryMax</span>
-                                </div>
-                            </div>
+						<div class="detail-row">
+							<div class="detail-item">
+								<i class="fas fa-map-marker-alt"></i>
+								<span class="detail-label">Địa điểm:</span>
+								<span class="detail-value">@post.Location</span>
+							</div>
 
-                            <div class="detail-row">
-                                <div class="detail-item">
-                                    <i class="fas fa-clock"></i>
-                                    <span class="detail-label">Loại công việc:</span>
-                                    <span class="detail-value">@post.JobType</span>
-                                </div>
+							<div class="detail-item">
+								<i class="fas fa-money-bill-wave"></i>
+								<span class="detail-label">Lương:</span>
+								<span class="detail-value">@post.SalaryMin - @post.SalaryMax</span>
+							</div>
+						</div>
 
-                                <div class="detail-item">
-                                    <i class="fas fa-star"></i>
-                                    <span class="detail-label">Kinh nghiệm:</span>
-                                    <span class="detail-value">@post.ExperienceLevel</span>
-                                </div>
-                            </div>
+						<div class="detail-row">
+							<div class="detail-item">
+								<i class="fas fa-clock"></i>
+								<span class="detail-label">Loại công việc:</span>
+								<span class="detail-value">@post.JobType</span>
+							</div>
 
-                            <div class="detail-row">
-                                <div class="detail-item">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <span class="detail-label">Hạn nộp:</span>
-                                    <span class="detail-value">@post.Deadline</span>
-                                </div>
+							<div class="detail-item">
+								<i class="fas fa-star"></i>
+								<span class="detail-label">Kinh nghiệm:</span>
+								<span class="detail-value">@post.ExperienceLevel</span>
+							</div>
+						</div>
 
-                                <div class="detail-item">
-                                    <i class="fas fa-tag"></i>
-                                    <span class="detail-label">Loại bài:</span>
-                                    <span class="detail-value post-type @post.PostType">@post.PostType</span>
-                                </div>
+						<div class="detail-row">
+							<div class="detail-item">
+								<i class="fas fa-calendar-alt"></i>
+								<span class="detail-label">Hạn nộp:</span>
+								<span class="detail-value">@post.Deadline</span>
+							</div>
 
-                                <div class="detail-item">
-                                    <i class="fas fa-eye"></i>
-                                    <span class="detail-label">Lượt xem:</span>
-                                    <span class="detail-value">@post.ViewCount</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
+							<div class="detail-item">
+								<i class="fas fa-tag"></i>
+								<span class="detail-label">Loại bài:</span>
+								<span class="detail-value post-type @post.PostType">@post.PostType</span>
+							</div>
+
+							<div class="detail-item">
+								<i class="fas fa-eye"></i>
+								<span class="detail-label">Lượt xem:</span>
+								<span class="detail-value">@post.ViewCount</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>
 </div>
 
 <!-- popup khi không đủ lượt đăng bài -->
 @if (TempData["ShowBuyPopup"]?.ToString() == "true")
 {
-    <div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="buyModalLabel">Thông báo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="alert-icon">
-                        <i class="fas fa-exclamation-circle"></i>
-                    </div>
-                    <p>Bạn không đủ lượt đăng bài!</p>
-                    <p>Vui lòng mua thêm để tiếp tục.</p>
-                </div>
-                <div class="modal-footer">
+	<div class="modal fade" id="buyModal" tabindex="-1" aria-labelledby="buyModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="buyModalLabel">Thông báo</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+				</div>
+				<div class="modal-body">
+					<div class="alert-icon">
+						<i class="fas fa-exclamation-circle"></i>
+					</div>
+					<p>Bạn không đủ lượt đăng bài!</p>
+					<p>Vui lòng mua thêm để tiếp tục.</p>
+				</div>
+				<div class="modal-footer">
 
-                    <a href="/CustomerService/Index" class="btn btn-primary">
-                        <i class="fas fa-shopping-cart"></i> Mua thêm lượt đăng
-                    </a>
+					<a href="/CustomerService/Index" class="btn btn-primary">
+						<i class="fas fa-shopping-cart"></i> Mua thêm lượt đăng
+					</a>
 
 
-                    @* <a href="#" class="btn btn-primary">
-                        <i class="fas fa-shopping-cart"></i> Mua thêm lượt đăng
-                    </a> *@
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        <i class="fas fa-times"></i> Đóng
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+					@* <a href="#" class="btn btn-primary">
+				<i class="fas fa-shopping-cart"></i> Mua thêm lượt đăng
+				</a> *@
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+						<i class="fas fa-times"></i> Đóng
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var myModal = new bootstrap.Modal(document.getElementById('buyModal'));
-            myModal.show();
-        });
-    </script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var myModal = new bootstrap.Modal(document.getElementById('buyModal'));
+			myModal.show();
+		});
+	</script>
 }
 
 <!--chuyển chế độ xem -->
 <script>
-    function updateViewModeUrl(mode) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('viewMode', mode);
-        window.location.href = url.toString();
-    }
+	function updateViewModeUrl(mode) {
+		const url = new URL(window.location.href);
+		url.searchParams.set('viewMode', mode);
+		window.location.href = url.toString();
+	}
 
-    // Add animation to job cards
-    document.addEventListener('DOMContentLoaded', function () {
-        const jobCards = document.querySelectorAll('.job-card');
+	// Add animation to job cards
+	document.addEventListener('DOMContentLoaded', function () {
+		const jobCards = document.querySelectorAll('.job-card');
 
-        // Add animation class with delay
-        jobCards.forEach((card, index) => {
-            setTimeout(() => {
-                card.classList.add('animate-in');
-            }, 100 * index);
-        });
+		// Add animation class with delay
+		jobCards.forEach((card, index) => {
+			setTimeout(() => {
+				card.classList.add('animate-in');
+			}, 100 * index);
+		});
 
-        // Add click effect
-        jobCards.forEach(card => {
-            card.addEventListener('click', function (e) {
-                if (!e.target.closest('.dropdown-toggle') &&
-                    !e.target.closest('.dropdown-menu') &&
-                    !e.target.closest('form') &&
-                    !e.target.closest('a')) {
-                    this.classList.add('card-click');
-                    setTimeout(() => {
-                        this.classList.remove('card-click');
-                    }, 300);
-                }
-            });
-        });
-    });
+		// Add click effect
+		jobCards.forEach(card => {
+			card.addEventListener('click', function (e) {
+				if (!e.target.closest('.dropdown-toggle') &&
+					!e.target.closest('.dropdown-menu') &&
+					!e.target.closest('form') &&
+					!e.target.closest('a')) {
+					this.classList.add('card-click');
+					setTimeout(() => {
+						this.classList.remove('card-click');
+					}, 300);
+				}
+			});
+		});
+	});
 </script>
