@@ -58,7 +58,7 @@ public class CreditController : Controller
     {
         try
         {
-          
+
             // Lấy số tiền từ Session
             var amountStr = HttpContext.Session.GetString("Amount");
             string orderCode = Request.Query["orderCode"];
@@ -119,6 +119,7 @@ public class CreditController : Controller
             TempData["ErrorMessage"] = $"Đã xảy ra lỗi khi xử lý giao dịch: {ex.Message}";
             return RedirectToAction("Error", "Credit");
         }
+        return View();
     }
 
 
@@ -134,6 +135,7 @@ public class CreditController : Controller
         return View();  // Hiển thị trang Cancel
     }
 
+    // hàm chính 
     [HttpPost]
     [Route("payment/webhook")]
     public async Task<IActionResult> Webhook([FromBody] WebhookPayload payload, [FromHeader(Name = "x-payos-signature")] string signature)
@@ -187,6 +189,93 @@ public class CreditController : Controller
         // Trả về phản hồi 200 OK cho webhook sau khi xử lý xong
         return Ok();
     }
+
+    //hàm test 
+   /* [HttpPost]
+    [Route("payment/webhook")]
+    public async Task<IActionResult> Webhook([FromBody] WebhookPayload payload, [FromHeader(Name = "x-payos-signature")] string signature)
+    {
+        try
+        {
+            if (!_payos.VerifyWebhookSignature(payload, signature))
+            {
+                Console.WriteLine("Webhook signature verification failed.");
+                return Unauthorized();
+            }
+
+            if (payload.Status != "PAID")
+            {
+                Console.WriteLine($"Webhook ignored because status is {payload.Status}");
+                return Ok();
+            }
+
+            if (!payload.Description.StartsWith("NAPTIENSJOB+"))
+            {
+                Console.WriteLine("Invalid description format: " + payload.Description);
+                return BadRequest("Invalid description format");
+            }
+
+            var userIdStr = payload.Description.Replace("NAPTIENSJOB+", "");
+            if (!int.TryParse(userIdStr, out int userId))
+            {
+                Console.WriteLine("Invalid userId in description: " + userIdStr);
+                return BadRequest("Invalid userId");
+            }
+
+            var orderCode = payload.OrderCode.ToString();
+            var exists = await _context.CreditTransactions.AnyAsync(x => x.Description.Contains(orderCode));
+            if (exists)
+            {
+                Console.WriteLine("Order code already processed: " + orderCode);
+                return Ok();
+            }
+
+            var userCredit = await _context.UserCredits.FirstOrDefaultAsync(x => x.UserId == userId);
+            var amount = payload.Amount;
+
+            if (userCredit == null)
+            {
+                userCredit = new UserCredit
+                {
+                    UserId = userId,
+                    Balance = amount,
+                    LastUpdated = GetVietnamTime()
+                };
+                _context.UserCredits.Add(userCredit);
+                Console.WriteLine($"Created new UserCredit for user {userId} with amount {amount}");
+            }
+            else
+            {
+                userCredit.Balance += amount;
+                userCredit.LastUpdated = GetVietnamTime();
+                Console.WriteLine($"Updated UserCredit for user {userId}, added amount {amount}, new balance {userCredit.Balance}");
+            }
+
+            var creditTransaction = new CreditTransaction
+            {
+                UserId = userId,
+                Amount = amount,
+                TransactionType = "Topup",
+                BalanceAfter = userCredit.Balance ?? 0,
+                Description = $"Thanh toán qua PayOS (Webhook), mã giao dịch {orderCode}",
+                CreatedAt = GetVietnamTime()
+            };
+            _context.CreditTransactions.Add(creditTransaction);
+
+            await _context.SaveChangesAsync();
+
+            Console.WriteLine("Saved changes for user " + userId + ", orderCode: " + orderCode);
+
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Exception in webhook: " + ex.Message);
+            return StatusCode(500, "Internal Server Error");
+        }
+    }*/
+
+
 
     private DateTime GetVietnamTime()
     {

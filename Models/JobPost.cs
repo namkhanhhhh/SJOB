@@ -38,7 +38,7 @@ public partial class JobPost
 
     public DateOnly? Deadline { get; set; }
 
-    public string ImageMain { get; set; } = "image";
+    public string ImageMain { get; set; } = "iamge";
 
     public string? Image2 { get; set; }
 

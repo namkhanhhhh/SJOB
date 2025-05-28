@@ -1,7 +1,7 @@
 ﻿@model SJOB_EXE201.Models.JobPost
 
 @{
-    ViewData["Title"] = "Tạo Tin Tuyển Dụng";
+	ViewData["Title"] = "Tạo Tin Tuyển Dụng";
 }
 <link rel="stylesheet" href="~/css/customer-services.css" />
 
@@ -10,7 +10,7 @@
         <h2><i class="fas fa-plus-circle"></i> @ViewData["Title"]</h2>
     </div>
 
-    <form asp-action="Create" method="post">
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
 
         <div class="form-section">
@@ -26,16 +26,34 @@
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
 
-                <div class="form-group">
-                    <label asp-for="Location" class="form-label">
-                        <i class="fas fa-map-marker-alt"></i> Địa điểm
-                    </label>
-                    <input asp-for="Location" class="form-control" placeholder="Nhập địa điểm làm việc" />
-                    <span asp-validation-for="Location" class="text-danger"></span>
-                </div>
-            </div>
+		<div class="form-group">
+			<label>Tỉnh/Thành phố</label>
+                    <select id="province" class="form-control" required>
+                        <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                    </select>
+		</div>
 
-            <div class="form-row">
+		<div class="form-group">
+			<label>Quận/Huyện</label>
+			<select id="district" class="form-control" required></select>
+		</div>
+
+		<div class="form-group">
+			<label>Phường/Xã</label>
+			<select id="ward" class="form-control" required></select>
+		</div>
+
+		<div class="form-group">
+			<label for="SpecificAddress">Địa điểm cụ thể (VD: Số nhà, thôn, đường...)</label>
+			<input type="text" name="SpecificAddress" class="form-control" />
+		</div>
+
+		<!-- Hidden inputs để gửi dữ liệu về controller -->
+		<input type="hidden" name="Province" id="ProvinceHidden" />
+		<input type="hidden" name="District" id="DistrictHidden" />
+		<input type="hidden" name="Ward" id="WardHidden" />
+
+        <div class="form-row">
                 <div class="form-group">
                     <label asp-for="JobType" class="form-label">
                         <i class="fas fa-briefcase"></i> Hình thức làm việc
@@ -44,6 +62,24 @@
                     <span asp-validation-for="JobType" class="text-danger"></span>
                 </div>
 
+		<!--thêm ảnh-->
+		<div class="mb-3">
+			<label for="ImageMain" class="form-label">Ảnh chính (bắt buộc):</label>
+                        <input type="file" class="form-control" id="ImageMainFile" name="ImageMainFile" accept="image/*" required />
+		</div>
+
+		<div class="form-group">
+			<label>Ảnh 2</label>
+			<input type="file" name="Image2File" accept="image/*" class="form-control" />
+		</div>
+		<div class="form-group">
+			<label>Ảnh 3</label>
+			<input type="file" name="Image3File" accept="image/*" class="form-control" />
+		</div>
+		<div class="form-group">
+			<label>Ảnh 4</label>
+			<input type="file" name="Image4File" accept="image/*" class="form-control" />
+		</div>
                 <div class="form-group">
                     <label asp-for="ExperienceLevel" class="form-label">
                         <i class="fas fa-star"></i> Kinh nghiệm
@@ -147,6 +183,7 @@
         </div>
 
         <div class="form-actions">
+                <div asp-validation-summary="All" class="text-danger"></div>
             <button type="submit" class="btn btn-success">
                 <i class="fas fa-check-circle"></i> Tạo tin tuyển dụng
             </button>
@@ -159,7 +196,71 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			const provinceSelect = document.getElementById('province');
+			const districtSelect = document.getElementById('district');
+			const wardSelect = document.getElementById('ward');
+
+			// Load danh sách tỉnh
+			fetch('https://provinces.open-api.vn/api/p/')
+				.then(res => res.json())
+				.then(data => {
+					data.forEach(province => {
+						const option = document.createElement('option');
+						option.value = province.code;
+						option.textContent = province.name;
+						provinceSelect.appendChild(option);
+					});
+				});
+
+			// Khi chọn tỉnh → load huyện
+			provinceSelect.addEventListener('change', () => {
+				const code = provinceSelect.value;
+				districtSelect.innerHTML = '<option value="">-- Chọn huyện --</option>';
+				wardSelect.innerHTML = '<option value="">-- Chọn xã --</option>';
+				document.getElementById('ProvinceHidden').value = provinceSelect.options[provinceSelect.selectedIndex].text;
+
+				if (!code) return;
+				fetch(`https://provinces.open-api.vn/api/p/${code}?depth=2`)
+					.then(res => res.json())
+					.then(data => {
+						data.districts.forEach(d => {
+							const option = document.createElement('option');
+							option.value = d.code;
+							option.textContent = d.name;
+							districtSelect.appendChild(option);
+						});
+					});
+			});
+
+			// Khi chọn huyện → load xã
+			districtSelect.addEventListener('change', () => {
+				const code = districtSelect.value;
+				wardSelect.innerHTML = '<option value="">-- Chọn xã --</option>';
+				document.getElementById('DistrictHidden').value = districtSelect.options[districtSelect.selectedIndex].text;
+
+				if (!code) return;
+				fetch(`https://provinces.open-api.vn/api/d/${code}?depth=2`)
+					.then(res => res.json())
+					.then(data => {
+						data.wards.forEach(w => {
+							const option = document.createElement('option');
+							option.value = w.name;
+							option.textContent = w.name;
+							wardSelect.appendChild(option);
+						});
+					});
+			});
+
+			// Khi chọn xã → cập nhật hidden
+			wardSelect.addEventListener('change', () => {
+				document.getElementById('WardHidden').value = wardSelect.options[wardSelect.selectedIndex].text;
+			});
+		});
+	</script>
+
 }
