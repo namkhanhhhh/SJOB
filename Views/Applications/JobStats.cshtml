@@ -1,0 +1,496 @@
+﻿@model SJOB_EXE201.ViewModels.JobStatsViewModel
+@{
+    ViewData["Title"] = "Thống kê bài đăng";
+    Layout = "~/Views/Shared/_EmployerLayout.cshtml";
+}
+
+<div class="content-container">
+    <div class="page-header">
+        <div>
+            <a href="@Url.Action("Index", "Applications")" class="btn btn-sm btn-outline-secondary mb-2">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+            <h1>Thống kê bài đăng</h1>
+        </div>
+    </div>
+
+    <div class="job-stats">
+        <div class="job-header">
+            <h2 class="job-title">@Model.JobPost.Title</h2>
+            <div class="job-meta">
+                <span class="job-type">@Model.JobPost.JobType</span>
+                <span class="job-location"><i class="fas fa-map-marker-alt"></i> @Model.JobPost.Location</span>
+                <span class="job-date"><i class="fas fa-calendar-alt"></i> Đăng ngày @Model.JobPost.CreatedAt.Value.ToString("dd/MM/yyyy")</span>
+            </div>
+        </div>
+
+        <div class="stats-cards">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon views-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">@Model.TotalViews</div>
+                            <div class="stat-label">Lượt xem</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon unique-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">@Model.UniqueViewers</div>
+                            <div class="stat-label">Người xem</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon applications-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">@Model.TotalApplications</div>
+                            <div class="stat-label">Đơn ứng tuyển</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon conversion-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-value">@Model.ConversionRate.ToString("0.0")%</div>
+                            <div class="stat-label">Tỷ lệ chuyển đổi</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card application-status-card">
+                    <div class="card-body">
+                        <h3 class="card-title">Trạng thái đơn ứng tuyển</h3>
+                        <div class="status-chart">
+                            <div class="status-bars">
+                                @if (Model.TotalApplications > 0)
+                                {
+                                    <div class="status-bar-container">
+                                        <div class="status-label">Đang chờ</div>
+                                        <div class="status-bar">
+                                            <div class="status-progress pending" style="width: @(Model.PendingApplications * 100 / Model.TotalApplications)%"></div>
+                                        </div>
+                                        <div class="status-value">@Model.PendingApplications</div>
+                                    </div>
+                                    <div class="status-bar-container">
+                                        <div class="status-label">Đã chấp nhận</div>
+                                        <div class="status-bar">
+                                            <div class="status-progress accepted" style="width: @(Model.AcceptedApplications * 100 / Model.TotalApplications)%"></div>
+                                        </div>
+                                        <div class="status-value">@Model.AcceptedApplications</div>
+                                    </div>
+                                    <div class="status-bar-container">
+                                        <div class="status-label">Đã từ chối</div>
+                                        <div class="status-bar">
+                                            <div class="status-progress rejected" style="width: @(Model.RejectedApplications * 100 / Model.TotalApplications)%"></div>
+                                        </div>
+                                        <div class="status-value">@Model.RejectedApplications</div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="empty-chart">
+                                        <i class="fas fa-chart-bar"></i>
+                                        <p>Chưa có đơn ứng tuyển nào</p>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card job-details-card">
+                    <div class="card-body">
+                        <h3 class="card-title">Chi tiết bài đăng</h3>
+                        <div class="job-details-list">
+                            <div class="detail-item">
+                                <div class="detail-label">Loại bài đăng</div>
+                                <div class="detail-value post-type-@Model.JobPost.PostType">@Model.JobPost.PostType</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Hạn nộp hồ sơ</div>
+                                <div class="detail-value">@(Model.JobPost.Deadline?.ToString("dd/MM/yyyy") ?? "Không giới hạn")</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Mức lương</div>
+                                <div class="detail-value">@Model.JobPost.SalaryMin - @Model.JobPost.SalaryMax</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Kinh nghiệm</div>
+                                <div class="detail-value">@Model.JobPost.ExperienceLevel</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Trạng thái</div>
+                                <div class="detail-value job-status-@Model.JobPost.Status">
+                                    @(Model.JobPost.Status == "active" ? "Đang hoạt động" :
+                                        Model.JobPost.Status == "hidden" ? "Đã ẩn" :
+                                        Model.JobPost.Status == "expired" ? "Hết hạn" : Model.JobPost.Status)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card applicants-card">
+            <div class="card-body">
+                <h3 class="card-title">Danh sách ứng viên</h3>
+                @if (Model.JobPost.Applications != null && Model.JobPost.Applications.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover applicants-table">
+                            <thead>
+                                <tr>
+                                    <th>Ứng viên</th>
+                                    <th>Ngày ứng tuyển</th>
+                                    <th>Trạng thái</th>
+                                    <th>Thao tác</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var application in Model.JobPost.Applications.OrderByDescending(a => a.CreatedAt))
+                                {
+                                    var userDetail = application.User?.UserDetails?.FirstOrDefault();
+                                    var fullName = userDetail != null ? $"{userDetail.FirstName} {userDetail.LastName}" : application.User?.Username;
+
+                                    <tr>
+                                        <td>
+                                            <div class="applicant-info">
+                                                <img src="@(string.IsNullOrEmpty(application.User?.Avatar) ? "/images/avatars/default.png" : application.User.Avatar)"
+                                                     alt="@fullName" class="applicant-avatar" />
+                                                <div>
+                                                    <div class="applicant-name">@fullName</div>
+                                                    <div class="applicant-email">@application.User?.Email</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="application-date">@application.CreatedAt.Value.ToString("dd/MM/yyyy")</div>
+                                            <div class="application-time">@application.CreatedAt.Value.ToString("HH:mm")</div>
+                                        </td>
+                                        <td>
+                                            <span class="status-badge status-@application.Status">
+                                                @(application.Status == "pending" ? "Đang chờ" :
+                                                    application.Status == "accepted" ? "Đã chấp nhận" :
+                                                    application.Status == "rejected" ? "Đã từ chối" : application.Status)
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("Details", "Applications", new { id = application.Id })" class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-eye"></i> Chi tiết
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="empty-applicants">
+                        <i class="fas fa-users"></i>
+                        <p>Chưa có ứng viên nào ứng tuyển vào vị trí này</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .job-header {
+        margin-bottom: 2rem;
+    }
+
+    .job-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    .job-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        color: var(--text-secondary);
+    }
+
+    .stats-cards {
+        margin-bottom: 2rem;
+    }
+
+    .stat-card {
+        background-color: var(--bg-primary);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        height: 100%;
+        transition: transform 0.3s ease;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+    }
+
+    .views-icon {
+        background-color: var(--info);
+    }
+
+    .unique-icon {
+        background-color: var(--secondary-color);
+    }
+
+    .applications-icon {
+        background-color: var(--primary-color);
+    }
+
+    .conversion-icon {
+        background-color: var(--success);
+    }
+
+    .stat-content {
+        flex: 1;
+    }
+
+    .stat-value {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+
+    .stat-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+    }
+
+    .application-status-card, .job-details-card, .applicants-card {
+        border: none;
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1.25rem;
+        color: var(--text-primary);
+    }
+
+    .status-bars {
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+    }
+
+    .status-bar-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .status-label {
+        width: 100px;
+        font-weight: 500;
+        color: var(--text-primary);
+    }
+
+    .status-bar {
+        flex: 1;
+        height: 10px;
+        background-color: #e2e8f0;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    .status-progress {
+        height: 100%;
+        border-radius: 5px;
+    }
+
+        .status-progress.pending {
+            background-color: var(--text-secondary);
+        }
+
+        .status-progress.accepted {
+            background-color: var(--success);
+        }
+
+        .status-progress.rejected {
+            background-color: var(--danger);
+        }
+
+    .status-value {
+        width: 40px;
+        text-align: right;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    .empty-chart, .empty-applicants {
+        text-align: center;
+        padding: 2rem;
+        color: var(--text-muted);
+    }
+
+        .empty-chart i, .empty-applicants i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+    .job-details-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .detail-label {
+        color: var(--text-secondary);
+    }
+
+    .detail-value {
+        font-weight: 500;
+        color: var(--text-primary);
+    }
+
+    .post-type-silver {
+        color: var(--silver);
+    }
+
+    .post-type-gold {
+        color: var(--gold);
+    }
+
+    .post-type-diamond {
+        color: var(--diamond);
+    }
+
+    .job-status-active {
+        color: var(--success);
+    }
+
+    .job-status-hidden {
+        color: var(--text-muted);
+    }
+
+    .job-status-expired {
+        color: var(--danger);
+    }
+
+    .applicants-table {
+        margin-top: 1rem;
+    }
+
+        .applicants-table th {
+            background-color: #f8fafc;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .applicants-table td {
+            padding: 0.75rem 1rem;
+            vertical-align: middle;
+        }
+
+    .applicant-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .applicant-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .applicant-name {
+        font-weight: 500;
+        color: var(--text-primary);
+    }
+
+    .applicant-email {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
+
+    .application-date {
+        font-weight: 500;
+    }
+
+    .application-time {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.35rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .status-pending {
+        background-color: #f8fafc;
+        color: var(--text-secondary);
+        border: 1px solid #e2e8f0;
+    }
+
+    .status-accepted {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .status-rejected {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--danger);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+</style>

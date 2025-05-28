@@ -6,7 +6,7 @@
 
 <div class="container my-5">
     <div class="row">
-        <!-- Employer Profile Section -->
+        <!-- Phần Hồ Sơ Nhà Tuyển Dụng -->
         <div class="col-md-4">
             <div class="card mb-4">
                 <div class="card-body text-center">
@@ -29,50 +29,50 @@
                     {
                         <div class="mb-2">
                             <span class="badge bg-primary">
-                                <i class="fas fa-check-circle me-1"></i> Verified Employer
+                                <i class="fas fa-check-circle me-1"></i> Nhà Tuyển Dụng Đã Xác Thực
                             </span>
                         </div>
                     }
 
                     <p class="text-muted">
                         <i class="fas fa-briefcase me-2"></i>
-                        @(Model.CompanyProfile?.Industry ?? "Not specified")
+                        @(Model.CompanyProfile?.Industry ?? "Chưa cung cấp")
                     </p>
 
                     <p class="text-muted">
                         <i class="fas fa-users me-2"></i>
-                        @(Model.CompanyProfile?.CompanySize ?? "Not specified") employees
+                        @(Model.CompanyProfile?.CompanySize ?? "Chưa cung cấp") nhân viên
                     </p>
 
                     <p class="text-muted">
                         <i class="fas fa-calendar-alt me-2"></i>
-                        Member since @Model.JoinedDate.ToString("MMMM yyyy")
+                        Thành viên từ @Model.JoinedDate.ToString("MMMM yyyy")
                     </p>
 
                     <div class="d-flex justify-content-center gap-3 mt-3">
                         <div class="text-center">
                             <h4>@Model.TotalJobPosts</h4>
-                            <small class="text-muted">Job Posts</small>
+                            <small class="text-muted">Tin Tuyển Dụng</small>
                         </div>
                         <div class="text-center">
                             <h4>@Model.ProfileViewCount</h4>
-                            <small class="text-muted">Profile Views</small>
+                            <small class="text-muted">Lượt Xem Hồ Sơ</small>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Contact Information -->
+            <!-- Thông Tin Liên Hệ -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Contact Information</h5>
+                    <h5 class="card-title mb-0">Thông Tin Liên Hệ</h5>
                 </div>
                 <div class="card-body">
                     <ul class="list-group list-group-flush">
                         @if (!string.IsNullOrEmpty(Model.Employer.UserDetails.FirstOrDefault()?.PhoneNumber))
                         {
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span><i class="fas fa-phone me-2"></i>Phone</span>
+                                <span><i class="fas fa-phone me-2"></i>Điện Thoại</span>
                                 <div class="d-flex align-items-center">
                                     <span id="phoneNumber">@Model.Employer.UserDetails.FirstOrDefault()?.PhoneNumber</span>
                                     <button class="btn btn-sm btn-outline-primary ms-2" onclick="copyToClipboard('phoneNumber')">
@@ -100,7 +100,7 @@
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <span><i class="fas fa-globe me-2"></i>Website</span>
                                 <a href="@Model.CompanyProfile.CompanyWebsite" target="_blank" class="text-primary">
-                                    Visit Website <i class="fas fa-external-link-alt ms-1"></i>
+                                    Truy Cập Website <i class="fas fa-external-link-alt ms-1"></i>
                                 </a>
                             </li>
                         }
@@ -108,12 +108,12 @@
                 </div>
             </div>
 
-            <!-- Company Description -->
+            <!-- Mô Tả Công Ty -->
             @if (!string.IsNullOrEmpty(Model.CompanyProfile?.CompanyDescription))
             {
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title mb-0">About the Company</h5>
+                        <h5 class="card-title mb-0">Giới Thiệu Công Ty</h5>
                     </div>
                     <div class="card-body">
                         <p>@Html.Raw(Model.CompanyProfile.CompanyDescription.Replace("\n", "<br>"))</p>
@@ -122,18 +122,18 @@
             }
         </div>
 
-        <!-- Job Listings Section -->
+        <!-- Phần Danh Sách Công Việc -->
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Job Listings (@Model.TotalJobPosts)</h5>
+                    <h5 class="card-title mb-0">Danh Sách Công Việc (@Model.TotalJobPosts)</h5>
                 </div>
                 <div class="card-body">
                     @if (!Model.JobPosts.Any())
                     {
                         <div class="alert alert-info">
                             <i class="fas fa-info-circle me-2"></i>
-                            This employer has no active job listings at the moment.
+                            Nhà tuyển dụng này hiện không có tin tuyển dụng nào đang hoạt động.
                         </div>
                     }
                     else
@@ -152,14 +152,14 @@
                                                 <div class="d-flex align-items-center">
                                                     @if (job.PostType == "diamond")
                                                     {
-                                                        <span class="badge bg-warning text-dark me-2">Premium</span>
+                                                        <span class="badge bg-warning text-dark me-2">Cao Cấp</span>
                                                     }
                                                     @if (User.Identity.IsAuthenticated)
                                                     {
                                                         <button class="btn-wishlist @(Model.WishlistJobIds.Contains(job.Id) ? "active" : "")"
                                                                 data-job-id="@job.Id"
                                                                 data-is-in-wishlist="@(Model.WishlistJobIds.Contains(job.Id) ? "true" : "false")"
-                                                                title="@(Model.WishlistJobIds.Contains(job.Id) ? "Remove from wishlist" : "Add to wishlist")">
+                                                                title="@(Model.WishlistJobIds.Contains(job.Id) ? "Xóa khỏi danh sách yêu thích" : "Thêm vào danh sách yêu thích")">
                                                             <i class="@(Model.WishlistJobIds.Contains(job.Id) ? "fas" : "far") fa-heart"></i>
                                                         </button>
                                                     }
@@ -171,17 +171,17 @@
                                             <p class="card-text salary mb-1">
                                                 <i class="fas fa-money-bill-wave me-2 text-primary"></i>
                                                 @(job.SalaryMin.HasValue && job.SalaryMax.HasValue
-                                                    ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/hour"
-                                                    : "Negotiable")
+                                                    ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/giờ"
+                                                    : "Thương lượng")
                                             </p>
                                             <p class="card-text mb-3">
                                                 <i class="fas fa-calendar-alt me-2 text-primary"></i>
-                                                Posted on @job.CreatedAt?.ToString("MMM dd, yyyy")
+                                                Đăng ngày @job.CreatedAt?.ToString("dd/MM/yyyy")
                                             </p>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <span class="badge bg-primary">@job.JobType</span>
                                                 <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="btn btn-sm btn-outline-primary">
-                                                    View Details
+                                                    Xem Chi Tiết
                                                 </a>
                                             </div>
                                         </div>
@@ -201,35 +201,35 @@
         function copyToClipboard(elementId) {
             var text = document.getElementById(elementId).innerText;
             navigator.clipboard.writeText(text).then(function () {
-                // Show success message
+                // Hiển thị thông báo thành công
                 var toast = document.createElement('div');
                 toast.className = 'position-fixed bottom-0 end-0 p-3';
                 toast.style.zIndex = '5';
                 toast.innerHTML = `
-                            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-                                <div class="toast-header bg-success text-white">
-                                    <i class="fas fa-check-circle me-2"></i>
-                                    <strong class="me-auto">Success</strong>
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
-                                </div>
-                                <div class="toast-body">
-                                    Copied to clipboard!
-                                </div>
-                            </div>
-                        `;
+                                    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                                        <div class="toast-header bg-success text-white">
+                                            <i class="fas fa-check-circle me-2"></i>
+                                            <strong class="me-auto">Thành Công</strong>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                                        </div>
+                                        <div class="toast-body">
+                                            Đã sao chép vào clipboard!
+                                        </div>
+                                    </div>
+                                `;
                 document.body.appendChild(toast);
 
-                // Remove toast after 3 seconds
+                // Xóa thông báo sau 3 giây
                 setTimeout(function () {
                     document.body.removeChild(toast);
                 }, 3000);
             }, function (err) {
-                console.error('Could not copy text: ', err);
+                console.error('Không thể sao chép văn bản: ', err);
             });
         }
 
         $(document).ready(function () {
-            // Wishlist toggle functionality
+            // Chức năng thêm/xóa danh sách yêu thích
             $('.btn-wishlist').click(function () {
                 var jobId = $(this).data('job-id');
                 var $button = $(this);
@@ -243,16 +243,16 @@
                             $button.addClass('active');
                             $button.find('i').removeClass('far').addClass('fas');
                             $button.attr('data-is-in-wishlist', 'true');
-                            $button.attr('title', 'Remove from wishlist');
+                            $button.attr('title', 'Xóa khỏi danh sách yêu thích');
                         } else {
                             $button.removeClass('active');
                             $button.find('i').removeClass('fas').addClass('far');
                             $button.attr('data-is-in-wishlist', 'false');
-                            $button.attr('title', 'Add to wishlist');
+                            $button.attr('title', 'Thêm vào danh sách yêu thích');
                         }
                     },
                     error: function () {
-                        console.error('Error updating wishlist');
+                        console.error('Lỗi khi cập nhật danh sách yêu thích');
                     }
                 });
             });

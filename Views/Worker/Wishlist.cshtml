@@ -1,6 +1,6 @@
 ﻿@model SJOB_EXE201.ViewModels.WishlistViewModel
 @{
-    ViewData["Title"] = "My Wishlist";
+    ViewData["Title"] = "Danh Sách Yêu Thích";
     Layout = "_WorkerLayout";
 }
 
@@ -8,12 +8,12 @@
     <div class="wishlist-header">
         <div class="page-header">
             <h1>
-                <i class="fas fa-heart me-2"></i> My Wishlist
+                <i class="fas fa-heart me-2"></i> Danh Sách Yêu Thích
                 <span class="badge bg-primary">@Model.TotalJobs</span>
             </h1>
         </div>
         <a href="@Url.Action("Index", "Worker")" class="btn btn-outline-primary browse-btn">
-            <i class="fas fa-search"></i> Browse Jobs
+            <i class="fas fa-search"></i> Tìm Kiếm Công Việc
         </a>
     </div>
 
@@ -21,10 +21,10 @@
     {
         <div class="empty-state">
             <i class="far fa-heart"></i>
-            <h3>Your Wishlist is Empty</h3>
-            <p>Save jobs you're interested in by clicking the heart icon. Your saved jobs will appear here for easy access.</p>
+            <h3>Danh Sách Yêu Thích Của Bạn Đang Trống</h3>
+            <p>Lưu các công việc bạn quan tâm bằng cách nhấp vào biểu tượng trái tim. Các công việc đã lưu sẽ xuất hiện ở đây để dễ dàng truy cập.</p>
             <a href="@Url.Action("Index", "Worker")" class="btn btn-primary action-btn">
-                <i class="fas fa-search me-2"></i> Find Jobs
+                <i class="fas fa-search me-2"></i> Tìm Kiếm Công Việc
             </a>
         </div>
     }
@@ -45,7 +45,7 @@
                                         <h5 class="card-title">@job.Title</h5>
                                         <form asp-controller="Worker" asp-action="RemoveFromWishlist" method="post" class="d-inline">
                                             <input type="hidden" name="jobId" value="@job.Id" />
-                                            <button type="submit" class="btn btn-heart" title="Remove from wishlist">
+                                            <button type="submit" class="btn btn-heart" title="Xóa khỏi danh sách yêu thích">
                                                 <i class="fas fa-heart"></i>
                                             </button>
                                         </form>
@@ -62,14 +62,14 @@
                                         <i class="fas fa-money-bill-wave"></i>
                                         <span>
                                             @(job.SalaryMin.HasValue && job.SalaryMax.HasValue
-                                                ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/hour"
-                                                : "Negotiable")
+                                                ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/giờ"
+                                                : "Thương lượng")
                                         </span>
                                     </p>
                                     <div class="d-flex justify-content-between align-items-center mt-3">
                                         <span class="badge bg-primary">@job.JobType</span>
                                         <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="btn btn-sm btn-outline-primary">
-                                            <i class="fas fa-eye me-1"></i> View Details
+                                            <i class="fas fa-eye me-1"></i> Xem Chi Tiết
                                         </a>
                                     </div>
                                 </div>

@@ -5,115 +5,130 @@
     ViewData["Title"] = "Thanh toán gói dịch vụ";
     var itemName = Model.Type == "service" ? Model.Service?.Name : Model.Combo?.Name;
     var itemPrice = Model.Type == "service" ? Model.Service?.Price : Model.Combo?.Price;
-    // Chuyển đổi ViewData["Balance"] thành chuỗi JavaScript an toàn
     var userBalanceJs = ViewData["Balance"] != null ? ViewData["Balance"].ToString() : "0";
     var itemPriceJs = itemPrice != null ? itemPrice.ToString() : "0";
-    
-    //var debugBalance = ViewData["Balance"] != null ? Convert.ToDecimal(ViewData["Balance"]) : 0;
-    //var debugItemPrice = itemPrice != null ? itemPrice : 0;
-    //var hasEnoughBalance = debugItemPrice <= debugBalance;
 }
 
-<h2 class="mb-4">Thông tin gói</h2>
+<link rel="stylesheet" href="~/css/customer-services.css" />
 
-@* <div class="alert alert-secondary mb-3">
-    <p><strong>Debug:</strong></p>
-    <p>Số dư (Balance): @debugBalance CD</p>
-    <p>Giá (ItemPrice): @debugItemPrice CD</p>
-    <p>Đủ tiền: @hasEnoughBalance</p>
-</div> *@
 
-<div class="card p-3 mb-3">
-    <p><strong>Tên gói:</strong> @itemName</p>
-    <p><strong>Giá:</strong> @itemPrice CD / gói</p>
-    <p><strong>Số dư hiện tại:</strong> @ViewData["Balance"] CD</p>
+<div class="form-container">
+    <div class="form-header">
+        <h2><i class="fas fa-shopping-cart"></i> @ViewData["Title"]</h2>
+    </div>
 
-    @if (Model.Type == "service" && Model.Service != null)
-    {
-        <div class="mt-2">
-            <p><strong>Bao gồm:</strong></p>
-            <ul>
-                @if (Model.Service.ServiceType == "silver_post")
-                {
-                    <p><strong>Số lượt Silver Post:</strong> @Model.Service.SilverPostsIncluded</p>
-                }
-                else if (Model.Service.ServiceType == "gold_post")
-                {
-                    <p><strong>Số lượt Gold Post:</strong> @Model.Service.GoldPostsIncluded</p>
-                }
-                else if (Model.Service.ServiceType == "diamond_post")
-                {
-                    <p><strong>Số lượt Diamond Post:</strong> @Model.Service.DiamondPostsIncluded</p>
-                }
-                else if (Model.Service.ServiceType == "push_to_top")
-                {
-                    <p><strong>Số lượt Push to top:</strong> @Model.Service.PushToTopAvailable</p>
-                }
-                else if (Model.Service.ServiceType == "verified_badge")
-                {
-                    <p><strong>Số lượt Authen logo:</strong> @Model.Service.AuthenLogoAvailable</p>
-                }
+    <div class="package-info-card">
+        <div class="card-body">
+            <h3 class="package-name">@itemName</h3>
 
-            </ul>
+            <dl class="package-details">
+                <dt><i class="fas fa-tag"></i> Giá:</dt>
+                <dd class="package-price">@itemPrice CD / gói</dd>
+
+                <dt><i class="fas fa-wallet"></i> Số dư hiện tại:</dt>
+                <dd>@ViewData["Balance"] CD</dd>
+            </dl>
+
+            @if (Model.Type == "service" && Model.Service != null)
+            {
+                <div class="mt-4">
+                    <h4 class="mb-3"><i class="fas fa-list-check"></i> Bao gồm:</h4>
+                    <ul class="feature-list">
+                        @if (Model.Service.ServiceType == "silver_post")
+                        {
+                            <li><i class="fas fa-check-circle"></i> <strong>Số lượt Silver Post:</strong> @Model.Service.SilverPostsIncluded</li>
+                        }
+                        else if (Model.Service.ServiceType == "gold_post")
+                        {
+                            <li><i class="fas fa-check-circle"></i> <strong>Số lượt Gold Post:</strong> @Model.Service.GoldPostsIncluded</li>
+                        }
+                        else if (Model.Service.ServiceType == "diamond_post")
+                        {
+                            <li><i class="fas fa-check-circle"></i> <strong>Số lượt Diamond Post:</strong> @Model.Service.DiamondPostsIncluded</li>
+                        }
+                        else if (Model.Service.ServiceType == "push_to_top")
+                        {
+                            <li><i class="fas fa-check-circle"></i> <strong>Số lượt Push to top:</strong> @Model.Service.PushToTopAvailable</li>
+                        }
+                        else if (Model.Service.ServiceType == "verified_badge")
+                        {
+                            <li><i class="fas fa-check-circle"></i> <strong>Số lượt Authen logo:</strong> @Model.Service.AuthenLogoAvailable</li>
+                        }
+                    </ul>
+                </div>
+            }
+            @if (Model.Type == "combo" && Model.Combo != null)
+            {
+                <div class="mt-4">
+                    <h4 class="mb-3"><i class="fas fa-list-check"></i> Bao gồm:</h4>
+                    <ul class="feature-list">
+                        @if (Model.Combo.SilverPosts > 0)
+                        {
+                            <li><i class="fas fa-check-circle"></i> @Model.Combo.SilverPosts tin bạc</li>
+                        }
+                        @if (Model.Combo.GoldPosts > 0)
+                        {
+                            <li><i class="fas fa-check-circle"></i> @Model.Combo.GoldPosts tin vàng</li>
+                        }
+                        @if (Model.Combo.DiamondPosts > 0)
+                        {
+                            <li><i class="fas fa-check-circle"></i> @Model.Combo.DiamondPosts tin kim cương</li>
+                        }
+                        @if (Model.Combo.PushTopTimes > 0)
+                        {
+                            <li><i class="fas fa-check-circle"></i> @Model.Combo.PushTopTimes lượt đẩy tin</li>
+                        }
+                    </ul>
+                </div>
+            }
         </div>
-    }
-    @if (Model.Type == "combo" && Model.Combo != null)
+    </div>
+
+    <form method="post" asp-action="Buy" asp-controller="CustomerService" asp-route-id="@Model.Id" asp-route-type="@Model.Type" class="mt-4">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.Id" />
+        <input type="hidden" name="type" value="@Model.Type" />
+
+        <div class="form-section">
+            <div class="form-section-title">
+                <i class="fas fa-calculator"></i> Thông tin thanh toán
+            </div>
+
+            <div class="form-group mb-4">
+                <label for="quantity" class="form-label">
+                    <i class="fas fa-hashtag"></i> Số lượng:
+                </label>
+                <input type="number" name="quantity" id="quantity" class="form-control quantity-input" value="1" min="1" onchange="updateTotalPrice()" />
+            </div>
+
+            <div class="total-price-alert">
+                <p><i class="fas fa-money-bill-wave"></i> <strong>Tổng tiền:</strong> <span id="totalPrice" class="total-price">@itemPrice</span> CD</p>
+                @if (itemPrice > Convert.ToDecimal(ViewData["Balance"]))
+                {
+                    <p class="insufficient-balance">
+                        <i class="fas fa-exclamation-triangle"></i> Số dư của bạn không đủ để mua gói này. Bạn cần thêm @(itemPrice - Convert.ToDecimal(ViewData["Balance"])) CD.
+                    </p>
+                }
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" @(itemPrice > Convert.ToDecimal(ViewData["Balance"]) ? "disabled" : "")>
+                <i class="fas fa-credit-card"></i> Thanh toán
+            </button>
+            <a href="@Url.Action("Index", "CustomerService")" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+        </div>
+    </form>
+
+    @if (TempData["Error"] != null)
     {
-        <div class="mt-2">
-            <p><strong>Bao gồm:</strong></p>
-            <ul>
-                @if (Model.Combo.SilverPosts > 0)
-                {
-                    <li>@Model.Combo.SilverPosts tin bạc</li>
-                }
-                @if (Model.Combo.GoldPosts > 0)
-                {
-                    <li>@Model.Combo.GoldPosts tin vàng</li>
-                }
-                @if (Model.Combo.DiamondPosts > 0)
-                {
-                    <li>@Model.Combo.DiamondPosts tin kim cương</li>
-                }
-                @if (Model.Combo.PushTopTimes > 0)
-                {
-                    <li>@Model.Combo.PushTopTimes lượt đẩy tin</li>
-                }
-            </ul>
+        <div class="alert alert-danger mt-3">
+            <i class="fas fa-exclamation-triangle"></i> @TempData["Error"]
         </div>
     }
 </div>
-
-<form method="post" asp-action="Buy" asp-controller="CustomerService" asp-route-id="@Model.Id" asp-route-type="@Model.Type">
-    @Html.AntiForgeryToken()
-    <input type="hidden" name="id" value="@Model.Id" />
-    <input type="hidden" name="type" value="@Model.Type" />
-
-    <div class="form-group mb-2">
-        <label for="quantity"><strong>Số lượng:</strong></label>
-        <input type="number" name="quantity" id="quantity" class="form-control w-25" value="1" min="1" onchange="updateTotalPrice()" />
-    </div>
-
-    <div class="alert alert-info mb-3">
-        <p><strong>Tổng tiền:</strong> <span id="totalPrice">@itemPrice</span> CD</p>
-        @if (itemPrice > Convert.ToDecimal(ViewData["Balance"]))
-        {
-            <p class="text-danger">Số dư của bạn không đủ để mua gói này. Bạn cần thêm @(itemPrice - Convert.ToDecimal(ViewData["Balance"])) CD.</p>
-        }
-    </div>
-
-    <div class="d-flex gap-2">
-        <button type="submit" class="btn btn-primary" @(itemPrice > Convert.ToDecimal(ViewData["Balance"]) ? "disabled" : "")>Thanh toán</button>
-        <a href="@Url.Action("Index", "CustomerService")" class="btn btn-outline-secondary">Quay lại</a>
-    </div>
-</form>
-
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger mt-3">
-        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-        @TempData["Error"]
-    </div>
-}
 
 @section Scripts {
     <script>

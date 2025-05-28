@@ -1,0 +1,250 @@
+﻿@model SJOB_EXE201.ViewModels.ApplicationsViewModel
+@{
+    ViewData["Title"] = "Quản lý ứng viên";
+    Layout = "~/Views/Shared/_EmployerLayout.cshtml";
+}
+
+<div class="content-container">
+    <div class="page-header">
+        <h1>Quản lý ứng viên</h1>
+    </div>
+
+    <!-- Tabs with links -->
+    <div class="tabs-container">
+        <ul class="nav-tabs">
+            <li class="tab-item @(Model.SelectedStatus == null ? "active" : "")">
+                <a href="@Url.Action("Index", "Applications", new { jobId = Model.SelectedJobId })">
+                    <i class="fas fa-list"></i>
+                    Tất cả đơn ứng tuyển <span class="count">(@Model.TotalCount)</span>
+                </a>
+            </li>
+            <li class="tab-item @(Model.SelectedStatus == "pending" ? "active" : "")">
+                <a href="@Url.Action("Index", "Applications", new { jobId = Model.SelectedJobId, status = "pending" })">
+                    <i class="fas fa-clock"></i>
+                    Đang chờ xử lý <span class="count">(@Model.PendingCount)</span>
+                </a>
+            </li>
+            <li class="tab-item @(Model.SelectedStatus == "accepted" ? "active" : "")">
+                <a href="@Url.Action("Index", "Applications", new { jobId = Model.SelectedJobId, status = "accepted" })">
+                    <i class="fas fa-check-circle"></i>
+                    Đã chấp nhận <span class="count">(@Model.AcceptedCount)</span>
+                </a>
+            </li>
+            <li class="tab-item @(Model.SelectedStatus == "rejected" ? "active" : "")">
+                <a href="@Url.Action("Index", "Applications", new { jobId = Model.SelectedJobId, status = "rejected" })">
+                    <i class="fas fa-times-circle"></i>
+                    Đã từ chối <span class="count">(@Model.RejectedCount)</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-container">
+        <form method="get" class="filter-form">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input name="search" value="@Model.SearchTerm" class="form-control" placeholder="Tìm theo tên ứng viên">
+            </div>
+            <div class="job-filter">
+                <select name="jobId" class="form-select">
+                    <option value="">Tất cả bài đăng</option>
+                    @foreach (var job in Model.JobPosts)
+                    {
+                        <option value="@job.Id" selected="@(Model.SelectedJobId == job.Id)">@job.Title</option>
+                    }
+                </select>
+            </div>
+            <input type="hidden" name="status" value="@Model.SelectedStatus" />
+            <button type="submit" class="btn btn-filter">
+                <i class="fas fa-filter"></i> Lọc
+            </button>
+        </form>
+    </div>
+
+    <!-- Applications List -->
+    <div class="applications-list">
+        @if (Model.Applications.Count == 0)
+        {
+            <div class="empty-state">
+                <i class="fas fa-file-alt empty-icon"></i>
+                <h3>Không có đơn ứng tuyển nào</h3>
+                <p>Chưa có ứng viên nào ứng tuyển vào vị trí của bạn hoặc không có đơn ứng tuyển phù hợp với bộ lọc.</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover application-table">
+                    <thead>
+                        <tr>
+                            <th>Ứng viên</th>
+                            <th>Vị trí ứng tuyển</th>
+                            <th>Ngày ứng tuyển</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var application in Model.Applications)
+                        {
+                            var userDetail = application.User.UserDetails.FirstOrDefault();
+                            var fullName = userDetail != null ? $"{userDetail.FirstName} {userDetail.LastName}" : application.User.Username;
+
+                            <tr>
+                                <td>
+                                    <div class="applicant-info">
+                                        <img src="@(string.IsNullOrEmpty(application.User.Avatar) ? "/images/avatars/default.png" : application.User.Avatar)"
+                                             alt="@fullName" class="applicant-avatar" />
+                                        <div>
+                                            <div class="applicant-name">@fullName</div>
+                                            <div class="applicant-email">@application.User.Email</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="job-title">@application.JobPost.Title</div>
+                                    <div class="job-type">@application.JobPost.JobType</div>
+                                </td>
+                                <td>
+                                    <div class="application-date">@application.CreatedAt.Value.ToString("dd/MM/yyyy")</div>
+                                    <div class="application-time">@application.CreatedAt.Value.ToString("HH:mm")</div>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-@application.Status">
+                                        @(application.Status == "pending" ? "Đang chờ" :
+                                            application.Status == "accepted" ? "Đã chấp nhận" :
+                                            application.Status == "rejected" ? "Đã từ chối" : application.Status)
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <a href="@Url.Action("Details", "Applications", new { id = application.Id })" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye"></i> Chi tiết
+                                        </a>
+                                        <a href="@Url.Action("JobStats", "Applications", new { id = application.JobPostId })" class="btn btn-sm btn-outline-info">
+                                            <i class="fas fa-chart-bar"></i> Thống kê
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background-color: var(--bg-primary);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        margin-top: 1.5rem;
+    }
+
+    .empty-icon {
+        font-size: 4rem;
+        color: var(--text-muted);
+        margin-bottom: 1rem;
+    }
+
+    .application-table {
+        background-color: var(--bg-primary);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        margin-top: 1.5rem;
+    }
+
+        .application-table th {
+            background-color: #f8fafc;
+            padding: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .application-table td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+    .applicant-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .applicant-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .applicant-name {
+        font-weight: 500;
+        color: var(--text-primary);
+    }
+
+    .applicant-email {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
+
+    .job-title {
+        font-weight: 500;
+        color: var(--primary-color);
+    }
+
+    .job-type {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
+
+    .application-date {
+        font-weight: 500;
+    }
+
+    .application-time {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+    }
+
+    .status-badge {
+        display: inline-block;
+        padding: 0.35rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 500;
+    }
+
+    .status-pending {
+        background-color: #f8fafc;
+        color: var(--text-secondary);
+        border: 1px solid #e2e8f0;
+    }
+
+    .status-accepted {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: var(--success);
+        border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .status-rejected {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--danger);
+        border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .job-filter {
+        min-width: 250px;
+    }
+</style>

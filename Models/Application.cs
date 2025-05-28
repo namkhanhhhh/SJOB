@@ -21,5 +21,7 @@ public partial class Application
 
     public virtual JobPost JobPost { get; set; } = null!;
 
+    public virtual ICollection<ApplicationNote> ApplicationNotes { get; set; } = new List<ApplicationNote>();
+
     public virtual User User { get; set; } = null!;
 }

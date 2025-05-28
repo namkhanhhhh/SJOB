@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SJOB_EXE201.Models;
 
@@ -11,9 +12,11 @@ using SJOB_EXE201.Models;
 namespace SJOB_EXE201.Migrations
 {
     [DbContext(typeof(SjobContext))]
-    partial class SjobContextModelSnapshot : ModelSnapshot
+    [Migration("20250515150245_RemoveStudentTable")]
+    partial class RemoveStudentTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,12 +34,6 @@ namespace SJOB_EXE201.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AuthenLogoAvailable")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0)
-                        .HasColumnName("authen_logo_available");
-
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
@@ -47,7 +44,7 @@ namespace SJOB_EXE201.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("description");
 
-                    b.Property<int>("DiamondPostsIncluded")
+                    b.Property<int?>("DiamondPostsIncluded")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(0)
@@ -57,7 +54,7 @@ namespace SJOB_EXE201.Migrations
                         .HasColumnType("int")
                         .HasColumnName("duration_days");
 
-                    b.Property<int>("GoldPostsIncluded")
+                    b.Property<int?>("GoldPostsIncluded")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(0)
@@ -79,19 +76,13 @@ namespace SJOB_EXE201.Migrations
                         .HasColumnType("decimal(15, 2)")
                         .HasColumnName("price");
 
-                    b.Property<int>("PushToTopAvailable")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0)
-                        .HasColumnName("push_to_top_available");
-
                     b.Property<string>("ServiceType")
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
                         .HasColumnName("service_type");
 
-                    b.Property<int>("SilverPostsIncluded")
+                    b.Property<int?>("SilverPostsIncluded")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(0)
@@ -152,44 +143,6 @@ namespace SJOB_EXE201.Migrations
                     b.HasIndex(new[] { "Status" }, "idx_applications_status");
 
                     b.ToTable("applications", (string)null);
-                });
-
-            modelBuilder.Entity("SJOB_EXE201.Models.ApplicationNote", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ApplicationId")
-                        .HasColumnType("int")
-                        .HasColumnName("application_id");
-
-                    b.Property<int?>("ApplicationId1")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("getdate()");
-
-                    b.Property<string>("Note")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("note");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationId");
-
-                    b.HasIndex("ApplicationId1")
-                        .IsUnique()
-                        .HasFilter("[ApplicationId1] IS NOT NULL");
-
-                    b.ToTable("application_notes", (string)null);
                 });
 
             modelBuilder.Entity("SJOB_EXE201.Models.Banner", b =>
@@ -688,71 +641,6 @@ namespace SJOB_EXE201.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("marketing_campaigns", (string)null);
-                });
-
-            modelBuilder.Entity("SJOB_EXE201.Models.Notification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasColumnName("created_at")
-                        .HasDefaultValueSql("getdate()");
-
-                    b.Property<bool>("IsRead")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false)
-                        .HasColumnName("is_read");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("message");
-
-                    b.Property<int?>("ReferenceId")
-                        .HasColumnType("int")
-                        .HasColumnName("reference_id");
-
-                    b.Property<string>("ReferenceType")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("reference_type");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("title");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("type");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("url");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("notifications", (string)null);
                 });
 
             modelBuilder.Entity("SJOB_EXE201.Models.Payment", b =>
@@ -1340,12 +1228,6 @@ namespace SJOB_EXE201.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AuthenLogoAvailable")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0)
-                        .HasColumnName("authen_logo_available");
-
                     b.Property<int>("DiamondPostsAvailable")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -1363,12 +1245,6 @@ namespace SJOB_EXE201.Migrations
                         .HasColumnType("datetime")
                         .HasColumnName("last_updated")
                         .HasDefaultValueSql("(getdate())");
-
-                    b.Property<int>("PushToTopAvailable")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0)
-                        .HasColumnName("push_to_top_available");
 
                     b.Property<int>("SilverPostsAvailable")
                         .ValueGeneratedOnAdd()
@@ -1486,21 +1362,6 @@ namespace SJOB_EXE201.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SJOB_EXE201.Models.ApplicationNote", b =>
-                {
-                    b.HasOne("SJOB_EXE201.Models.Application", "Application")
-                        .WithMany()
-                        .HasForeignKey("ApplicationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SJOB_EXE201.Models.Application", null)
-                        .WithOne("ApplicationNote")
-                        .HasForeignKey("SJOB_EXE201.Models.ApplicationNote", "ApplicationId1");
-
-                    b.Navigation("Application");
-                });
-
             modelBuilder.Entity("SJOB_EXE201.Models.Banner", b =>
                 {
                     b.HasOne("SJOB_EXE201.Models.User", "User")
@@ -1581,17 +1442,6 @@ namespace SJOB_EXE201.Migrations
                         .HasForeignKey("UserId")
                         .IsRequired()
                         .HasConstraintName("FK_marketing_campaigns_users");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SJOB_EXE201.Models.Notification", b =>
-                {
-                    b.HasOne("SJOB_EXE201.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -1753,12 +1603,6 @@ namespace SJOB_EXE201.Migrations
             modelBuilder.Entity("SJOB_EXE201.Models.AdditionalService", b =>
                 {
                     b.Navigation("ServiceOrders");
-                });
-
-            modelBuilder.Entity("SJOB_EXE201.Models.Application", b =>
-                {
-                    b.Navigation("ApplicationNote")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("SJOB_EXE201.Models.JobCategory", b =>

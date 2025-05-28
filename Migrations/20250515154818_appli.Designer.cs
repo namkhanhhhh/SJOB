@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SJOB_EXE201.Models;
 
@@ -11,9 +12,11 @@ using SJOB_EXE201.Models;
 namespace SJOB_EXE201.Migrations
 {
     [DbContext(typeof(SjobContext))]
-    partial class SjobContextModelSnapshot : ModelSnapshot
+    [Migration("20250515154818_appli")]
+    partial class appli
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,12 +34,6 @@ namespace SJOB_EXE201.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AuthenLogoAvailable")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0)
-                        .HasColumnName("authen_logo_available");
-
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
@@ -47,7 +44,7 @@ namespace SJOB_EXE201.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("description");
 
-                    b.Property<int>("DiamondPostsIncluded")
+                    b.Property<int?>("DiamondPostsIncluded")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(0)
@@ -57,7 +54,7 @@ namespace SJOB_EXE201.Migrations
                         .HasColumnType("int")
                         .HasColumnName("duration_days");
 
-                    b.Property<int>("GoldPostsIncluded")
+                    b.Property<int?>("GoldPostsIncluded")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(0)
@@ -79,19 +76,13 @@ namespace SJOB_EXE201.Migrations
                         .HasColumnType("decimal(15, 2)")
                         .HasColumnName("price");
 
-                    b.Property<int>("PushToTopAvailable")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0)
-                        .HasColumnName("push_to_top_available");
-
                     b.Property<string>("ServiceType")
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
                         .HasColumnName("service_type");
 
-                    b.Property<int>("SilverPostsIncluded")
+                    b.Property<int?>("SilverPostsIncluded")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(0)
@@ -1340,12 +1331,6 @@ namespace SJOB_EXE201.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AuthenLogoAvailable")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0)
-                        .HasColumnName("authen_logo_available");
-
                     b.Property<int>("DiamondPostsAvailable")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
@@ -1363,12 +1348,6 @@ namespace SJOB_EXE201.Migrations
                         .HasColumnType("datetime")
                         .HasColumnName("last_updated")
                         .HasDefaultValueSql("(getdate())");
-
-                    b.Property<int>("PushToTopAvailable")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0)
-                        .HasColumnName("push_to_top_available");
 
                     b.Property<int>("SilverPostsAvailable")
                         .ValueGeneratedOnAdd()

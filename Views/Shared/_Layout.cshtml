@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SJOB_EXE201.styles.css" asp-append-version="true" />
 
+
+
 </head>
 <body>
     <div class="container">
@@ -24,7 +26,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.12/dist/jquery.validate.unobtrusive.min.js"></script>
-
+    <!-- Add this before the closing body tag -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
