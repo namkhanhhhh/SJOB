@@ -1,6 +1,6 @@
 ﻿@model SJOB_EXE201.ViewModels.WorkerViewModel
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Trang Chủ";
     Layout = "_WorkerLayout";
 }
 
@@ -8,44 +8,44 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6">
-                <h1 class="display-4 fw-bold">Find Your Perfect Short-Term Job</h1>
-                <p class="lead">Discover thousands of job opportunities that match your skills and schedule.</p>
+                <h1 class="display-4 fw-bold">Tìm Công Việc Ngắn Hạn Phù Hợp Với Bạn</h1>
+                <p class="lead">Khám phá hàng ngàn cơ hội việc làm phù hợp với kỹ năng và lịch trình của bạn.</p>
             </div>
             <div class="col-md-6">
                 <div class="card shadow">
                     <div class="card-body">
-                        <h5 class="card-title">Search Jobs</h5>
+                        <h5 class="card-title">Tìm Kiếm Công Việc</h5>
                         <form asp-controller="Worker" asp-action="SearchResults" method="get">
                             <div class="mb-3">
-                                <label for="keyword" class="form-label">Keyword</label>
-                                <input type="text" class="form-control" id="keyword" name="keyword" value="@Model.Keyword" placeholder="Job title, skills, or company">
+                                <label for="keyword" class="form-label">Từ Khóa</label>
+                                <input type="text" class="form-control" id="keyword" name="keyword" value="@Model.Keyword" placeholder="Tiêu đề công việc, kỹ năng, hoặc công ty">
                             </div>
                             <div class="mb-3">
-                                <label for="location" class="form-label">Location</label>
-                                <input type="text" class="form-control" id="location" name="location" value="@Model.Location" placeholder="City, district, or address">
+                                <label for="location" class="form-label">Địa Điểm</label>
+                                <input type="text" class="form-control" id="location" name="location" value="@Model.Location" placeholder="Thành phố, quận, hoặc địa chỉ">
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="minSalary" class="form-label">Min Salary (per hour)</label>
-                                    <input type="number" class="form-control" id="minSalary" name="minSalary" value="@Model.MinSalary" placeholder="Min">
+                                    <label for="minSalary" class="form-label">Lương Tối Thiểu (mỗi giờ)</label>
+                                    <input type="number" class="form-control" id="minSalary" name="minSalary" value="@Model.MinSalary" placeholder="Tối thiểu">
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="maxSalary" class="form-label">Max Salary (per hour)</label>
-                                    <input type="number" class="form-control" id="maxSalary" name="maxSalary" value="@Model.MaxSalary" placeholder="Max">
+                                    <label for="maxSalary" class="form-label">Lương Tối Đa (mỗi giờ)</label>
+                                    <input type="number" class="form-control" id="maxSalary" name="maxSalary" value="@Model.MaxSalary" placeholder="Tối đa">
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="jobType" class="form-label">Job Type</label>
+                                <label for="jobType" class="form-label">Loại Công Việc</label>
                                 <select class="form-select" id="jobType" name="jobType">
-                                    <option value="">All Job Types</option>
-                                    <option value="full-time" selected="@(Model.JobType == "full-time")">Full-time</option>
-                                    <option value="part-time" selected="@(Model.JobType == "part-time")">Part-time</option>
-                                    <option value="contract" selected="@(Model.JobType == "contract")">Contract</option>
-                                    <option value="temporary" selected="@(Model.JobType == "temporary")">Temporary</option>
-                                    <option value="internship" selected="@(Model.JobType == "internship")">Internship</option>
+                                    <option value="">Tất Cả Loại Công Việc</option>
+                                    <option value="full-time" selected="@(Model.JobType == "full-time")">Toàn Thời Gian</option>
+                                    <option value="part-time" selected="@(Model.JobType == "part-time")">Bán Thời Gian</option>
+                                    <option value="contract" selected="@(Model.JobType == "contract")">Hợp Đồng</option>
+                                    <option value="temporary" selected="@(Model.JobType == "temporary")">Tạm Thời</option>
+                                    <option value="internship" selected="@(Model.JobType == "internship")">Thực Tập</option>
                                 </select>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">Search Jobs</button>
+                            <button type="submit" class="btn btn-primary w-100">Tìm Kiếm Công Việc</button>
                         </form>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
 </div>
 
 <div class="container mb-5">
-    <h2 class="section-title">Featured Categories</h2>
+    <h2 class="section-title">Danh Mục Nổi Bật</h2>
     <div class="row">
         @foreach (var category in Model.FeaturedCategories)
         {
@@ -77,10 +77,10 @@
 <div class="container mb-5">
     <div class="row align-items-center mb-4">
         <div class="col">
-            <h2 class="section-title">Premium Jobs</h2>
+            <h2 class="section-title">Công Việc Cao Cấp</h2>
         </div>
         <div class="col-auto">
-            <a href="#" class="btn btn-outline-primary btn-sm">View All</a>
+            <a href="#" class="btn btn-outline-primary btn-sm">Xem Tất Cả</a>
         </div>
     </div>
     <div class="row">
@@ -89,7 +89,7 @@
             <div class="col-md-4 mb-4">
                 <div class="card job-card h-100">
                     <div class="premium-badge">
-                        <span class="badge bg-warning text-dark">Premium</span>
+                        <span class="badge bg-warning text-dark">Cao Cấp</span>
                     </div>
                     <img src="@job.ImageMain" class="card-img-top" alt="@job.Title">
                     <div class="card-body">
@@ -102,9 +102,9 @@
                         </p>
                         <p class="card-text salary">
                             <i class="fas fa-money-bill-wave me-2"></i>
-                            @(job.SalaryMin.HasValue && job.SalaryMax.HasValue 
-                                ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/hour" 
-                                : "Negotiable")
+                            @(job.SalaryMin.HasValue && job.SalaryMax.HasValue
+                                ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/giờ"
+                                : "Thương lượng")
                         </p>
                         <p class="card-text job-type">
                             <span class="badge bg-primary">@job.JobType</span>
@@ -112,14 +112,14 @@
                     </div>
                     <div class="card-footer bg-white">
                         <div class="d-flex justify-content-between align-items-center">
-                            <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="btn btn-outline-primary flex-grow-1 me-2">View Details</a>
+                            <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="btn btn-outline-primary flex-grow-1 me-2">Xem Chi Tiết</a>
 
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <button class="btn-wishlist @(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "active" : "")"
                                         data-job-id="@job.Id"
                                         data-is-in-wishlist="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "true" : "false")"
-                                        title="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "Remove from wishlist" : "Add to wishlist")">
+                                        title="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "Xóa khỏi danh sách yêu thích" : "Thêm vào danh sách yêu thích")">
                                     <i class="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "fas" : "far") fa-heart"></i>
                                 </button>
                             }
@@ -135,13 +135,13 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6">
-                <h2>Need Help Finding the Right Job?</h2>
-                <p class="lead">Our team is ready to assist you in finding the perfect job match for your skills and schedule.</p>
-                <p><i class="fas fa-phone me-2"></i> Call us: <strong>+1 (123) 456-7890</strong></p>
+                <h2>Cần Hỗ Trợ Tìm Công Việc Phù Hợp?</h2>
+                <p class="lead">Đội ngũ của chúng tôi sẵn sàng hỗ trợ bạn tìm công việc phù hợp với kỹ năng và lịch trình của bạn.</p>
+                <p><i class="fas fa-phone me-2"></i> Gọi cho chúng tôi: <strong>+1 (123) 456-7890</strong></p>
                 <p><i class="fas fa-envelope me-2"></i> Email: <strong>support@sjobplatform.com</strong></p>
             </div>
             <div class="col-md-6">
-                <img src="/images/support-banner.jpg" alt="Customer Support" class="img-fluid rounded">
+                <img src="/images/support-banner.jpg" alt="Hỗ Trợ Khách Hàng" class="img-fluid rounded">
             </div>
         </div>
     </div>
@@ -150,10 +150,10 @@
 <div class="container mb-5">
     <div class="row align-items-center mb-4">
         <div class="col">
-            <h2 class="section-title">Most Viewed Jobs</h2>
+            <h2 class="section-title">Công Việc Xem Nhiều Nhất</h2>
         </div>
         <div class="col-auto">
-            <a href="#" class="btn btn-outline-primary btn-sm">View All</a>
+            <a href="#" class="btn btn-outline-primary btn-sm">Xem Tất Cả</a>
         </div>
     </div>
     <div class="row">
@@ -164,7 +164,7 @@
                     @if (job.ViewCount > 100)
                     {
                         <div class="popular-badge">
-                            <span class="badge bg-danger">Popular</span>
+                            <span class="badge bg-danger">Phổ Biến</span>
                         </div>
                     }
                     <img src="@job.ImageMain" class="card-img-top" alt="@job.Title">
@@ -178,27 +178,27 @@
                         </p>
                         <p class="card-text salary">
                             <i class="fas fa-money-bill-wave me-2"></i>
-                            @(job.SalaryMin.HasValue && job.SalaryMax.HasValue 
-                                ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/hour" 
-                                : "Negotiable")
+                            @(job.SalaryMin.HasValue && job.SalaryMax.HasValue
+                                ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/giờ"
+                                : "Thương lượng")
                         </p>
                         <p class="card-text job-type">
                             <span class="badge bg-primary">@job.JobType</span>
                         </p>
                         <p class="card-text views">
-                            <i class="fas fa-eye me-2"></i>@job.ViewCount views
+                            <i class="fas fa-eye me-2"></i>@job.ViewCount lượt xem
                         </p>
                     </div>
                     <div class="card-footer bg-white">
                         <div class="d-flex justify-content-between align-items-center">
-                            <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="btn btn-outline-primary flex-grow-1 me-2">View Details</a>
+                            <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="btn btn-outline-primary flex-grow-1 me-2">Xem Chi Tiết</a>
 
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <button class="btn-wishlist @(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "active" : "")"
                                         data-job-id="@job.Id"
                                         data-is-in-wishlist="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "true" : "false")"
-                                        title="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "Remove from wishlist" : "Add to wishlist")">
+                                        title="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "Xóa khỏi danh sách yêu thích" : "Thêm vào danh sách yêu thích")">
                                     <i class="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "fas" : "far") fa-heart"></i>
                                 </button>
                             }
@@ -211,12 +211,12 @@
 </div>
 
 <div class="container mb-5">
-    <h2 class="section-title mb-4">All Jobs</h2>
+    <h2 class="section-title mb-4">Tất Cả Công Việc</h2>
 
     @if (!Model.AllPosts.Any())
     {
         <div class="alert alert-info">
-            No jobs found matching your criteria. Please try different search parameters.
+            Không tìm thấy công việc nào phù hợp với tiêu chí của bạn. Vui lòng thử các tham số tìm kiếm khác.
         </div>
     }
     else
@@ -239,7 +239,7 @@
                                             <button class="btn-wishlist @(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "active" : "")"
                                                     data-job-id="@job.Id"
                                                     data-is-in-wishlist="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "true" : "false")"
-                                                    title="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "Remove from wishlist" : "Add to wishlist")">
+                                                    title="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "Xóa khỏi danh sách yêu thích" : "Thêm vào danh sách yêu thích")">
                                                 <i class="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "fas" : "far") fa-heart"></i>
                                             </button>
                                         }
@@ -253,12 +253,12 @@
                                     <p class="card-text salary">
                                         <i class="fas fa-money-bill-wave me-2"></i>
                                         @(job.SalaryMin.HasValue && job.SalaryMax.HasValue
-                                            ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/hour"
-                                            : "Negotiable")
+                                            ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/giờ"
+                                            : "Thương lượng")
                                     </p>
                                     <div class="d-flex justify-content-between align-items-center mt-3">
                                         <span class="badge bg-primary">@job.JobType</span>
-                                        <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="btn btn-sm btn-outline-primary">View Details</a>
+                                        <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="btn btn-sm btn-outline-primary">Xem Chi Tiết</a>
                                     </div>
                                 </div>
                             </div>
@@ -268,7 +268,7 @@
             }
         </div>
 
-        <!-- Pagination section remains unchanged -->
+        <!-- Phần phân trang giữ nguyên -->
         @if (Model.TotalPages > 1)
         {
             <nav aria-label="Page navigation">

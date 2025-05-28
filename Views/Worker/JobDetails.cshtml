@@ -3,13 +3,13 @@
     ViewData["Title"] = Model.JobPost.Title;
     Layout = "_WorkerLayout";
 
-    // Check if user is authenticated
+    // Kiểm tra người dùng đã đăng nhập chưa
     bool isAuthenticated = User.Identity.IsAuthenticated;
 
-    // Get contact information with better null handling
+    // Lấy thông tin liên hệ với xử lý null tốt hơn
     var userDetails = Model.JobPost.User.UserDetails?.FirstOrDefault();
 
-    // Check if phone number exists and is not empty
+    // Kiểm tra số điện thoại tồn tại và không trống
     string phoneNumber = !string.IsNullOrWhiteSpace(userDetails?.PhoneNumber)
         ? userDetails.PhoneNumber
         : "N/A";
@@ -18,16 +18,16 @@
         ? Model.JobPost.User.Email
         : "N/A";
 
-    // Mask contact information if user is not authenticated
+    // Ẩn thông tin liên hệ nếu người dùng chưa đăng nhập
     if (!isAuthenticated && !string.IsNullOrEmpty(phoneNumber) && phoneNumber != "N/A")
     {
-        // Mask last 3 digits of phone number
+        // Ẩn 3 chữ số cuối của số điện thoại
         phoneNumber = phoneNumber.Substring(0, phoneNumber.Length - 3) + "***";
     }
 
     if (!isAuthenticated && !string.IsNullOrEmpty(email) && email != "N/A")
     {
-        // Mask middle part of email
+        // Ẩn phần giữa của email
         var parts = email.Split('@');
         if (parts.Length == 2)
         {
@@ -63,11 +63,11 @@
                         <span class="me-3">
                             <i class="fas fa-money-bill-wave me-2"></i>
                             @(Model.JobPost.SalaryMin.HasValue && Model.JobPost.SalaryMax.HasValue
-                                ? $"{Model.JobPost.SalaryMin:N0} - {Model.JobPost.SalaryMax:N0} VND/hour"
-                                : "Negotiable")
+                                ? $"{Model.JobPost.SalaryMin:N0} - {Model.JobPost.SalaryMax:N0} VND/giờ"
+                                : "Thương lượng")
                         </span>
                         <span class="me-3"><i class="fas fa-briefcase me-2"></i>@Model.JobPost.JobType</span>
-                        <span><i class="fas fa-eye me-2"></i>@Model.JobPost.ViewCount views</span>
+                        <span><i class="fas fa-eye me-2"></i>@Model.JobPost.ViewCount lượt xem</span>
                     </div>
 
                     <div class="job-images mb-4">
@@ -97,7 +97,7 @@
                     </div>
 
                     <div class="job-description mb-4">
-                        <h4>Job Description</h4>
+                        <h4>Mô Tả Công Việc</h4>
                         <div class="description-content">
                             @Html.Raw(Model.JobPost.Description.Replace("\n", "<br>"))
                         </div>
@@ -106,7 +106,7 @@
                     @if (!string.IsNullOrEmpty(Model.JobPost.Requirements))
                     {
                         <div class="job-requirements mb-4">
-                            <h4>Requirements</h4>
+                            <h4>Yêu Cầu</h4>
                             <div class="requirements-content">
                                 @Html.Raw(Model.JobPost.Requirements.Replace("\n", "<br>"))
                             </div>
@@ -116,7 +116,7 @@
                     @if (!string.IsNullOrEmpty(Model.JobPost.Benefits))
                     {
                         <div class="job-benefits mb-4">
-                            <h4>Benefits</h4>
+                            <h4>Quyền Lợi</h4>
                             <div class="benefits-content">
                                 @Html.Raw(Model.JobPost.Benefits.Replace("\n", "<br>"))
                             </div>
@@ -124,7 +124,7 @@
                     }
 
                     <div class="job-categories mb-4">
-                        <h4>Categories</h4>
+                        <h4>Danh Mục</h4>
                         <div class="categories-list">
                             @foreach (var category in Model.JobPost.JobPostCategories.Select(pc => pc.Category))
                             {
@@ -135,13 +135,13 @@
                         </div>
                     </div>
 
-                    <!-- Add this near the top of the job details page, perhaps in the job header section -->
+                    <!-- Thêm phần này gần đầu trang chi tiết công việc, có thể trong phần tiêu đề công việc -->
                     <div class="job-actions mb-4">
                         @if (User.Identity.IsAuthenticated)
                         {
                             <button id="wishlistToggle" class="btn @(Model.IsInWishlist ? "btn-danger" : "btn-outline-danger")" data-job-id="@Model.JobPost.Id">
                                 <i class="@(Model.IsInWishlist ? "fas" : "far") fa-heart"></i>
-                                <span>@(Model.IsInWishlist ? "Saved" : "Save Job")</span>
+                                <span>@(Model.IsInWishlist ? "Đã Lưu" : "Lưu Công Việc")</span>
                             </button>
 
                             @if (!Model.HasApplied)
@@ -149,24 +149,24 @@
                                 <form asp-controller="Worker" asp-action="ApplyJob" method="post" class="d-inline ms-2">
                                     <input type="hidden" name="jobId" value="@Model.JobPost.Id" />
                                     <button type="submit" class="btn btn-primary">
-                                        <i class="fas fa-paper-plane me-2"></i> Apply Now
+                                        <i class="fas fa-paper-plane me-2"></i> Ứng Tuyển Ngay
                                     </button>
                                 </form>
                             }
                             else
                             {
                                 <button class="btn btn-success ms-2" disabled>
-                                    <i class="fas fa-check-circle me-2"></i> Applied
+                                    <i class="fas fa-check-circle me-2"></i> Đã Ứng Tuyển
                                 </button>
                             }
                         }
                         else
                         {
                             <a href="@Url.Action("Index", "Login")" class="btn btn-outline-danger">
-                                <i class="far fa-heart"></i> Save Job
+                                <i class="far fa-heart"></i> Lưu Công Việc
                             </a>
                             <a href="@Url.Action("Index", "Login")" class="btn btn-primary ms-2">
-                                <i class="fas fa-sign-in-alt me-2"></i> Login to Apply
+                                <i class="fas fa-sign-in-alt me-2"></i> Đăng Nhập Để Ứng Tuyển
                             </a>
                         }
                     </div>
@@ -175,10 +175,10 @@
         </div>
 
         <div class="col-md-4">
-            <!-- Job Images Section (Replacing Company Information) -->
+            <!-- Phần Hình Ảnh Công Việc (Thay thế Thông Tin Công Ty) -->
             <div class="card mb-4">
                 <div class="card-body">
-                    <h4 class="card-title">Job Images</h4>
+                    <h4 class="card-title">Hình Ảnh Công Việc</h4>
                     <div class="job-gallery">
                         <div class="row">
                             @if (!string.IsNullOrEmpty(Model.JobPost.ImageMain))
@@ -210,10 +210,10 @@
                 </div>
             </div>
 
-            <!-- Replace the Contact Information Section in JobDetails.cshtml with this: -->
+            <!-- Thay thế phần Thông Tin Liên Hệ trong JobDetails.cshtml bằng phần này: -->
             <div class="card mb-4">
                 <div class="card-body">
-                    <h4 class="card-title">Contact Information</h4>
+                    <h4 class="card-title">Thông Tin Liên Hệ</h4>
                     <div class="contact-info">
                         <a href="@Url.Action("EmployerProfile", "Worker", new { id = Model.JobPost.UserId })" class="text-decoration-none">
                             <div class="d-flex align-items-center mb-3">
@@ -239,7 +239,7 @@
 
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span><i class="fas fa-phone me-2"></i>Phone</span>
+                                <span><i class="fas fa-phone me-2"></i>Điện Thoại</span>
                                 <div class="d-flex align-items-center">
                                     <span id="phoneNumber">@phoneNumber</span>
                                     @if (isAuthenticated && phoneNumber != "N/A")
@@ -266,17 +266,17 @@
                             {
                                 <li class="list-group-item text-center">
                                     <a href="@Url.Action("Index", "Login")" class="btn btn-sm btn-outline-primary">
-                                        <i class="fas fa-lock me-2"></i>Login to view full contact details
+                                        <i class="fas fa-lock me-2"></i>Đăng nhập để xem đầy đủ thông tin liên hệ
                                     </a>
                                 </li>
                             }
                             else
                             {
                                 <li class="list-group-item text-center">
-                                <a href="@Url.Action("EmployerProfile", "Worker", new { id = Model.JobPost.UserId })" class="btn btn-primary">
-                                    <i class="fas fa-building me-2"></i>View Employer Profile
-                                </a>
-                            </li>   
+                                    <a href="@Url.Action("EmployerProfile", "Worker", new { id = Model.JobPost.UserId })" class="btn btn-primary">
+                                        <i class="fas fa-building me-2"></i>Xem Hồ Sơ Nhà Tuyển Dụng
+                                    </a>
+                                </li>
                             }
 
                         </ul>
@@ -286,27 +286,27 @@
 
             <div class="card mb-4">
                 <div class="card-body">
-                    <h4 class="card-title">Job Details</h4>
+                    <h4 class="card-title">Chi Tiết Công Việc</h4>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span><i class="fas fa-calendar-alt me-2"></i>Posted On</span>
-                            <span>@Model.JobPost.CreatedAt?.ToString("MMM dd, yyyy")</span>
+                            <span><i class="fas fa-calendar-alt me-2"></i>Ngày Đăng</span>
+                            <span>@Model.JobPost.CreatedAt?.ToString("dd/MM/yyyy")</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span><i class="fas fa-clock me-2"></i>Job Type</span>
+                            <span><i class="fas fa-clock me-2"></i>Loại Công Việc</span>
                             <span>@Model.JobPost.JobType</span>
                         </li>
                         @if (Model.JobPost.Deadline.HasValue)
                         {
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span><i class="fas fa-hourglass-end me-2"></i>Deadline</span>
-                                <span>@Model.JobPost.Deadline?.ToString("MMM dd, yyyy")</span>
+                                <span><i class="fas fa-hourglass-end me-2"></i>Hạn Chót</span>
+                                <span>@Model.JobPost.Deadline?.ToString("dd/MM/yyyy")</span>
                             </li>
                         }
                         @if (!string.IsNullOrEmpty(Model.JobPost.ExperienceLevel))
                         {
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span><i class="fas fa-star me-2"></i>Experience</span>
+                                <span><i class="fas fa-star me-2"></i>Kinh Nghiệm</span>
                                 <span>@Model.JobPost.ExperienceLevel</span>
                             </li>
                         }
@@ -318,7 +318,7 @@
             {
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Similar Jobs</h4>
+                        <h4 class="card-title">Công Việc Tương Tự</h4>
                         <div class="related-jobs">
                             @foreach (var job in Model.RelatedJobs)
                             {
@@ -352,7 +352,7 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            // Image gallery functionality
+            // Chức năng thư viện hình ảnh
             $('.gallery-img').click(function () {
                 var imgSrc = $(this).attr('src');
                 $('.job-images img').first().attr('src', imgSrc);
@@ -363,7 +363,7 @@
         });
 
         $(document).ready(function () {
-            // Wishlist toggle functionality
+            // Chức năng thêm/xóa danh sách yêu thích
             $('#wishlistToggle').click(function () {
                 var jobId = $(this).data('job-id');
                 var $button = $(this);
@@ -376,50 +376,50 @@
                         if (response.isInWishlist) {
                             $button.removeClass('btn-outline-danger').addClass('btn-danger');
                             $button.find('i').removeClass('far').addClass('fas');
-                            $button.find('span').text('Saved');
-                            toastr.success('Job added to wishlist');
+                            $button.find('span').text('Đã Lưu');
+                            toastr.success('Đã thêm công việc vào danh sách yêu thích');
                         } else {
                             $button.removeClass('btn-danger').addClass('btn-outline-danger');
                             $button.find('i').removeClass('fas').addClass('far');
-                            $button.find('span').text('Save Job');
-                            toastr.info('Job removed from wishlist');
+                            $button.find('span').text('Lưu Công Việc');
+                            toastr.info('Đã xóa công việc khỏi danh sách yêu thích');
                         }
                     },
                     error: function () {
-                        toastr.error('Error updating wishlist');
+                        toastr.error('Lỗi khi cập nhật danh sách yêu thích');
                     }
                 });
             });
         });
 
-        // Add this to the Scripts section in JobDetails.cshtml
+        // Thêm vào phần Scripts trong JobDetails.cshtml
         function copyToClipboard(elementId) {
             var text = document.getElementById(elementId).innerText;
             navigator.clipboard.writeText(text).then(function () {
-                // Show success message
+                // Hiển thị thông báo thành công
                 var toast = document.createElement('div');
                 toast.className = 'position-fixed bottom-0 end-0 p-3';
                 toast.style.zIndex = '5';
                 toast.innerHTML = `
-                    <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-                        <div class="toast-header bg-success text-white">
-                            <i class="fas fa-check-circle me-2"></i>
-                            <strong class="me-auto">Success</strong>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
-                        </div>
-                        <div class="toast-body">
-                            Copied to clipboard!
-                        </div>
-                    </div>
-                `;
+                            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="toast-header bg-success text-white">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    <strong class="me-auto">Thành Công</strong>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                                <div class="toast-body">
+                                    Đã sao chép vào clipboard!
+                                </div>
+                            </div>
+                        `;
                 document.body.appendChild(toast);
 
-                // Remove toast after 3 seconds
+                // Xóa thông báo sau 3 giây
                 setTimeout(function () {
                     document.body.removeChild(toast);
                 }, 3000);
             }, function (err) {
-                console.error('Could not copy text: ', err);
+                console.error('Không thể sao chép văn bản: ', err);
             });
         }
     </script>

@@ -4,72 +4,135 @@
     ViewData["Title"] = "Chỉnh sửa bài đăng";
 }
 
-<h2>Chỉnh sửa bài đăng</h2>
+<link rel="stylesheet" href="~/css/customer-services.css" />
 
-<form asp-action="Edit" method="post">
-    <input type="hidden" asp-for="Id" />
 
-    <div class="mb-3">
-        <label asp-for="Title" class="form-label"></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
+<div class="form-container">
+    <div class="form-header">
+        <h2><i class="fas fa-edit"></i> @ViewData["Title"]</h2>
     </div>
 
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
 
-    <div class="mb-3">
-        <label asp-for="Requirements" class="form-label"></label>
-        <textarea asp-for="Requirements" class="form-control"></textarea>
-    </div>
+        <div class="form-section">
+            <div class="form-section-title">
+                <i class="fas fa-info-circle"></i> Thông tin cơ bản
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Title" class="form-label">
+                        <i class="fas fa-heading"></i> Tiêu đề
+                    </label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
 
-    <div class="mb-3">
-        <label asp-for="Benefits" class="form-label"></label>
-        <textarea asp-for="Benefits" class="form-control"></textarea>
-    </div>
+                <div class="form-group">
+                    <label asp-for="Location" class="form-label">
+                        <i class="fas fa-map-marker-alt"></i> Địa điểm
+                    </label>
+                    <input asp-for="Location" class="form-control" />
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="Location" class="form-label"></label>
-        <input asp-for="Location" class="form-control" />
-    </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="JobType" class="form-label">
+                        <i class="fas fa-briefcase"></i> Hình thức làm việc
+                    </label>
+                    <input asp-for="JobType" class="form-control" />
+                    <span asp-validation-for="JobType" class="text-danger"></span>
+                </div>
 
-    <div class="mb-3">
-        <label asp-for="SalaryMin" class="form-label"></label>
-        <input asp-for="SalaryMin" class="form-control" />
-    </div>
+                <div class="form-group">
+                    <label asp-for="ExperienceLevel" class="form-label">
+                        <i class="fas fa-star"></i> Kinh nghiệm
+                    </label>
+                    <input asp-for="ExperienceLevel" class="form-control" />
+                    <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
+                </div>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="SalaryMax" class="form-label"></label>
-        <input asp-for="SalaryMax" class="form-control" />
-    </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="SalaryMin" class="form-label">
+                        <i class="fas fa-money-bill-wave"></i> Lương tối thiểu
+                    </label>
+                    <input asp-for="SalaryMin" class="form-control" />
+                    <span asp-validation-for="SalaryMin" class="text-danger"></span>
+                </div>
 
-    <div class="mb-3">
-        <label asp-for="JobType" class="form-label"></label>
-        <input asp-for="JobType" class="form-control" />
-    </div>
+                <div class="form-group">
+                    <label asp-for="SalaryMax" class="form-label">
+                        <i class="fas fa-money-bill-wave"></i> Lương tối đa
+                    </label>
+                    <input asp-for="SalaryMax" class="form-control" />
+                    <span asp-validation-for="SalaryMax" class="text-danger"></span>
+                </div>
+            </div>
 
-    <div class="mb-3">
-        <label asp-for="ExperienceLevel" class="form-label"></label>
-        <input asp-for="ExperienceLevel" class="form-control" />
-    </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Deadline" class="form-label">
+                        <i class="fas fa-calendar-alt"></i> Hạn nộp hồ sơ
+                    </label>
+                    <input asp-for="Deadline" class="form-control" type="date" />
+                    <span asp-validation-for="Deadline" class="text-danger"></span>
+                </div>
 
-    <div class="mb-3">
-        <label asp-for="Deadline" class="form-label"></label>
-        <input asp-for="Deadline" class="form-control" type="date" />
-    </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fas fa-tag"></i> Loại bài đăng
+                    </label>
+                    <input class="form-control" value="@Model.PostType.ToString()" readonly />
+                </div>
+            </div>
+        </div>
 
-    <div class="mb-3">
-        <label asp-for="PostType" class="form-label"></label>
-        <input asp-for="PostType" class="form-control" />
-    </div>
+        <div class="form-section">
+            <div class="form-section-title">
+                <i class="fas fa-file-alt"></i> Nội dung chi tiết
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="form-label">
+                    <i class="fas fa-align-left"></i> Mô tả công việc
+                </label>
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
 
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <button type="submit" class="btn btn-primary">Lưu</button>
-    <a href="/JobPost" class="btn btn-secondary">Hủy</a>
-</form>
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Requirements" class="form-label">
+                        <i class="fas fa-list-check"></i> Yêu cầu ứng viên
+                    </label>
+                    <textarea asp-for="Requirements" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Requirements" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Benefits" class="form-label">
+                        <i class="fas fa-gift"></i> Phúc lợi
+                    </label>
+                    <textarea asp-for="Benefits" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Benefits" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Lưu thay đổi
+            </button>
+            <a href="/JobPost" class="btn btn-secondary">
+                <i class="fas fa-times"></i> Hủy
+            </a>
+        </div>
+
+    </form>
+</div>
 
 @section Scripts {
     @{

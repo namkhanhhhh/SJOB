@@ -101,7 +101,15 @@ public partial class SjobContext : DbContext
             entity.Property(e => e.DiamondPostsIncluded)
                 .HasDefaultValue(0)
                 .HasColumnName("diamond_posts_included");
-        });
+
+			entity.Property(e => e.PushToTopAvailable)
+				.HasDefaultValue(0)
+				.HasColumnName("push_to_top_available");
+
+			entity.Property(e => e.AuthenLogoAvailable)
+				.HasDefaultValue(0)
+				.HasColumnName("authen_logo_available");
+		});
 
         modelBuilder.Entity<Application>(entity =>
         {
@@ -695,7 +703,13 @@ public partial class SjobContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
-            entity.Property(e => e.SilverPostsAvailable)
+			entity.Property(e => e.PushToTopAvailable)
+				.HasDefaultValue(0)
+				.HasColumnName("push_to_top_available");
+			entity.Property(e => e.AuthenLogoAvailable)
+				.HasDefaultValue(0)
+				.HasColumnName("authen_logo_available");
+			entity.Property(e => e.SilverPostsAvailable)
                 .HasDefaultValue(0)
                 .HasColumnName("silver_posts_available");
             entity.Property(e => e.GoldPostsAvailable)

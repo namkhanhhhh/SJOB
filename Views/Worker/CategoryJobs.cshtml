@@ -6,14 +6,14 @@
 
 <div class="container mb-5">
     <div class="category-header mb-4">
-        <h1 class="h2">@Model.Category.Name Jobs</h1>
+        <h1 class="h2">Công Việc @Model.Category.Name</h1>
         <p class="lead">@Model.Category.Description</p>
     </div>
 
     @if (!Model.Jobs.Any())
     {
         <div class="alert alert-info">
-            No jobs found in this category. Please check back later.
+            Không tìm thấy công việc nào trong danh mục này. Vui lòng quay lại sau.
         </div>
     }
     else
@@ -36,7 +36,7 @@
                                             <button class="btn-wishlist @(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "active" : "")"
                                                     data-job-id="@job.Id"
                                                     data-is-in-wishlist="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "true" : "false")"
-                                                    title="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "Remove from wishlist" : "Add to wishlist")">
+                                                    title="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "Xóa khỏi danh sách yêu thích" : "Thêm vào danh sách yêu thích")">
                                                 <i class="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "fas" : "far") fa-heart"></i>
                                             </button>
                                         }
@@ -49,12 +49,12 @@
                                     <p class="card-text salary">
                                         <i class="fas fa-money-bill-wave me-2"></i>
                                         @(job.SalaryMin.HasValue && job.SalaryMax.HasValue
-                                            ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/hour"
-                                            : "Negotiable")
+                                            ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/giờ"
+                                            : "Thương lượng")
                                     </p>
                                     <div class="d-flex justify-content-between align-items-center mt-3">
                                         <span class="badge bg-primary">@job.JobType</span>
-                                        <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="btn btn-sm btn-outline-primary">View Details</a>
+                                        <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="btn btn-sm btn-outline-primary">Xem Chi Tiết</a>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
             }
         </div>
 
-        <!-- Pagination -->
+        <!-- Phân trang -->
         @if (Model.TotalPages > 1)
         {
             <nav aria-label="Page navigation">

@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     /* Core colors */
     --primary-color: #00cc66;
     --primary-light: #4ade80;
@@ -262,7 +262,7 @@ a {
 .user-actions {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .balance-display {
@@ -271,32 +271,63 @@ a {
     gap: 0.75rem;
 }
 
+/* Cải thiện hiển thị số dư */
 .balance-amount {
-    background-color: var(--warning);
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
     color: white;
-    padding: 0.35rem 0.75rem;
-    border-radius: var(--border-radius);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
     font-weight: 600;
-    font-size: 0.9rem;
-}
-
-.btn-deposit {
-    background-color: var(--danger);
-    color: white;
-    border: none;
-    border-radius: var(--border-radius);
-    padding: 0.35rem 0.75rem;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    min-width: 120px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(46, 204, 113, 0.2);
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
-    transition: all var(--transition-speed) ease;
+}
+
+    .balance-amount:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+    }
+
+    .balance-amount::before {
+        content: '\f3d1'; /* Mã Unicode của biểu tượng tiền */
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        font-size: 0.9rem;
+    }
+
+/* Cải thiện nút nạp tiền */
+.btn-deposit {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(231, 76, 60, 0.2);
 }
 
     .btn-deposit:hover {
-        background-color: #dc2626;
+        background: linear-gradient(135deg, #c0392b, #e74c3c);
         transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
         color: white;
+    }
+
+    .btn-deposit i {
+        font-size: 1rem;
     }
 
 .user-dropdown .btn {
@@ -309,6 +340,24 @@ a {
     padding: 0.5rem 1rem;
     border-radius: var(--border-radius);
     transition: all var(--transition-speed) ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .user-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-end;
+    }
+
+    .balance-display {
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .balance-amount, .btn-deposit {
+        width: 100%;
+    }
 }
 
     .user-dropdown .btn:hover {
@@ -609,4 +658,19 @@ a {
         width: 100%;
         justify-content: space-between;
     }
+
+    .verified-logo-container .logo-img {
+        object-fit: cover;
+        border: 2px solid #ccc;
+    }
+
+    .verified-logo-container .verified-badge {
+        font-size: 0.75rem;
+        width: 1.5rem;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
 }

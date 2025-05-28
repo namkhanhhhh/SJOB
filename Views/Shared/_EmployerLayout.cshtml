@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/employer.css" />
+    <link rel="stylesheet" href="~/css/customer-services.css" />
     <!-- Add this to the head section of your layout files -->
     <link rel="stylesheet" href="~/css/notification.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
@@ -15,7 +16,7 @@
     <div class="employer-dashboard">
         <aside class="sidebar">
             <div class="sidebar-header">
-                <a href="/" class="logo">
+                <a href="/JobPost" class="logo">
                     <img src="~/assets/img/noBackground.png" alt="SJOB Logo" />
                 </a>
             </div>
@@ -34,20 +35,20 @@
                             <span>Quản lý ứng viên</span>
                         </a>
                     </li>
-                    <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "ServiceOrder" ? "active" : "")">
+                    <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "ServiceOrder" ? "active" : "" )" && ViewContext.RouteData.Values["action"].ToString()= ="Profile" ? "active" : "" )">
                         <a href="#" class="nav-link">
                             <i class="fas fa-box-open"></i>
                             <span>Quản lý các gói dịch vụ</span>
                         </a>
                         <ul class="sub-menu">
-                            <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "Buy" ? "active" : "")">
-                                <a href="/ServiceOrder/Buy" class="nav-link">
+                            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "CustomerService" && ViewContext.RouteData.Values["action"].ToString() == "Index" ? "active" : "")">
+                                <a href="/CustomerService/Index" class="nav-link">
                                     <i class="fas fa-cart-plus"></i>
                                     <span>Mua dịch vụ</span>
                                 </a>
                             </li>
-                            <li class="nav-item @(ViewContext.RouteData.Values["action"].ToString() == "MyServices" ? "active" : "")">
-                                <a href="/ServiceOrder/MyServices" class="nav-link">
+                            <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "CustomerService" && ViewContext.RouteData.Values["action"].ToString() == "UserPackages" ? "active" : "")">
+                                <a href="/CustomerService/UserPackages" class="nav-link">
                                     <i class="fas fa-bag-shopping"></i>
                                     <span>Dịch vụ của tôi</span>
                                 </a>
@@ -60,10 +61,10 @@
                             <span>Cài đặt tài khoản</span>
                         </a>
                     </li>
-                    <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "Employer" && ViewContext.RouteData.Values["action"].ToString() == "History" ? "active" : "")">
-                        <a href="/Employer/History" class="nav-link">
+                    <li class="nav-item @(ViewContext.RouteData.Values["controller"].ToString() == "HistoryTransaction" && ViewContext.RouteData.Values["action"].ToString() == "History" ? "active" : "")">
+                        <a href="/HistoryTransaction/Index" class="nav-link">
                             <i class="fas fa-clock-rotate-left"></i>
-                            <span>Lịch sử hoạt động</span>
+                            <span>Lịch sử giao dịch</span>
                         </a>
                     </li>
                 </ul>

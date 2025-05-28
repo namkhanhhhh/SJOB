@@ -25,8 +25,6 @@ namespace SJOB_EXE201.Controllers
         }
 
         [HttpGet]
-        // Changed from Route attribute to regular action
-        // This will respond to both the conventional route and the explicit route
         public async Task<IActionResult> Index(
             string keyword = "",
             string location = "",

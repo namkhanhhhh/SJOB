@@ -2,6 +2,7 @@
     var username = User.Identity?.Name ?? "User";
 }
 
+<!-- Top bar -->
 <div class="top-bar">
     <div class="view-mode-selector">
         <span>Xem với:</span>
@@ -11,16 +12,15 @@
         </select>
     </div>
     <div class="user-actions">
+        <!-- Thêm component thông báo -->
+        @await Html.PartialAsync("_NotificationPartial")
+
         <div class="balance-display">
-            <span class="balance-amount">@ViewData["Balance"] CD</span>
-            <a href="/Credit/Deposit" class="btn btn-deposit">
+            <span class="balance-amount">@string.Format("{0:0}", ViewData["Balance"]) CD</span>
+            <a href="/Credit/Deposit" class="btn-deposit">
                 <i class="fas fa-plus-circle"></i> Nạp tiền
             </a>
         </div>
-
-        <!-- Add notification dropdown here -->
-        @await Html.PartialAsync("_NotificationPartial")
-
         <div class="dropdown user-dropdown">
             <button class="btn dropdown-toggle" data-bs-toggle="dropdown">
                 <i class="fas fa-user-circle"></i>
@@ -33,11 +33,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    function updateViewModeUrl(mode) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('viewMode', mode);
-        window.location.href = url.toString();
-    }
-</script>
