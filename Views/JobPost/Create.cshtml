@@ -28,7 +28,9 @@
 
 		<div class="form-group">
 			<label>Tỉnh/Thành phố</label>
-			<select id="province" class="form-control" required></select>
+                    <select id="province" class="form-control" required>
+                        <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                    </select>
 		</div>
 
 		<div class="form-group">
@@ -51,7 +53,7 @@
 		<input type="hidden" name="District" id="DistrictHidden" />
 		<input type="hidden" name="Ward" id="WardHidden" />
 
-<div class="form-row">
+        <div class="form-row">
                 <div class="form-group">
                     <label asp-for="JobType" class="form-label">
                         <i class="fas fa-briefcase"></i> Hình thức làm việc
@@ -59,10 +61,11 @@
                     <input asp-for="JobType" class="form-control" placeholder="Ví dụ: Full-time, Part-time, Remote" />
                     <span asp-validation-for="JobType" class="text-danger"></span>
                 </div>
+
 		<!--thêm ảnh-->
 		<div class="mb-3">
 			<label for="ImageMain" class="form-label">Ảnh chính (bắt buộc):</label>
-			<input type="file" class="form-control" id="ImageMain" name="ImageMain" accept="image/*" required />
+                        <input type="file" class="form-control" id="ImageMainFile" name="ImageMainFile" accept="image/*" required />
 		</div>
 
 		<div class="form-group">
@@ -76,12 +79,6 @@
 		<div class="form-group">
 			<label>Ảnh 4</label>
 			<input type="file" name="Image4File" accept="image/*" class="form-control" />
-		</div>
-
-		<div class="col-md-6">
-			<label asp-for="SalaryMin" class="form-label"><i class="bi bi-cash"></i> Lương tối thiểu</label>
-			<input asp-for="SalaryMin" class="form-control" />
-			<span asp-validation-for="SalaryMin" class="text-danger"></span>
 		</div>
                 <div class="form-group">
                     <label asp-for="ExperienceLevel" class="form-label">
@@ -186,6 +183,7 @@
         </div>
 
         <div class="form-actions">
+                <div asp-validation-summary="All" class="text-danger"></div>
             <button type="submit" class="btn btn-success">
                 <i class="fas fa-check-circle"></i> Tạo tin tuyển dụng
             </button>
@@ -196,19 +194,6 @@
 
     </form>
 </div>
-	<div class="mt-4">
-
-		<div asp-validation-summary="All" class="text-danger"></div>
-
-		<button type="submit" class="btn btn-success">
-			<i class="bi bi-check-circle"></i> Tạo mới
-		</button>
-
-		<a asp-action="Index" class="btn btn-secondary ms-2">
-			<i class="bi bi-arrow-left"></i> Quay lại
-		</a>
-	</div>
-</form>
 
 @section Scripts {
 	@{
