@@ -1,0 +1,370 @@
+﻿@model SJOB_EXE201.Models.JobPost
+
+@{
+    ViewData["Title"] = "Chi tiết bài đăng";
+}
+
+<link rel="stylesheet" href="~/css/customer-services.css" />
+
+<style>
+/* Image gallery styles */
+.image-gallery {
+    margin: 1.5rem 0;
+}
+
+.image-gallery .row {
+    margin: 0 -0.5rem;
+}
+
+.image-gallery .col-6,
+.image-gallery .col-md-3 {
+    padding: 0.5rem;
+}
+
+.image-gallery img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.image-gallery img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Main image styling */
+.main-image {
+    height: 300px !important;
+    object-fit: cover;
+    width: 100%;
+}
+
+/* Detail sections */
+.detail-section {
+    background-color: #f8fafc;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--primary-green);
+}
+
+.detail-section h4 {
+    color: var(--primary-purple);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.detail-section h4 i {
+    color: var(--primary-green);
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    background-color: white;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+.info-item i {
+    color: var(--primary-green);
+    margin-right: 0.75rem;
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.info-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-right: 0.5rem;
+    min-width: 100px;
+}
+
+.info-value {
+    color: var(--text-secondary);
+    flex: 1;
+}
+
+/* Post type badge */
+.post-type-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: capitalize;
+}
+
+.post-type-badge.silver {
+    background-color: #f1f5f9;
+    color: #64748b;
+}
+
+.post-type-badge.gold {
+    background-color: #fef3c7;
+    color: #d97706;
+}
+
+.post-type-badge.diamond {
+    background-color: #dbeafe;
+    color: #2563eb;
+}
+
+/* Status badge */
+.status-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.status-badge.active {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.status-badge.hidden {
+    background-color: rgba(107, 114, 128, 0.1);
+    color: #6b7280;
+}
+
+/* Image modal */
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.image-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+}
+
+.image-modal img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.image-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.image-modal-close:hover {
+    opacity: 0.7;
+}
+</style>
+
+<div class="form-container">
+    <div class="form-header">
+        <h2><i class="fas fa-eye"></i> @ViewData["Title"]</h2>
+    </div>
+
+    <div class="form-section">
+        <div class="form-section-title">
+            <i class="fas fa-info-circle"></i> Thông tin cơ bản
+        </div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fas fa-heading"></i> Tiêu đề
+                </label>
+                <div class="form-control-static">@Model.Title</div>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <span class="info-label">Địa điểm:</span>
+                <span class="info-value">@Model.Location</span>
+            </div>
+
+            <div class="info-item">
+                <i class="fas fa-briefcase"></i>
+                <span class="info-label">Hình thức:</span>
+                <span class="info-value">@Model.JobType</span>
+            </div>
+
+            <div class="info-item">
+                <i class="fas fa-star"></i>
+                <span class="info-label">Kinh nghiệm:</span>
+                <span class="info-value">@Model.ExperienceLevel</span>
+            </div>
+
+            <div class="info-item">
+                <i class="fas fa-money-bill-wave"></i>
+                <span class="info-label">Lương:</span>
+                <span class="info-value">@Model.SalaryMin?.ToString("N0") - @Model.SalaryMax?.ToString("N0") VNĐ</span>
+            </div>
+
+            <div class="info-item">
+                <i class="fas fa-tag"></i>
+                <span class="info-label">Loại tin:</span>
+                <span class="info-value">
+                    <span class="post-type-badge @Model.PostType">@Model.PostType</span>
+                </span>
+            </div>
+
+            <div class="info-item">
+                <i class="fas fa-eye"></i>
+                <span class="info-label">Lượt xem:</span>
+                <span class="info-value">@Model.ViewCount</span>
+            </div>
+
+            <div class="info-item">
+                <i class="fas fa-calendar-plus"></i>
+                <span class="info-label">Ngày đăng:</span>
+                <span class="info-value">@Model.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</span>
+            </div>
+
+            <div class="info-item">
+                <i class="fas fa-toggle-on"></i>
+                <span class="info-label">Trạng thái:</span>
+                <span class="info-value">
+                    <span class="status-badge @Model.Status">
+                        @(Model.Status == "active" ? "Đang hoạt động" : 
+                          Model.Status == "hidden" ? "Đã ẩn" : Model.Status)
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hình ảnh -->
+    @if (!string.IsNullOrEmpty(Model.ImageMain) || !string.IsNullOrEmpty(Model.Image2) || 
+         !string.IsNullOrEmpty(Model.Image3) || !string.IsNullOrEmpty(Model.Image4))
+    {
+        <div class="form-section">
+            <div class="form-section-title">
+                <i class="fas fa-images"></i> Hình ảnh
+            </div>
+            
+            <div class="image-gallery">
+                <div class="row">
+                    @if (!string.IsNullOrEmpty(Model.ImageMain))
+                    {
+                        <div class="col-12 mb-3">
+                            <img style="max-width: 150px;max-height: 150px;" src="@Model.ImageMain" class="main-image" alt="Ảnh chính" onclick="openImageModal(this.src)" />
+                        </div>
+                    }
+                    
+                    @if (!string.IsNullOrEmpty(Model.Image2))
+                    {
+                        <div class="col-6 col-md-4">
+                            <img src="@Model.Image2" alt="Ảnh 2" onclick="openImageModal(this.src)" />
+                        </div>
+                    }
+                    
+                    @if (!string.IsNullOrEmpty(Model.Image3))
+                    {
+                        <div class="col-6 col-md-4">
+                            <img src="@Model.Image3" alt="Ảnh 3" onclick="openImageModal(this.src)" />
+                        </div>
+                    }
+                    
+                    @if (!string.IsNullOrEmpty(Model.Image4))
+                    {
+                        <div class="col-6 col-md-4">
+                            <img src="@Model.Image4" alt="Ảnh 4" onclick="openImageModal(this.src)" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Nội dung chi tiết -->
+    <div class="detail-section">
+        <h4><i class="fas fa-align-left"></i> Mô tả công việc</h4>
+        <div class="detail-content">
+            @Html.Raw(Model.Description?.Replace("\n", "<br/>"))
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <div class="detail-section">
+                <h4><i class="fas fa-list-check"></i> Yêu cầu ứng viên</h4>
+                <div class="detail-content">
+                    @Html.Raw(Model.Requirements?.Replace("\n", "<br/>"))
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="detail-section">
+                <h4><i class="fas fa-gift"></i> Phúc lợi</h4>
+                <div class="detail-content">
+                    @Html.Raw(Model.Benefits?.Replace("\n", "<br/>"))
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a href="/JobPost" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Quay lại
+        </a>
+    </div>
+</div>
+
+<!-- Image Modal -->
+<div id="imageModal" class="image-modal" onclick="closeImageModal()">
+    <span class="image-modal-close" onclick="closeImageModal()">&times;</span>
+    <div class="image-modal-content">
+        <img id="modalImage" src="/placeholder.svg" alt="Enlarged image">
+    </div>
+</div>
+
+<script>
+function openImageModal(src) {
+    document.getElementById('imageModal').style.display = 'block';
+    document.getElementById('modalImage').src = src;
+    document.body.style.overflow = 'hidden';
+}
+
+function closeImageModal() {
+    document.getElementById('imageModal').style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal when pressing Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeImageModal();
+    }
+});
+</script>

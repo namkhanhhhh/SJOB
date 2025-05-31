@@ -165,9 +165,9 @@ public class JobPostController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(JobPost jobPost,
                                             string Province, string District, string Ward,
-		                                    IFormFile ImageMainFile, IFormFile? Image2File,
-	                                        IFormFile? Image3File, IFormFile? Image4File)
-
+                                            int JobCategoryId,
+                                            IFormFile ImageMainFile, IFormFile? Image2File,
+                                            IFormFile? Image3File, IFormFile? Image4File)
     {
         ModelState.Remove("User");
         if (!ModelState.IsValid)
@@ -199,8 +199,8 @@ public class JobPostController : Controller
         jobPost.Status = "active";
 
         //địa chỉ 
-		var specificAddress = Request.Form["SpecificAddress"];
-		jobPost.Location = $"{specificAddress} - {Ward} - {District} - {Province}";
+        var specificAddress = Request.Form["SpecificAddress"];
+        jobPost.Location = $"{specificAddress} - {Ward} - {District} - {Province}";
 
         // Gán PriorityLevel dựa trên loại tin
         switch (jobPost.PostType?.ToLower())
@@ -216,32 +216,44 @@ public class JobPostController : Controller
                 jobPost.PriorityLevel = 1;
                 break;
         }
-		// thêm ảnh 
-		string UploadImage(IFormFile file)
-		{
-			var fileName = $"{Guid.NewGuid()}_{Path.GetFileName(file.FileName)}";
-			var filePath = Path.Combine("wwwroot/uploads", fileName);
 
-			using (var stream = new FileStream(filePath, FileMode.Create))
-			{
-				file.CopyTo(stream);
-			}
+        // thêm ảnh 
+        string UploadImage(IFormFile file)
+        {
+            var fileName = $"{Guid.NewGuid()}_{Path.GetFileName(file.FileName)}";
+            var filePath = Path.Combine("wwwroot/uploads", fileName);
 
-			return "/uploads/" + fileName;
-		}
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                file.CopyTo(stream);
+            }
 
-		if (ImageMainFile != null)
-			jobPost.ImageMain = UploadImage(ImageMainFile);
-		if (Image2File != null)
-			jobPost.Image2 = UploadImage(Image2File);
-		if (Image3File != null)
-			jobPost.Image3 = UploadImage(Image3File);
-		if (Image4File != null)
-			jobPost.Image4 = UploadImage(Image4File);
+            return "/uploads/" + fileName;
+        }
 
+        if (ImageMainFile != null)
+            jobPost.ImageMain = UploadImage(ImageMainFile);
+        if (Image2File != null)
+            jobPost.Image2 = UploadImage(Image2File);
+        if (Image3File != null)
+            jobPost.Image3 = UploadImage(Image3File);
+        if (Image4File != null)
+            jobPost.Image4 = UploadImage(Image4File);
 
-		_context.JobPosts.Add(jobPost);
+        _context.JobPosts.Add(jobPost);
         await _context.SaveChangesAsync();
+
+        // Thêm job category relationship
+        if (JobCategoryId > 0)
+        {
+            var jobPostCategory = new JobPostCategory
+            {
+                JobPostId = jobPost.Id,
+                CategoryId = JobCategoryId,
+                CreatedAt = DateTime.Now
+            };
+            _context.JobPostCategories.Add(jobPostCategory);
+        }
 
         // Trừ lượt theo loại bài đăng
         if (userPostCredit != null)
@@ -281,7 +293,19 @@ public class JobPostController : Controller
     }
 
 
+    public async Task<IActionResult> Details(int id)
+    {
+        var jobPost = await _context.JobPosts
+            .Include(j => j.User)
+            .FirstOrDefaultAsync(j => j.Id == id);
 
+        if (jobPost == null || jobPost.UserId != GetCurrentUserId())
+        {
+            return NotFound();
+        }
+
+        return View(jobPost);
+    }
 
     public async Task<IActionResult> Edit(int id)
     {

@@ -4,36 +4,189 @@
     Layout = "~/Views/Shared/_EmployerLayout.cshtml";
 }
 
+
+
 <div class="main-content">
     <div class="content-container">
         <div class="page-header">
-            <h1>Lịch sử giao dịch</h1>
+            <h1><i class="fas fa-history"></i> Lịch sử giao dịch</h1>
         </div>
 
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="table-light">
-                    <tr>
-                        <th>Ngày</th>
-                        <th>Loại giao dịch</th>
-                        <th>Số tiền</th>
-                        <th>Số dư sau giao dịch</th>
-                        <th>Mô tả</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var transaction in Model)
-                    {
-                        <tr>
-                            <td>@transaction.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</td>
-                            <td>@transaction.TransactionType</td>
-                            <td>@transaction.Amount.ToString("N0")</td>
-                            <td>@transaction.BalanceAfter.ToString("N0")</td>
-                            <td>@transaction.Description</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <!-- Filter Section -->
+        <div class="filter-container">
+            <form class="filter-form" method="get">
+                <div class="filter-group">
+                    <label class="filter-label">Loại giao dịch</label>
+                    <select class="filter-select" name="type">
+                        <option value="">Tất cả giao dịch</option>
+                        <option value="deposit">Nạp tiền</option>
+                        <option value="use_silver_post">Sử dụng tin bạc</option>
+                        <option value="use_gold_post">Sử dụng tin vàng</option>
+                        <option value="use_diamond_post">Sử dụng tin kim cương</option>
+                        <option value="use_push_to_top">Đẩy tin lên đầu</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Thời gian</label>
+                    <div class="date-range">
+                        <div class="date-input">
+                            <i class="fas fa-calendar-alt"></i>
+                            <input type="date" name="from" placeholder="Từ ngày">
+                        </div>
+                        <div class="date-input">
+                            <i class="fas fa-calendar-alt"></i>
+                            <input type="date" name="to" placeholder="Đến ngày">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-actions">
+                    <button type="submit" class="btn-filter">
+                        <i class="fas fa-filter"></i> Lọc
+                    </button>
+                    <button type="reset" class="btn-reset">
+                        <i class="fas fa-redo"></i> Đặt lại
+                    </button>
+                </div>
+            </form>
         </div>
+
+        <!-- Summary Cards -->
+        <div class="summary-container">
+            <div class="summary-card income">
+                <div class="summary-title">
+                    <i class="fas fa-arrow-down"></i>
+                    <span>Tổng nạp tiền</span>
+                </div>
+                <div class="summary-value">
+                    @{
+                        var totalDeposit = Model.Where(t => t.Amount > 0).Sum(t => t.Amount);
+                    }
+                    @totalDeposit.ToString("N0") VNĐ
+                </div>
+            </div>
+            
+            <div class="summary-card expense">
+                <div class="summary-title">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>Tổng chi tiêu</span>
+                </div>
+                <div class="summary-value">
+                    @{
+                        var totalExpense = Model.Where(t => t.Amount < 0).Sum(t => Math.Abs(t.Amount));
+                    }
+                    @totalExpense.ToString("N0") VNĐ
+                </div>
+            </div>
+            
+            <div class="summary-card balance">
+                <div class="summary-title">
+                    <i class="fas fa-wallet"></i>
+                    <span>Số dư hiện tại</span>
+                </div>
+                <div class="summary-value">
+                    @{
+                        var currentBalance = Model.Any() ? Model.OrderByDescending(t => t.CreatedAt).First().BalanceAfter : 0;
+                    }
+                    @currentBalance.ToString("N0") VNĐ
+                </div>
+            </div>
+        </div>
+
+        <!-- Transaction Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <h2 class="table-title"><i class="fas fa-list"></i> Chi tiết giao dịch</h2>
+            </div>
+            
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Ngày giao dịch</th>
+                                <th>Loại giao dịch</th>
+                                <th>Số tiền</th>
+                                <th>Số dư sau giao dịch</th>
+                                <th>Mô tả</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var transaction in Model)
+                            {
+                                <tr>
+                                    <td>@transaction.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>
+                                        @{
+                                            var badgeClass = transaction.TransactionType switch
+                                            {
+                                                "deposit" => "deposit",
+                                                "withdrawal" => "withdrawal",
+                                                "use_silver_post" => "use_silver_post",
+                                                "use_gold_post" => "use_gold_post",
+                                                "use_diamond_post" => "use_diamond_post",
+                                                "use_push_to_top" => "use_push_to_top",
+                                                _ => "purchase"
+                                            };
+                                            
+                                            var transactionName = transaction.TransactionType switch
+                                            {
+                                                "deposit" => "Nạp tiền",
+                                                "withdrawal" => "Rút tiền",
+                                                "use_silver_post" => "Tin bạc",
+                                                "use_gold_post" => "Tin vàng",
+                                                "use_diamond_post" => "Tin kim cương",
+                                                "use_push_to_top" => "Đẩy tin",
+                                                _ => transaction.TransactionType
+                                            };
+                                        }
+                                        <span class="transaction-badge @badgeClass">@transactionName</span>
+                                    </td>
+                                    <td>
+                                        <span class="amount @(transaction.Amount >= 0 ? "positive" : "negative")">
+                                            @(transaction.Amount >= 0 ? "+" : "")@transaction.Amount.ToString("N0") VNĐ
+                                        </span>
+                                    </td>
+                                    <td>@transaction.BalanceAfter.ToString("N0") VNĐ</td>
+                                    <td>@transaction.Description</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="empty-state">
+                    <i class="fas fa-receipt"></i>
+                    <h3>Không có giao dịch nào</h3>
+                    <p>Bạn chưa có giao dịch nào trong hệ thống. Khi bạn nạp tiền hoặc sử dụng dịch vụ, các giao dịch sẽ hiển thị ở đây.</p>
+                </div>
+            }
+        </div>
+        
+        <!-- Pagination -->
+        @if (Model.Count > 20)
+        {
+            <div class="pagination-container">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        }
     </div>
 </div>

@@ -43,7 +43,16 @@ public class HistoryTransactionController : Controller
             .Where(t => t.UserId == user.Id)
             .OrderByDescending(t => t.CreatedAt)
             .ToListAsync();
-
+        //lấy số tiền của người dùng
+        var userCredit = await _context.UserCredits.FirstOrDefaultAsync(x => x.UserId == userId);
+        if (userCredit != null)
+        {
+            ViewData["Balance"] = userCredit.Balance / 1000;
+        }
+        else
+        {
+            ViewData["Balance"] = 0;
+        }
         return View(transactions);
     }
 }

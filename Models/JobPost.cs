@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SJOB_EXE201.Models;
 
@@ -25,15 +26,17 @@ public partial class JobPost
 
     public string? Location { get; set; }
 
-    [Range(0, 100000000, ErrorMessage = "Lương tối thiểu phải là số dương")]
+    [Range(10000, 100000000, ErrorMessage = "Lương tối thiểu phải là 10.000 đồng")]
     public decimal? SalaryMin { get; set; }
 
-    [Range(0, 100000000, ErrorMessage = "Lương tối đa phải là số dương")]
+    [Range(11000, 100000000, ErrorMessage = "Lương tối đa phải trên 10.000 đồng")]
     public decimal? SalaryMax { get; set; }
 
     [StringLength(20, ErrorMessage = "tối đa 20 kí tự")]
+    [Column(TypeName = ("NVARCHAR(255)"))]
     public string? JobType { get; set; }
 
+    [Column(TypeName=("NVARCHAR(255)"))]
     public string? ExperienceLevel { get; set; }
 
     public DateOnly? Deadline { get; set; }

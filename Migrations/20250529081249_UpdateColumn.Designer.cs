@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SJOB_EXE201.Models;
 
@@ -11,9 +12,11 @@ using SJOB_EXE201.Models;
 namespace SJOB_EXE201.Migrations
 {
     [DbContext(typeof(SjobContext))]
-    partial class SjobContextModelSnapshot : ModelSnapshot
+    [Migration("20250529081249_UpdateColumn")]
+    partial class UpdateColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -509,7 +512,7 @@ namespace SJOB_EXE201.Migrations
                     b.Property<string>("JobType")
                         .HasMaxLength(20)
                         .IsUnicode(false)
-                        .HasColumnType("NVARCHAR(255)")
+                        .HasColumnType("varchar(20)")
                         .HasColumnName("job_type");
 
                     b.Property<string>("Location")
