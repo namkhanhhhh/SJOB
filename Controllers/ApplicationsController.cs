@@ -95,6 +95,17 @@ namespace SJOB_EXE201.Controllers
                 TotalCount = totalCount
             };
 
+            //lấy số tiền của người dùng
+            var userCredit = await _context.UserCredits.FirstOrDefaultAsync(x => x.UserId == userId);
+            if (userCredit != null)
+            {
+                ViewData["Balance"] = userCredit.Balance / 1000;
+            }
+            else
+            {
+                ViewData["Balance"] = 0;
+            }
+
             return View(viewModel);
         }
 

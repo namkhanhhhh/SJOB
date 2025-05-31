@@ -581,43 +581,45 @@
 								<button class="btn btn-action dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-display="static">
 									<i class="fas fa-ellipsis-v"></i>
 								</button>
-								<ul class="dropdown-menu dropdown-menu-start text-start">
-									<li>
-										<a class="dropdown-item" href="/jobPost/Edit/@post.Id">
-											<i class="fas fa-edit"></i> Sửa
-										</a>
-									</li>
+                                <!-- In the dropdown menu section, replace the Edit link with View Details -->
+                                <ul class="dropdown-menu dropdown-menu-start text-start">
+                                    <li>
+                                        <a class="dropdown-item" href="/jobPost/Details/@post.Id">
+                                            <i class="fas fa-eye"></i> Xem chi tiết
+                                        </a>
+                                    </li>
 
-									@if (post.Status == "active")
-									{
-										<li>
-											<form method="post" asp-action="Hidden" asp-controller="JobPost" asp-route-id="@post.Id">
-												<button class="dropdown-item" type="submit">
-													<i class="fas fa-eye-slash"></i> Ẩn bài đăng
-												</button>
-											</form>
-										</li>
-									}
+                                    <!-- Keep other menu items as they are -->
+                                    @if (post.Status == "active")
+                                    {
+                                        <li>
+                                            <form method="post" asp-action="Hidden" asp-controller="JobPost" asp-route-id="@post.Id">
+                                                <button class="dropdown-item" type="submit">
+                                                    <i class="fas fa-eye-slash"></i> Ẩn bài đăng
+                                                </button>
+                                            </form>
+                                        </li>
+                                    }
 
-									@if (post.Status == "hidden")
-									{
-										<li>
-											<form method="post" asp-action="Unhide" asp-controller="JobPost" asp-route-id="@post.Id">
-												<button class="dropdown-item" type="submit">
-													<i class="fas fa-eye"></i> Hiển thị lại
-												</button>
-											</form>
-										</li>
-									}
+                                    @if (post.Status == "hidden")
+                                    {
+                                        <li>
+                                            <form method="post" asp-action="Unhide" asp-controller="JobPost" asp-route-id="@post.Id">
+                                                <button class="dropdown-item" type="submit">
+                                                    <i class="fas fa-eye"></i> Hiển thị lại
+                                                </button>
+                                            </form>
+                                        </li>
+                                    }
 
-									<li>
-										<form asp-controller="JobPost" asp-action="PushToTop" asp-route-id="@post.Id" method="post">
-											<button class="dropdown-item" type="submit">
-												<i class="fas fa-arrow-up"></i> Đẩy bài
-											</button>
-										</form>
-									</li>
-								</ul>
+                                    <li>
+                                        <form asp-controller="JobPost" asp-action="PushToTop" asp-route-id="@post.Id" method="post">
+                                            <button class="dropdown-item" type="submit">
+                                                <i class="fas fa-arrow-up"></i> Đẩy bài
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
 							</div>
 						</div>
 					}
