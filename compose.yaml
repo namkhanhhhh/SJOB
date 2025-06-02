@@ -1,0 +1,44 @@
+﻿version: '3.8'
+services:
+  sjob_exe201:
+    image: sjob_exe201
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8080"
+      - "8091:8081"
+    depends_on:
+      sjob_database:
+        condition: service_healthy
+    networks:
+      - sjob_exe201_network
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  sjob_database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sjob_database
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Fufsas3bihfi"
+    ports:
+      - "1451:1433"
+    healthcheck:
+      test: [ "CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Fufsas3bihfi -Q 'SELECT 1' -N -C" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - sjob_database_data:/var/opt/mssql
+    networks:
+      - sjob_exe201_network
+
+networks:
+  sjob_exe201_network:
+    driver: bridge
+
+volumes:
+  sjob_database_data:
+    name: sjob_database_data
+

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Net.payOS.Types;
 using Net.payOS;
 using Hangfire;
+using Hangfire.SqlServer;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,17 @@ builder.Services.AddHangfire(configuration => configuration
     .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
     .UseSimpleAssemblyNameTypeSerializer()
     .UseRecommendedSerializerSettings()
-    .UseSqlServerStorage(builder.Configuration.GetConnectionString("DB")));
+    .UseSqlServerStorage(builder.Configuration.GetConnectionString("DB"), new SqlServerStorageOptions
+    {
+        CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+        SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+        QueuePollInterval = TimeSpan.Zero,
+        UseRecommendedIsolationLevel = true,
+        DisableGlobalLocks = true,
+        CommandTimeout = TimeSpan.FromSeconds(60),
+        SchemaName = "Hangfire",
+        PrepareSchemaIfNecessary = true
+    }));
 
 builder.Services.AddHangfireServer();
 
@@ -79,6 +90,12 @@ builder.Services.AddSession(options =>
 builder.Services.AddDistributedMemoryCache(); // Cần thiết để sử dụng Session
 var app = builder.Build();
 
+// Apply EF Core migrations
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<SjobContext>();
+    await dbContext.Database.MigrateAsync(); // Creates SjobPlatform database and applies migrations
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
