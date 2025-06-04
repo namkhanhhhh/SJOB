@@ -2,13 +2,22 @@
 using SJOB_EXE201.Models;
 using SJOB_EXE201.Middleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Net.payOS.Types;
 using Net.payOS;
 using Hangfire;
 using Hangfire.SqlServer;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.UseKestrel(options =>
+{
+    options.ListenAnyIP(8080); // HTTP
+    options.ListenAnyIP(8081); // HTTP
+    options.ListenAnyIP(443, listenOptions =>
+    {
+        listenOptions.UseHttps("/app/certificate.pfx", "qYrjin-7gudpa");
+    });
+});
 
 // tự động trừ gói khi hết hạn 
 builder.Services.AddHangfire(configuration => configuration
