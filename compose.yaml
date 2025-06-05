@@ -1,5 +1,15 @@
 ﻿version: '3.8'
 services:
+  sjob_cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: sjob_cloudflared
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=eyJhIjoiZDNkZWEyYmY3ODljZWIwZjdkYTNmMDUzMDIzNDNlMzMiLCJ0IjoiZWY4MTZlMGMtYjc2OC00ZjYxLTk5M2UtOTBiZGQwMTU0NDI5IiwicyI6Ik56Y3dPRGd4T0dVdFpEWXdZaTAwWXpObExXSmhOakF0WVdReVpEbGlNbVJtT0RrMCJ9
+    restart: unless-stopped
+    networks:
+      - sjob_exe201_network
+  
   sjob_exe201:
     image: sjob_exe201
     build:
