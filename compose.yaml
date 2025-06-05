@@ -17,8 +17,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "8095:8080"
     depends_on:
       sjob_database:
         condition: service_healthy
