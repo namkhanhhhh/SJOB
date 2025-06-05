@@ -3,6 +3,9 @@ WORKDIR /app
 EXPOSE 8095
 EXPOSE 443
 
+COPY certificate.pfx /app/certificate.pfx
+RUN chmod 600 /app/certificate.pfx
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
