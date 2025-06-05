@@ -17,8 +17,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8095:8080"
-      - "8096:8081"
-      - "443:443"
     depends_on:
       sjob_database:
         condition: service_healthy

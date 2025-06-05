@@ -11,12 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.UseKestrel(options =>
 {
-    options.ListenAnyIP(8080); // HTTP
-    options.ListenAnyIP(8081); // HTTP
-    options.ListenAnyIP(443, listenOptions =>
-    {
-        listenOptions.UseHttps("/app/certificate.pfx", "qYrjin-7gudpa");
-    });
+    options.ListenAnyIP(8080);
 });
 
 // tự động trừ gói khi hết hạn 
