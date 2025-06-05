@@ -5,8 +5,10 @@ services:
     container_name: sjob_cloudflared
     command: tunnel --no-autoupdate run
     environment:
-      - TUNNEL_TOKEN=eyJhIjoiZDNkZWEyYmY3ODljZWIwZjdkYTNmMDUzMDIzNDNlMzMiLCJ0IjoiZWY4MTZlMGMtYjc2OC00ZjYxLTk5M2UtOTBiZGQwMTU0NDI5IiwicyI6Ik56Y3dPRGd4T0dVdFpEWXdZaTAwWXpObExXSmhOakF0WVdReVpEbGlNbVJtT0RrMCJ9
+      - TUNNEL_TOKEN=eyJhIjoiZDNkZWEyYmY3ODljZWIwZjdkYTNmMDUzMDIzNDNlMzMiLCJ0IjoiYTQyOTc2MWUtNGM2Zi00YjE4LWFlYzUtNGU3ZDcyOGFiZmU0IiwicyI6Ik5XRmlZVFZsTlRBdFl6TTNNeTAwTkdOaUxUZzJNMll0TTJKaE9XVTJNbUZqT0RjMSJ9
     restart: unless-stopped
+    volumes:
+      - sjob_cloudflared_data:/app/cloudflared
     networks:
       - sjob_exe201_network
   
@@ -20,6 +22,8 @@ services:
     depends_on:
       sjob_database:
         condition: service_healthy
+    volumes:
+        - sjob_exe201_data:/app/data
     networks:
       - sjob_exe201_network
     environment:
@@ -50,4 +54,8 @@ networks:
 volumes:
   sjob_database_data:
     name: sjob_database_data
+  sjob_cloudflared_data:
+    name: sjob_cloudflared_data
+  sjob_exe201_data:
+    name: sjob_exe201_data
 
