@@ -196,6 +196,7 @@ public class JobPostController : Controller
         jobPost.UserId = userId;
         jobPost.User = user;
         jobPost.CreatedAt = DateTime.Now;
+        jobPost.Deadline = DateOnly.FromDateTime(DateTime.Now).AddDays(5);
         jobPost.Status = "active";
 
         //địa chỉ 

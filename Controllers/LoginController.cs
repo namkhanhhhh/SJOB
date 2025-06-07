@@ -194,7 +194,18 @@ namespace SJOB_EXE201.Controllers
                 await _context.SaveChangesAsync();
 
                 //thêm 5 lượt đăng vào đây
-                
+                var postCredit = new UserPostCredit
+                {
+                    UserId = user.Id,
+                    SilverPostsAvailable = 5,
+                    GoldPostsAvailable = 0,
+                    DiamondPostsAvailable = 0,
+                    PushToTopAvailable = 0,
+                    AuthenLogoAvailable = 0,
+                    LastUpdated = DateTime.Now
+                };
+                _context.UserPostCredits.Add(postCredit);
+                await _context.SaveChangesAsync();
             }
 
             //// Tạo claims để đăng nhập
