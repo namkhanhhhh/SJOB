@@ -79,9 +79,19 @@ namespace SJOB_EXE201.Controllers
             _context.UserDetails.Add(newUserDetail);
             await _context.SaveChangesAsync();
 
-
-            //thêm 5 lượt đăng vào đây 
-
+            // Thêm 5 lượt đăng bài hạng Silver cho người dùng mới
+            var postCredit = new UserPostCredit
+            {
+                UserId = newUser.Id,
+                SilverPostsAvailable = 5,
+                GoldPostsAvailable = 0,
+                DiamondPostsAvailable = 0,
+                PushToTopAvailable = 0,
+                AuthenLogoAvailable = 0,
+                LastUpdated = DateTime.Now
+            };
+            _context.UserPostCredits.Add(postCredit);
+            await _context.SaveChangesAsync();
 
             // Chuyển hướng về trang Login với thông báo thành công
             TempData["SuccessMessage"] = "Đăng ký tài khoản thành công! Vui lòng đăng nhập.";

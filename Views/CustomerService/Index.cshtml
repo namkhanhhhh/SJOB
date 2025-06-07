@@ -16,7 +16,7 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
             <div class="mb-2 mb-md-0">
                 <div class="balance-title">Số dư hiện tại:</div>
-                <div class="balance-amount">@((int)(decimal)ViewData["Balance"]) CREDIT</div>
+                <div class="balance-amount">@Convert.ToInt32(ViewData["Balance"]) CREDIT</div>
             </div>
             <div class="text-md-end">
                 <div class="balance-note">*Lưu ý: Bạn cần đủ số dư để mua gói dịch vụ.</div>

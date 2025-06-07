@@ -3,7 +3,29 @@
 @{
     ViewData["Title"] = "Tạo Tin Tuyển Dụng";
 }
-<link rel="stylesheet" href="~/css/customer-services.css" />
+<head>
+    <link rel="stylesheet" href="~/css/customer-services.css" />
+    <style>
+        /* Thêm CSS để hiển thị trạng thái disabled */
+        .post-type-option.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            background-color: #f5f5f5;
+        }
+
+            .post-type-option.disabled label {
+                cursor: not-allowed;
+                color: #999;
+            }
+
+            .post-type-option.disabled .post-type-desc {
+                color: #d32f2f;
+                font-weight: bold;
+            }
+    </style>
+</head>
+
+
 
 <div class="form-container">
     <div class="form-header">
@@ -355,6 +377,58 @@
                         jobCategorySelect.appendChild(childOption);
                     });
                 });
+            }
+        });
+
+        // Thêm vào phần script trong view Create
+        document.addEventListener('DOMContentLoaded', () => {
+            // Lấy số lượt từ ViewBag (cần thêm vào view)
+            const silverCredits = @ViewBag.SilverCredits;
+            const goldCredits = @ViewBag.GoldCredits;
+            const diamondCredits = @ViewBag.DiamondCredits;
+
+            // Disable các option không có lượt
+            const silverOption = document.querySelector('.post-type-option.silver');
+            const goldOption = document.querySelector('.post-type-option.gold');
+            const diamondOption = document.querySelector('.post-type-option.diamond');
+            const silverRadio = document.getElementById('silver');
+            const goldRadio = document.getElementById('gold');
+            const diamondRadio = document.getElementById('diamond');
+
+            // Disable silver nếu không có lượt
+            if (silverCredits <= 0) {
+                silverOption.classList.add('disabled');
+                silverRadio.disabled = true;
+                silverOption.querySelector('.post-type-desc').textContent = 'Hết lượt';
+            } else {
+                silverOption.querySelector('.post-type-desc').textContent = `Còn ${silverCredits} lượt`;
+            }
+
+            // Disable gold nếu không có lượt
+            if (goldCredits <= 0) {
+                goldOption.classList.add('disabled');
+                goldRadio.disabled = true;
+                goldOption.querySelector('.post-type-desc').textContent = 'Hết lượt';
+            } else {
+                goldOption.querySelector('.post-type-desc').textContent = `Còn ${goldCredits} lượt`;
+            }
+
+            // Disable diamond nếu không có lượt
+            if (diamondCredits <= 0) {
+                diamondOption.classList.add('disabled');
+                diamondRadio.disabled = true;
+                diamondOption.querySelector('.post-type-desc').textContent = 'Hết lượt';
+            } else {
+                diamondOption.querySelector('.post-type-desc').textContent = `Còn ${diamondCredits} lượt`;
+            }
+
+            // Tự động chọn option có lượt đầu tiên
+            if (silverCredits > 0) {
+                silverRadio.checked = true;
+            } else if (goldCredits > 0) {
+                goldRadio.checked = true;
+            } else if (diamondCredits > 0) {
+                diamondRadio.checked = true;
             }
         });
     </script>

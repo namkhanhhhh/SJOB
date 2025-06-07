@@ -536,6 +536,12 @@ public class CustomerServiceController : Controller
 
             result.AppendLine($"Found {transactions.Count} purchase transactions");
 
+            if (!transactions.Any())
+            {
+                ViewBag.Message = "Bạn chưa thực hiện giao dịch nào.";
+                return RedirectToAction("UserPackages");
+            }
+
             int subscriptionsCreated = 0;
             int serviceOrdersCreated = 0;
 
@@ -663,7 +669,9 @@ public class CustomerServiceController : Controller
         }
         catch (Exception ex)
         {
-            result.AppendLine($"Error: {ex.Message}");
+            //code debug 
+
+/*            result.AppendLine($"Error: {ex.Message}");
             if (ex.InnerException != null)
                 result.AppendLine($"Inner Error: {ex.InnerException.Message}");
 
@@ -674,7 +682,7 @@ public class CustomerServiceController : Controller
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
             {
                 return Content(result.ToString(), "text/plain");
-            }
+            }*/
 
             return RedirectToAction("UserPackages");
         }
