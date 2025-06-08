@@ -51,13 +51,46 @@ namespace SJOB_EXE201.Controllers
 
             var companyProfile = user.CompanyProfiles.FirstOrDefault();
 
+            // Tính toán thống kê chính xác
+
+            // 1. Tổng số bài đăng của user này
+            var totalJobPosts = await _context.JobPosts
+                .Where(jp => jp.UserId == userId)
+                .CountAsync();
+
+            // 2. Tổng số ứng viên đã apply vào các job của user này
+            var totalApplications = await _context.Applications
+                .Where(a => a.JobPost.UserId == userId)
+                .CountAsync();
+
+            // 3. Tổng số lượt xem profile (có thể lấy từ bảng worker_visits hoặc view_count của job_posts)
+            var totalViews = await _context.JobPosts
+                .Where(jp => jp.UserId == userId)
+                .SumAsync(jp => jp.ViewCount ?? 0);
+
+            // 4. Tổng số lượt đăng còn lại từ user_post_credits
+            var userPostCredits = await _context.UserPostCredits
+                .FirstOrDefaultAsync(upc => upc.UserId == userId);
+
+            var totalRemainingPosts = 0;
+            if (userPostCredits != null)
+            {
+                totalRemainingPosts = userPostCredits.SilverPostsAvailable +
+                                    userPostCredits.GoldPostsAvailable +
+                                    userPostCredits.DiamondPostsAvailable;
+            }
+
             var viewModel = new EmployerProfileViewModel
             {
                 Employer = user,
                 UserDetail = user.UserDetails.FirstOrDefault(),
-                CompanyProfile = companyProfile
+                JobPostsCount = totalJobPosts,
+                ApplicationsCount = totalApplications,
+                ViewsCount = totalViews,
+                RemainingPostsCount = totalRemainingPosts
             };
-            //lấy số tiền của người dùng
+
+            // Lấy số tiền của người dùng
             var userCredit = await _context.UserCredits.FirstOrDefaultAsync(x => x.UserId == userId);
             if (userCredit != null)
             {
@@ -67,6 +100,7 @@ namespace SJOB_EXE201.Controllers
             {
                 ViewData["Balance"] = 0;
             }
+
             return View(viewModel);
         }
 

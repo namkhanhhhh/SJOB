@@ -9,14 +9,14 @@ using Hangfire.SqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.WebHost.UseKestrel(options =>
+/*builder.WebHost.UseKestrel(options =>
 {
     options.ListenAnyIP(8080);
     options.ListenAnyIP(443, listenOptions =>
     {
         listenOptions.UseHttps("/app/certificate.pfx", "qYrjin-7gudpa");
     });
-});
+});*/
 
 // tự động trừ gói khi hết hạn 
 builder.Services.AddHangfire(configuration => configuration

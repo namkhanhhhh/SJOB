@@ -13,6 +13,7 @@ namespace SJOB_EXE201.ViewModels
         public int? JobPostsCount { get; set; }
         public int? ApplicationsCount { get; set; }
         public int? ViewsCount { get; set; }
+        public int RemainingPostsCount { get; set; }  // Tổng số lượt đăng còn lại
         public int TotalJobPosts { get; set; }
         public List<JobPost> JobPosts { get; set; }
         public int ProfileViewCount { get; set; }
