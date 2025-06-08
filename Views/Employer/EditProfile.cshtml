@@ -17,42 +17,44 @@
     <div class="content-container">
         <div class="edit-profile-container">
             <form asp-action="EditProfile" method="post" enctype="multipart/form-data">
-                <input type="hidden" asp-for="UserId" />
-                
+                <input type="hidden" asp-for="UserId"/>
+
                 <div class="form-tabs">
                     <ul class="nav nav-tabs" id="profileTabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab" aria-controls="personal" aria-selected="true">
+                            <button class="nav-link active" id="personal-tab" data-bs-toggle="tab"
+                                    data-bs-target="#personal" type="button" role="tab" aria-controls="personal"
+                                    aria-selected="true">
                                 <i class="fas fa-user"></i> Thông tin cá nhân
                             </button>
                         </li>
                     </ul>
                 </div>
-                
+
                 <div class="tab-content" id="profileTabsContent">
                     <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
                         <div class="form-section">
                             <h3 class="section-title">Thông tin tài khoản</h3>
-                            
+
                             <div class="form-group">
                                 <label asp-for="Username" class="form-label">Tên đăng nhập</label>
-                                <input asp-for="Username" class="form-control" />
+                                <input asp-for="Username" class="form-control"/>
                                 <span asp-validation-for="Username" class="text-danger"></span>
                             </div>
-                            
+
                             <div class="form-group">
-                                <label asp-for="Email" class="form-label" >Email</label>
+                                <label asp-for="Email" class="form-label">Email</label>
                                 <input asp-for="Email" class="form-control" type="email" disabled/>
                                 <span asp-validation-for="Email" class="text-danger"></span>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label class="form-label">Ảnh đại diện</label>
                                 <div class="avatar-upload">
                                     <div class="avatar-preview">
                                         @if (!string.IsNullOrEmpty(Model.Avatar))
                                         {
-                                            <img src="@Model.Avatar" alt="Avatar" id="avatarPreview" />
+                                            <img src="@Model.Avatar" alt="Avatar" id="avatarPreview"/>
                                         }
                                         else
                                         {
@@ -62,7 +64,7 @@
                                         }
                                     </div>
                                     <div class="avatar-edit">
-                                        <input type="file" id="avatarFile" name="avatarFile" accept="image/*" />
+                                        <input type="file" id="avatarFile" name="avatarFile" accept="image/*"/>
                                         <label for="avatarFile">
                                             <i class="fas fa-camera"></i> Chọn ảnh
                                         </label>
@@ -70,42 +72,43 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="form-section">
                             <h3 class="section-title">Thông tin cá nhân</h3>
-                            
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="FirstName" class="form-label">Họ</label>
-                                        <input asp-for="FirstName" class="form-control" />
+                                        <input asp-for="FirstName" class="form-control"/>
                                         <span asp-validation-for="FirstName" class="text-danger"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label asp-for="LastName" class="form-label">Tên</label>
-                                        <input asp-for="LastName" class="form-control" />
+                                        <input asp-for="LastName" class="form-control"/>
                                         <span asp-validation-for="LastName" class="text-danger"></span>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label asp-for="PhoneNumber" class="form-label">Số điện thoại</label>
-                                <input asp-for="PhoneNumber" class="form-control" />
+                                <input asp-for="PhoneNumber" class="form-control"/>
                                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label asp-for="Address" class="form-label">Địa chỉ</label>
-                                <input asp-for="Address" class="form-control" />
+                                <input asp-for="Address" class="form-control"/>
                                 <span asp-validation-for="Address" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                    
-                
+                </div>
+
+
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-save"></i> Lưu thay đổi
@@ -121,16 +124,16 @@
 
 @section Scripts {
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Avatar preview
             const avatarFile = document.getElementById('avatarFile');
             const avatarPreview = document.getElementById('avatarPreview');
-            
-            avatarFile.addEventListener('change', function() {
+
+            avatarFile.addEventListener('change', function () {
                 const file = this.files[0];
                 if (file) {
                     const reader = new FileReader();
-                    reader.onload = function(e) {
+                    reader.onload = function (e) {
                         if (avatarPreview.tagName === 'IMG') {
                             avatarPreview.src = e.target.result;
                         } else {
@@ -143,16 +146,16 @@
                     reader.readAsDataURL(file);
                 }
             });
-            
+
             // Logo preview
             const logoFile = document.getElementById('logoFile');
             const logoPreview = document.getElementById('logoPreview');
-            
-            logoFile.addEventListener('change', function() {
+
+            logoFile.addEventListener('change', function () {
                 const file = this.files[0];
                 if (file) {
                     const reader = new FileReader();
-                    reader.onload = function(e) {
+                    reader.onload = function (e) {
                         if (logoPreview.tagName === 'IMG') {
                             logoPreview.src = e.target.result;
                         } else {
@@ -165,10 +168,10 @@
                     reader.readAsDataURL(file);
                 }
             });
-            
+
             // Form validation
             const form = document.querySelector('form');
-            form.addEventListener('submit', function(e) {
+            form.addEventListener('submit', function (e) {
                 if (!form.checkValidity()) {
                     e.preventDefault();
                     e.stopPropagation();
@@ -187,16 +190,16 @@
         box-shadow: var(--box-shadow);
         overflow: hidden;
     }
-    
+
     .form-tabs {
         padding: 1rem 1rem 0;
         background-color: #f8fafc;
     }
-    
+
     .nav-tabs {
         border-bottom: none;
     }
-    
+
     .nav-tabs .nav-link {
         border: none;
         padding: 1rem 1.5rem;
@@ -207,31 +210,31 @@
         align-items: center;
         gap: 0.5rem;
     }
-    
+
     .nav-tabs .nav-link i {
         font-size: 1rem;
     }
-    
+
     .nav-tabs .nav-link:hover {
         color: var(--primary-color);
         background-color: rgba(0, 204, 102, 0.05);
     }
-    
+
     .nav-tabs .nav-link.active {
         color: var(--primary-color);
         background-color: white;
         border-bottom: 2px solid var(--primary-color);
     }
-    
+
     .tab-content {
         padding: 2rem;
     }
-    
+
     .form-section {
         margin-bottom: 2rem;
         animation: fadeIn 0.5s ease-in-out;
     }
-    
+
     .section-title {
         font-size: 1.25rem;
         font-weight: 600;
@@ -240,35 +243,35 @@
         padding-bottom: 0.75rem;
         border-bottom: 1px solid #e2e8f0;
     }
-    
+
     .form-group {
         margin-bottom: 1.5rem;
     }
-    
+
     .form-label {
         font-weight: 500;
         margin-bottom: 0.5rem;
         color: var(--text-primary);
     }
-    
+
     .form-control, .form-select {
         border-radius: var(--border-radius);
         padding: 0.75rem 1rem;
         border: 1px solid #e2e8f0;
         transition: all var(--transition-speed) ease;
     }
-    
+
     .form-control:focus, .form-select:focus {
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(0, 204, 102, 0.15);
     }
-    
+
     .avatar-upload, .logo-upload {
         display: flex;
         align-items: center;
         gap: 1.5rem;
     }
-    
+
     .avatar-preview, .logo-preview {
         width: 100px;
         height: 100px;
@@ -276,17 +279,17 @@
         overflow: hidden;
         border: 1px solid #e2e8f0;
     }
-    
+
     .logo-preview {
         border-radius: var(--border-radius);
     }
-    
+
     .avatar-preview img, .logo-preview img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
-    
+
     .avatar-placeholder, .logo-placeholder {
         width: 100%;
         height: 100%;
@@ -297,15 +300,15 @@
         color: var(--text-secondary);
         font-size: 2rem;
     }
-    
+
     .avatar-edit, .logo-edit {
         position: relative;
     }
-    
+
     .avatar-edit input, .logo-edit input {
         display: none;
     }
-    
+
     .avatar-edit label, .logo-edit label {
         display: inline-flex;
         align-items: center;
@@ -317,11 +320,11 @@
         cursor: pointer;
         transition: all var(--transition-speed) ease;
     }
-    
+
     .avatar-edit label:hover, .logo-edit label:hover {
         background-color: var(--primary-dark);
     }
-    
+
     .form-actions {
         display: flex;
         justify-content: flex-end;
@@ -329,7 +332,7 @@
         padding-top: 1.5rem;
         border-top: 1px solid #e2e8f0;
     }
-    
+
     .form-actions .btn {
         display: flex;
         align-items: center;
