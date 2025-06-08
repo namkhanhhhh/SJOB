@@ -98,7 +98,15 @@
                 <label for="quantity" class="form-label">
                     <i class="fas fa-hashtag"></i> Số lượng:
                 </label>
-                <input type="number" name="quantity" id="quantity" class="form-control quantity-input" value="1" min="1" onchange="updateTotalPrice()" />
+                @if (Model.Type == "service" && Model.Service?.ServiceType == "verified_badge")
+                {
+                    <input type="number" name="quantity" id="quantity" class="form-control" value="1" readonly />
+                }
+                else
+                {
+                    <input type="number" name="quantity" id="quantity" class="form-control quantity-input" value="1" min="1" onchange="updateTotalPrice()" />
+                }
+
             </div>
 
             <div class="total-price-alert">

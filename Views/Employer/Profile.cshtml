@@ -46,17 +46,12 @@
                     </div>
                 </div>
                 <!--logo-->
+                 @if (Model.CompanyProfile?.VerifiedBadge == true)
+                    {
                 <div class="verified-logo-container position-relative d-inline-block">
                     <img src="~/images/avatars/logo_tich_xanh.png" alt="Logo" class="logo-img rounded-circle" width="100" height="100" />
-
-                    @if (Model.CompanyProfile?.VerifiedBadge == true)
-                    {
-                        <span class="verified-badge position-absolute bottom-0 end-0 translate-middle p-1 bg-success border border-light rounded-circle">
-                            <i class="fas fa-check text-white"></i>
-                        </span>
-                    }
                 </div>
-
+                    }
             </div>
 
             <div class="profile-sections">

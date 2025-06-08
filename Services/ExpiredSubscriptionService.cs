@@ -126,6 +126,23 @@ namespace SJOB_EXE201.Services
                     {
                         userPostCredit.AuthenLogoAvailable -= serviceOrder.Service.AuthenLogoAvailable;
                         userPostCredit.AuthenLogoAvailable = Math.Max(0, userPostCredit.AuthenLogoAvailable);
+
+                        // Kiểm tra còn gói VerifiedBadge active nào không
+                        var hasActiveVerifiedBadge = await _context.ServiceOrders
+                            .AnyAsync(so => so.UserId == serviceOrder.UserId
+                                            && so.Status == "active"
+                                            && so.Service.ServiceType == "verified_badge");
+
+                        if (!hasActiveVerifiedBadge)
+                        {
+                            var companyProfile = await _context.CompanyProfiles
+                                .FirstOrDefaultAsync(cp => cp.UserId == serviceOrder.UserId);
+
+                            if (companyProfile != null)
+                            {
+                                companyProfile.VerifiedBadge = false;
+                            }
+                        }
                     }
 
                     userPostCredit.LastUpdated = DateTime.Now;
