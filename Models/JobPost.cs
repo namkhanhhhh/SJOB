@@ -66,9 +66,6 @@ public partial class JobPost
     public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
 
     public virtual ICollection<JobPostCategory> JobPostCategories { get; set; } = new List<JobPostCategory>();
-
-    public virtual ICollection<ServiceUsage> ServiceUsages { get; set; } = new List<ServiceUsage>();
-
     public virtual User? User { get; set; } = null!;
 
     public virtual ICollection<WorkerVisit> WorkerVisits { get; set; } = new List<WorkerVisit>();

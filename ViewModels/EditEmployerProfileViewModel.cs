@@ -23,18 +23,5 @@ namespace SJOB_EXE201.ViewModels
         public string PhoneNumber { get; set; }
 
         public string Address { get; set; }
-
-        public string CompanyName { get; set; }
-
-        public string CompanyDescription { get; set; }
-
-        public string CompanyLogo { get; set; }
-
-        [Url(ErrorMessage = "URL website không hợp lệ")]
-        public string CompanyWebsite { get; set; }
-
-        public string CompanySize { get; set; }
-
-        public string Industry { get; set; }
     }
 }

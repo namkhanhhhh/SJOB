@@ -74,7 +74,6 @@ namespace SJOB_EXE201.Controllers
             // Get diamond posts (highest priority)
             var diamondPosts = await _context.JobPosts
                 .Include(p => p.User)
-                .ThenInclude(u => u.CompanyProfiles)
                 .Where(p => p.PostType == "diamond" && p.Status == "active")
                 .OrderByDescending(p => p.PriorityLevel)
                 .ThenByDescending(p => p.PushedToTopUntil)
@@ -85,7 +84,6 @@ namespace SJOB_EXE201.Controllers
             // Get most viewed posts
             var mostViewedPosts = await _context.JobPosts
                 .Include(p => p.User)
-                .ThenInclude(u => u.CompanyProfiles)
                 .Where(p => p.Status == "active")
                 .OrderByDescending(p => p.ViewCount)
                 .Take(6)
@@ -94,7 +92,6 @@ namespace SJOB_EXE201.Controllers
             // Build query for all posts with filtering
             var query = _context.JobPosts
                 .Include(p => p.User)
-                .ThenInclude(u => u.CompanyProfiles)
                 .Include(p => p.JobPostCategories)
                 .ThenInclude(pc => pc.Category)
                 .Where(p => p.Status == "active")
@@ -198,7 +195,6 @@ namespace SJOB_EXE201.Controllers
             // Build query for jobs with filtering
             var query = _context.JobPosts
                 .Include(p => p.User)
-                .ThenInclude(u => u.CompanyProfiles)
                 .Include(p => p.JobPostCategories)
                 .ThenInclude(pc => pc.Category)
                 .Where(p => p.Status == "active")
@@ -352,7 +348,6 @@ namespace SJOB_EXE201.Controllers
                 .Where(w => w.UserId == userId)
                 .Include(w => w.JobPost)
                 .ThenInclude(p => p.User)
-                .ThenInclude(u => u.CompanyProfiles)
                 .Include(w => w.JobPost.JobPostCategories)
                 .ThenInclude(pc => pc.Category)
                 .Select(w => w.JobPost)
@@ -493,7 +488,6 @@ namespace SJOB_EXE201.Controllers
 
             var jobPost = await _context.JobPosts
                 .Include(p => p.User)
-                .ThenInclude(u => u.CompanyProfiles)
                 .Include(p => p.User.UserDetails)
                 .Include(p => p.JobPostCategories)
                 .ThenInclude(pc => pc.Category)
@@ -544,7 +538,6 @@ namespace SJOB_EXE201.Controllers
             var categoryIds = jobPost.JobPostCategories.Select(pc => pc.CategoryId).ToList();
             var relatedJobs = await _context.JobPosts
                 .Include(p => p.User)
-                .ThenInclude(u => u.CompanyProfiles)
                 .Include(p => p.JobPostCategories)
                 .Where(p => p.Id != id && p.Status == "active" &&
                        p.JobPostCategories.Any(pc => categoryIds.Contains(pc.CategoryId)))
@@ -648,7 +641,6 @@ namespace SJOB_EXE201.Controllers
 
             var query = _context.JobPosts
                 .Include(p => p.User)
-                .ThenInclude(u => u.CompanyProfiles)
                 .Include(p => p.JobPostCategories)
                 .Where(p => p.Status == "active" &&
                        p.JobPostCategories.Any(pc => pc.CategoryId == id))
@@ -694,7 +686,6 @@ namespace SJOB_EXE201.Controllers
             var applications = await _context.Applications
                 .Include(a => a.JobPost)
                 .ThenInclude(p => p.User)
-                .ThenInclude(u => u.CompanyProfiles)
                 .Where(a => a.UserId == userId)
                 .OrderByDescending(a => a.CreatedAt)
                 .ToListAsync();
@@ -968,7 +959,6 @@ namespace SJOB_EXE201.Controllers
             // Get employer user
             var employer = await _context.Users
                 .Include(u => u.UserDetails)
-                .Include(u => u.CompanyProfiles)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             if (employer == null)
@@ -979,7 +969,6 @@ namespace SJOB_EXE201.Controllers
             // Get employer's job posts
             var jobPosts = await _context.JobPosts
                 .Include(p => p.User)
-                .ThenInclude(u => u.CompanyProfiles)
                 .Include(p => p.JobPostCategories)
                 .ThenInclude(pc => pc.Category)
                 .Where(p => p.UserId == id && p.Status == "active")
@@ -1049,7 +1038,6 @@ namespace SJOB_EXE201.Controllers
             var viewModel = new EmployerProfileViewModel
             {
                 Employer = employer,
-                CompanyProfile = employer.CompanyProfiles.FirstOrDefault(),
                 TotalJobPosts = jobPosts.Count,
                 JobPosts = jobPosts,
                 ProfileViewCount = profileViewCount,

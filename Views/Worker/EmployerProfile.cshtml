@@ -1,6 +1,6 @@
 ﻿@model SJOB_EXE201.ViewModels.EmployerProfileViewModel
 @{
-    ViewData["Title"] = Model.CompanyProfile?.CompanyName ?? Model.Employer.Username;
+    ViewData["Title"] = Model.Employer.Username;
     Layout = "_WorkerLayout";
 }
 
@@ -22,28 +22,8 @@
                     }
 
                     <h3 class="card-title">
-                        @(Model.CompanyProfile?.CompanyName ?? Model.Employer.Username)
+                        @(Model.Employer.Username)
                     </h3>
-
-                    @if (Model.CompanyProfile?.VerifiedBadge == true)
-                    {
-                        <div class="mb-2">
-                            <span class="badge bg-primary">
-                                <i class="fas fa-check-circle me-1"></i> Nhà Tuyển Dụng Đã Xác Thực
-                            </span>
-                        </div>
-                    }
-
-                    <p class="text-muted">
-                        <i class="fas fa-briefcase me-2"></i>
-                        @(Model.CompanyProfile?.Industry ?? "Chưa cung cấp")
-                    </p>
-
-                    <p class="text-muted">
-                        <i class="fas fa-users me-2"></i>
-                        @(Model.CompanyProfile?.CompanySize ?? "Chưa cung cấp") nhân viên
-                    </p>
-
                     <p class="text-muted">
                         <i class="fas fa-calendar-alt me-2"></i>
                         Thành viên từ @Model.JoinedDate.ToString("MMMM yyyy")
@@ -94,31 +74,9 @@
                                 </div>
                             </li>
                         }
-
-                        @if (!string.IsNullOrEmpty(Model.CompanyProfile?.CompanyWebsite))
-                        {
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span><i class="fas fa-globe me-2"></i>Website</span>
-                                <a href="@Model.CompanyProfile.CompanyWebsite" target="_blank" class="text-primary">
-                                    Truy Cập Website <i class="fas fa-external-link-alt ms-1"></i>
-                                </a>
-                            </li>
-                        }
                     </ul>
                 </div>
             </div>
-
-            <!-- Mô Tả Công Ty -->
-            @if (!string.IsNullOrEmpty(Model.CompanyProfile?.CompanyDescription))
-            {
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Giới Thiệu Công Ty</h5>
-                    </div>
-                    <div class="card-body">
-                        <p>@Html.Raw(Model.CompanyProfile.CompanyDescription.Replace("\n", "<br>"))</p>
-                    </div>
-                </div>
             }
         </div>
 

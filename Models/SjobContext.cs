@@ -19,10 +19,6 @@ public partial class SjobContext : DbContext
 
     public virtual DbSet<Application> Applications { get; set; }
 
-    public virtual DbSet<Banner> Banners { get; set; }
-
-    public virtual DbSet<CompanyProfile> CompanyProfiles { get; set; }
-
     public virtual DbSet<CreditTransaction> CreditTransactions { get; set; }
 
     public virtual DbSet<JobCategory> JobCategories { get; set; }
@@ -30,17 +26,9 @@ public partial class SjobContext : DbContext
     public virtual DbSet<JobPost> JobPosts { get; set; }
 
     public virtual DbSet<JobPostCategory> JobPostCategories { get; set; }
-
-    public virtual DbSet<MarketingCampaign> MarketingCampaigns { get; set; }
-
-    public virtual DbSet<Payment> Payments { get; set; }
-
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<ServiceOrder> ServiceOrders { get; set; }
-
-    public virtual DbSet<ServiceUsage> ServiceUsages { get; set; }
-
     public virtual DbSet<Subscription> Subscriptions { get; set; }
 
     public virtual DbSet<SubscriptionPlan> SubscriptionPlans { get; set; }
@@ -143,111 +131,6 @@ public partial class SjobContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_applications_users");
-        });
-
-        modelBuilder.Entity<Banner>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__banners__3213E83FF8839A19");
-
-            entity.ToTable("banners");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.BidAmount)
-                .HasColumnType("decimal(15, 2)")
-                .HasColumnName("bid_amount");
-            entity.Property(e => e.ClickCount)
-                .HasDefaultValue(0)
-                .HasColumnName("click_count");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("created_at");
-            entity.Property(e => e.EndDate)
-                .HasColumnType("datetime")
-                .HasColumnName("end_date");
-            entity.Property(e => e.ImageUrl)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("image_url");
-            entity.Property(e => e.ImpressionCount)
-                .HasDefaultValue(0)
-                .HasColumnName("impression_count");
-            entity.Property(e => e.Position)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("position");
-            entity.Property(e => e.RedirectUrl)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("redirect_url");
-            entity.Property(e => e.StartDate)
-                .HasColumnType("datetime")
-                .HasColumnName("start_date");
-            entity.Property(e => e.Status)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasDefaultValue("pending")
-                .HasColumnName("status");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("updated_at");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Banners)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_banners_users");
-        });
-
-        modelBuilder.Entity<CompanyProfile>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__company___3213E83F0FD57A10");
-
-            entity.ToTable("company_profiles");
-
-            entity.HasIndex(e => e.UserId, "idx_company_profiles_user_id");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CompanyDescription).HasColumnName("company_description");
-            entity.Property(e => e.CompanyLogo)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("company_logo");
-            entity.Property(e => e.CompanyName)
-                .HasMaxLength(255)
-                .HasColumnName("company_name");
-            entity.Property(e => e.CompanySize)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("company_size");
-            entity.Property(e => e.CompanyWebsite)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("company_website");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("created_at");
-            entity.Property(e => e.FreePostsRemaining)
-                .HasDefaultValue(5)
-                .HasColumnName("free_posts_remaining");
-            entity.Property(e => e.Industry)
-                .HasMaxLength(100)
-                .HasColumnName("industry");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("updated_at");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-            entity.Property(e => e.VerifiedBadge)
-                .HasDefaultValue(false)
-                .HasColumnName("verified_badge");
-
-            entity.HasOne(d => d.User).WithMany(p => p.CompanyProfiles)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_company_profiles_users");
         });
 
         modelBuilder.Entity<CreditTransaction>(entity =>
@@ -421,94 +304,6 @@ public partial class SjobContext : DbContext
                 .HasConstraintName("FK_job_post_categories_job_posts");
         });
 
-        modelBuilder.Entity<MarketingCampaign>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__marketin__3213E83F3184CE76");
-
-            entity.ToTable("marketing_campaigns");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("created_at");
-            entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.EmailTemplate).HasColumnName("email_template");
-            entity.Property(e => e.EndDate)
-                .HasColumnType("datetime")
-                .HasColumnName("end_date");
-            entity.Property(e => e.Name)
-                .HasMaxLength(255)
-                .HasColumnName("name");
-            entity.Property(e => e.SentCount)
-                .HasDefaultValue(0)
-                .HasColumnName("sent_count");
-            entity.Property(e => e.StartDate)
-                .HasColumnType("datetime")
-                .HasColumnName("start_date");
-            entity.Property(e => e.Status)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasDefaultValue("draft")
-                .HasColumnName("status");
-            entity.Property(e => e.TargetCount).HasColumnName("target_count");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-
-            entity.HasOne(d => d.User).WithMany(p => p.MarketingCampaigns)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_marketing_campaigns_users");
-        });
-
-        modelBuilder.Entity<Payment>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__payments__3213E83F928D54E8");
-
-            entity.ToTable("payments");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Amount)
-                .HasColumnType("decimal(15, 2)")
-                .HasColumnName("amount");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("created_at");
-            entity.Property(e => e.PaymentDate)
-                .HasColumnType("datetime")
-                .HasColumnName("payment_date");
-            entity.Property(e => e.PaymentMethod)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasDefaultValue("vnpay")
-                .HasColumnName("payment_method");
-            entity.Property(e => e.PaymentStatus)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasDefaultValue("pending")
-                .HasColumnName("payment_status");
-            entity.Property(e => e.PaymentType)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("payment_type");
-            entity.Property(e => e.ReferenceId).HasColumnName("reference_id");
-            entity.Property(e => e.TransactionId)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("transaction_id");
-            entity.Property(e => e.UpdatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("updated_at");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-            entity.Property(e => e.VnpayTransactionInfo).HasColumnName("vnpay_transaction_info");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_payments_users");
-        });
-
         modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__roles__3213E83F596F8211");
@@ -574,52 +369,6 @@ public partial class SjobContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_service_orders_users");
-        });
-
-        modelBuilder.Entity<ServiceUsage>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__service___3213E83F58B18C5F");
-
-            entity.ToTable("service_usages");
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("created_at");
-            entity.Property(e => e.EndDate)
-                .HasColumnType("datetime")
-                .HasColumnName("end_date");
-            entity.Property(e => e.JobPostId).HasColumnName("job_post_id");
-            entity.Property(e => e.ReferenceId).HasColumnName("reference_id");
-            entity.Property(e => e.ReferenceType)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasColumnName("reference_type");
-            entity.Property(e => e.ServiceType)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("service_type");
-            entity.Property(e => e.StartDate)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("start_date");
-            entity.Property(e => e.Status)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .HasDefaultValue("active")
-                .HasColumnName("status");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-
-            entity.HasOne(d => d.JobPost).WithMany(p => p.ServiceUsages)
-                .HasForeignKey(d => d.JobPostId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_service_usages_job_posts");
-
-            entity.HasOne(d => d.User).WithMany(p => p.ServiceUsages)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_service_usages_users");
         });
 
         modelBuilder.Entity<Subscription>(entity =>

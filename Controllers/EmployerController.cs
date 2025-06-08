@@ -41,7 +41,6 @@ namespace SJOB_EXE201.Controllers
 
             var user = await _context.Users
                 .Include(u => u.UserDetails)
-                .Include(u => u.CompanyProfiles)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user == null)
@@ -49,15 +48,44 @@ namespace SJOB_EXE201.Controllers
                 return NotFound();
             }
 
-            var companyProfile = user.CompanyProfiles.FirstOrDefault();
+            // 1. Tổng số bài đăng của user này
+            var totalJobPosts = await _context.JobPosts
+                .Where(jp => jp.UserId == userId)
+                .CountAsync();
+
+            // 2. Tổng số ứng viên đã apply vào các job của user này
+            var totalApplications = await _context.Applications
+                .Where(a => a.JobPost.UserId == userId)
+                .CountAsync();
+
+            // 3. Tổng số lượt xem profile (có thể lấy từ bảng worker_visits hoặc view_count của job_posts)
+            var totalViews = await _context.JobPosts
+                .Where(jp => jp.UserId == userId)
+                .SumAsync(jp => jp.ViewCount ?? 0);
+
+            // 4. Tổng số lượt đăng còn lại từ user_post_credits
+            var userPostCredits = await _context.UserPostCredits
+                .FirstOrDefaultAsync(upc => upc.UserId == userId);
+
+            var totalRemainingPosts = 0;
+            if (userPostCredits != null)
+            {
+                totalRemainingPosts = userPostCredits.SilverPostsAvailable +
+                                    userPostCredits.GoldPostsAvailable +
+                                    userPostCredits.DiamondPostsAvailable;
+            }
 
             var viewModel = new EmployerProfileViewModel
             {
                 Employer = user,
                 UserDetail = user.UserDetails.FirstOrDefault(),
-                CompanyProfile = companyProfile
+                JobPostsCount = totalJobPosts,
+                ApplicationsCount = totalApplications,
+                ViewsCount = totalViews,
+                RemainingPostsCount = totalRemainingPosts
             };
-            //lấy số tiền của người dùng
+
+            // Lấy số tiền của người dùng
             var userCredit = await _context.UserCredits.FirstOrDefaultAsync(x => x.UserId == userId);
             if (userCredit != null)
             {
@@ -67,6 +95,7 @@ namespace SJOB_EXE201.Controllers
             {
                 ViewData["Balance"] = 0;
             }
+
             return View(viewModel);
         }
 
@@ -77,7 +106,6 @@ namespace SJOB_EXE201.Controllers
 
             var user = await _context.Users
                 .Include(u => u.UserDetails)
-                .Include(u => u.CompanyProfiles)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user == null)
@@ -86,7 +114,6 @@ namespace SJOB_EXE201.Controllers
             }
 
             var userDetail = user.UserDetails.FirstOrDefault();
-            var companyProfile = user.CompanyProfiles.FirstOrDefault();
 
             var viewModel = new EditEmployerProfileViewModel
             {
@@ -98,12 +125,6 @@ namespace SJOB_EXE201.Controllers
                 LastName = userDetail?.LastName,
                 PhoneNumber = userDetail?.PhoneNumber,
                 Address = userDetail?.Address,
-                CompanyName = companyProfile?.CompanyName,
-                CompanyDescription = companyProfile?.CompanyDescription,
-                CompanyLogo = companyProfile?.CompanyLogo,
-                CompanyWebsite = companyProfile?.CompanyWebsite,
-                CompanySize = companyProfile?.CompanySize,
-                Industry = companyProfile?.Industry
             };
 
             return View(viewModel);
@@ -118,7 +139,6 @@ namespace SJOB_EXE201.Controllers
 
             var user = await _context.Users
                 .Include(u => u.UserDetails)
-                .Include(u => u.CompanyProfiles)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user == null)
@@ -175,34 +195,6 @@ namespace SJOB_EXE201.Controllers
                 userDetail.Address = model.Address;
             }
 
-            // Update or create company profile
-            var companyProfile = user.CompanyProfiles.FirstOrDefault();
-            if (companyProfile == null)
-            {
-                companyProfile = new CompanyProfile
-                {
-                    UserId = user.Id,
-                    CompanyName = model.CompanyName,
-                    CompanyDescription = model.CompanyDescription,
-                    CompanyWebsite = model.CompanyWebsite,
-                    CompanySize = model.CompanySize,
-                    Industry = model.Industry,
-                    VerifiedBadge = false,
-                    FreePostsRemaining = 5,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
-                };
-                _context.CompanyProfiles.Add(companyProfile);
-            }
-            else
-            {
-                companyProfile.CompanyName = model.CompanyName;
-                companyProfile.CompanyDescription = model.CompanyDescription;
-                companyProfile.CompanyWebsite = model.CompanyWebsite;
-                companyProfile.CompanySize = model.CompanySize;
-                companyProfile.Industry = model.Industry;
-                companyProfile.UpdatedAt = DateTime.Now;
-            }
 
             // Handle company logo upload
             if (logoFile != null && logoFile.Length > 0)
@@ -222,8 +214,6 @@ namespace SJOB_EXE201.Controllers
                 {
                     await logoFile.CopyToAsync(stream);
                 }
-
-                companyProfile.CompanyLogo = "/images/logos/" + fileName;
             }
 
             // Save changes to database
@@ -303,18 +293,10 @@ namespace SJOB_EXE201.Controllers
                 .Take(10)
                 .ToListAsync();
 
-            // Get payment history
-            var payments = await _context.Payments
-                .Where(p => p.UserId == userId)
-                .OrderByDescending(p => p.CreatedAt)
-                .Take(10)
-                .ToListAsync();
-
             var viewModel = new EmployerHistoryViewModel
             {
                 JobPosts = jobPosts,
                 ServiceOrders = serviceOrders,
-                Payments = payments
             };
 
             return View(viewModel);

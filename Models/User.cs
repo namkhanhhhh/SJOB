@@ -28,23 +28,13 @@ public partial class User
 
     public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
 
-    public virtual ICollection<Banner> Banners { get; set; } = new List<Banner>();
-
-    public virtual ICollection<CompanyProfile> CompanyProfiles { get; set; } = new List<CompanyProfile>();
-
     public virtual ICollection<CreditTransaction> CreditTransactions { get; set; } = new List<CreditTransaction>();
 
     public virtual ICollection<JobPost> JobPosts { get; set; } = new List<JobPost>();
 
-    public virtual ICollection<MarketingCampaign> MarketingCampaigns { get; set; } = new List<MarketingCampaign>();
-
-    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
-
     public virtual Role Role { get; set; } = null!;
 
     public virtual ICollection<ServiceOrder> ServiceOrders { get; set; } = new List<ServiceOrder>();
-
-    public virtual ICollection<ServiceUsage> ServiceUsages { get; set; } = new List<ServiceUsage>();
 
     public virtual ICollection<Subscription> Subscriptions { get; set; } = new List<Subscription>();
 

@@ -7,6 +7,5 @@ namespace SJOB_EXE201.ViewModels
     {
         public List<JobPost> JobPosts { get; set; }
         public List<ServiceOrder> ServiceOrders { get; set; }
-        public List<Payment> Payments { get; set; }
     }
 }

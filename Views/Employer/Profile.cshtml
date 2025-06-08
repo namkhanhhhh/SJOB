@@ -35,28 +35,7 @@
                 <div class="profile-info">
                     <h2 class="profile-name">@Model.Employer.Username</h2>
                     <p class="profile-email">@Model.Employer.Email</p>
-                    <div class="profile-badges">
-                        <span class="badge bg-primary">Nhà tuyển dụng</span>
-                        @if (Model.CompanyProfile?.VerifiedBadge == true)
-                        {
-                            <span class="badge bg-success">
-                                <i class="fas fa-check-circle"></i> Đã xác thực
-                            </span>
-                        }
-                    </div>
                 </div>
-                <!--logo-->
-                <div class="verified-logo-container position-relative d-inline-block">
-                    <img src="~/images/avatars/logo_tich_xanh.png" alt="Logo" class="logo-img rounded-circle" width="100" height="100" />
-
-                    @if (Model.CompanyProfile?.VerifiedBadge == true)
-                    {
-                        <span class="verified-badge position-absolute bottom-0 end-0 translate-middle p-1 bg-success border border-light rounded-circle">
-                            <i class="fas fa-check text-white"></i>
-                        </span>
-                    }
-                </div>
-
             </div>
 
             <div class="profile-sections">
@@ -87,7 +66,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="profile-section">
                     <div class="section-header">
                         <h3><i class="fas fa-chart-line"></i> Thống kê</h3>
@@ -99,37 +78,37 @@
                                     <i class="fas fa-clipboard-list"></i>
                                 </div>
                                 <div class="stat-info">
-                                    <span class="stat-value">@(Model.JobPostsCount ?? 0)</span>
+                                    <span class="stat-value">@Model.JobPostsCount</span>
                                     <span class="stat-label">Bài đăng</span>
                                 </div>
                             </div>
-                            
+
                             <div class="stat-card">
                                 <div class="stat-icon">
                                     <i class="fas fa-users"></i>
                                 </div>
                                 <div class="stat-info">
-                                    <span class="stat-value">@(Model.ApplicationsCount ?? 0)</span>
+                                    <span class="stat-value">@Model.ApplicationsCount</span>
                                     <span class="stat-label">Ứng viên</span>
                                 </div>
                             </div>
-                            
+
                             <div class="stat-card">
                                 <div class="stat-icon">
                                     <i class="fas fa-eye"></i>
                                 </div>
                                 <div class="stat-info">
-                                    <span class="stat-value">@(Model.ViewsCount ?? 0)</span>
+                                    <span class="stat-value">@Model.ViewsCount</span>
                                     <span class="stat-label">Lượt xem</span>
                                 </div>
                             </div>
-                            
+
                             <div class="stat-card">
                                 <div class="stat-icon">
                                     <i class="fas fa-ticket-alt"></i>
                                 </div>
                                 <div class="stat-info">
-                                    <span class="stat-value">@(Model.CompanyProfile?.FreePostsRemaining ?? 0)</span>
+                                    <span class="stat-value">@Model.RemainingPostsCount</span>
                                     <span class="stat-label">Lượt đăng còn lại</span>
                                 </div>
                             </div>
@@ -148,19 +127,19 @@
         font-weight: 600;
         margin: 0;
     }
-    
+
     .action-buttons {
         display: flex;
         gap: 1rem;
     }
-    
+
     .profile-container {
         background-color: var(--bg-primary);
         border-radius: var(--border-radius-lg);
         box-shadow: var(--box-shadow);
         overflow: hidden;
     }
-    
+
     .profile-header {
         display: flex;
         align-items: center;
@@ -168,7 +147,7 @@
         background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
         color: white;
     }
-    
+
     .profile-avatar {
         width: 120px;
         height: 120px;
@@ -178,13 +157,13 @@
         border: 4px solid rgba(255, 255, 255, 0.3);
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
-    
+
     .avatar-img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
-    
+
     .avatar-placeholder {
         width: 100%;
         height: 100%;
@@ -194,92 +173,92 @@
         background-color: rgba(255, 255, 255, 0.2);
         font-size: 3rem;
     }
-    
+
     .profile-info {
         flex: 1;
     }
-    
+
     .profile-name {
         font-size: 2rem;
         font-weight: 700;
         margin: 0 0 0.5rem 0;
     }
-    
+
     .profile-email {
         font-size: 1rem;
         opacity: 0.9;
         margin-bottom: 1rem;
     }
-    
+
     .profile-badges {
         display: flex;
         gap: 0.5rem;
     }
-    
-    .profile-badges .badge {
-        padding: 0.5rem 0.75rem;
-        font-weight: 500;
-        border-radius: 20px;
-    }
-    
+
+        .profile-badges .badge {
+            padding: 0.5rem 0.75rem;
+            font-weight: 500;
+            border-radius: 20px;
+        }
+
     .profile-sections {
         padding: 2rem;
     }
-    
+
     .profile-section {
         margin-bottom: 2rem;
         animation: fadeIn 0.5s ease-in-out;
     }
-    
+
     .section-header {
         margin-bottom: 1.5rem;
         border-bottom: 2px solid var(--primary-light);
         padding-bottom: 0.75rem;
     }
-    
-    .section-header h3 {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: var(--primary-dark);
-        margin: 0;
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    }
-    
+
+        .section-header h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
     .section-content {
         padding: 0 0.5rem;
     }
-    
+
     .info-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: 1.5rem;
     }
-    
+
     .info-item {
         display: flex;
         flex-direction: column;
     }
-    
+
     .info-label {
         font-size: 0.9rem;
         color: var(--text-secondary);
         margin-bottom: 0.5rem;
     }
-    
+
     .info-value {
         font-size: 1rem;
         color: var(--text-primary);
         font-weight: 500;
     }
-    
+
     .company-header {
         display: flex;
         align-items: center;
         margin-bottom: 1.5rem;
     }
-    
+
     .company-logo {
         width: 80px;
         height: 80px;
@@ -290,7 +269,7 @@
         padding: 0.5rem;
         background-color: white;
     }
-    
+
     .company-logo-placeholder {
         width: 80px;
         height: 80px;
@@ -303,18 +282,18 @@
         font-size: 2rem;
         margin-right: 1.5rem;
     }
-    
+
     .company-name {
         flex: 1;
     }
-    
-    .company-name h4 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin: 0 0 0.5rem 0;
-        color: var(--primary-dark);
-    }
-    
+
+        .company-name h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+            color: var(--primary-dark);
+        }
+
     .verified-badge {
         display: inline-flex;
         align-items: center;
@@ -322,31 +301,31 @@
         color: var(--success);
         font-weight: 500;
     }
-    
+
     .company-description {
         margin-top: 1.5rem;
         padding-top: 1.5rem;
         border-top: 1px solid #e2e8f0;
     }
-    
-    .company-description h5 {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
-        color: var(--text-primary);
-    }
-    
-    .company-description p {
-        color: var(--text-secondary);
-        line-height: 1.6;
-    }
-    
+
+        .company-description h5 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .company-description p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
     .stats-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
         gap: 1.5rem;
     }
-    
+
     .stat-card {
         background-color: #f8fafc;
         border-radius: var(--border-radius);
@@ -356,13 +335,13 @@
         transition: all var(--transition-speed) ease;
         border: 1px solid #e2e8f0;
     }
-    
-    .stat-card:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--box-shadow);
-        border-color: var(--primary-light);
-    }
-    
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow);
+            border-color: var(--primary-light);
+        }
+
     .stat-icon {
         width: 50px;
         height: 50px;
@@ -375,18 +354,18 @@
         font-size: 1.5rem;
         margin-right: 1rem;
     }
-    
+
     .stat-info {
         display: flex;
         flex-direction: column;
     }
-    
+
     .stat-value {
         font-size: 1.5rem;
         font-weight: 700;
         color: var(--text-primary);
     }
-    
+
     .stat-label {
         font-size: 0.9rem;
         color: var(--text-secondary);
