@@ -209,7 +209,28 @@ public class CustomerServiceController : Controller
                         else if (service.ServiceType == "verified_badge")
                         {
                             postCredit.AuthenLogoAvailable += service.AuthenLogoAvailable * quantity;
+
+                            // Tìm CompanyProfile theo UserId và cập nhật VerifiedBadge
+                            var companyProfile = await _context.CompanyProfiles.FirstOrDefaultAsync(cp => cp.UserId == userId);
+                            if (companyProfile != null)
+                            {
+                                companyProfile.VerifiedBadge = true;
+                                companyProfile.UpdatedAt = DateTime.Now;
+                                _context.CompanyProfiles.Update(companyProfile);
+                            }
+                            else
+                            {
+                                companyProfile = new CompanyProfile
+                                {
+                                    UserId = userId,
+                                    VerifiedBadge = true,
+                                    CreatedAt = DateTime.Now,
+                                    UpdatedAt = DateTime.Now
+                                };
+                                _context.CompanyProfiles.Add(companyProfile);
+                            }
                         }
+
                         else
                         {
                             throw new InvalidOperationException($"Unknown ServiceType: {service.ServiceType}");

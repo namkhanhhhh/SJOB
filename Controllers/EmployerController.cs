@@ -84,6 +84,7 @@ namespace SJOB_EXE201.Controllers
             {
                 Employer = user,
                 UserDetail = user.UserDetails.FirstOrDefault(),
+                CompanyProfile = companyProfile,
                 JobPostsCount = totalJobPosts,
                 ApplicationsCount = totalApplications,
                 ViewsCount = totalViews,
