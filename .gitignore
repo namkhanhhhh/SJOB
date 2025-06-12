@@ -7,10 +7,6 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/Dotnet.gitignore
 
-# ASP.NET Core configuration
-appsettings.*.json
-appsettings.json
-
 # Visual Studio temporary files, build results, and
 # user-specific files
 .vscode/
