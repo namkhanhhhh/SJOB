@@ -1,4 +1,4 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS base
 WORKDIR /app
 EXPOSE 8095
 EXPOSE 443
@@ -6,7 +6,7 @@ EXPOSE 443
 COPY certificate.pfx /app/certificate.pfx
 RUN chmod 600 /app/certificate.pfx
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["SJOB_EXE201.csproj", "./"]
