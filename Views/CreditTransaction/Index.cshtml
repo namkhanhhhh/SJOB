@@ -17,6 +17,10 @@
             Filter Transactions
         </div>
         <div class="card-body">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-1"></i>
+                <strong>Note:</strong> Transactions with 0 VND amount are automatically excluded from the results.
+            </div>
             <form method="get" action="/CreditTransaction/Index" id="filterForm">
                 <div class="row mb-3">
                     <div class="col-md-3">
@@ -53,13 +57,13 @@
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="minAmount">Min Amount</label>
+                            <label for="minAmount">Min Amount (VND)</label>
                             <input type="number" class="form-control" id="minAmount" name="minAmount" value="@Model.MinAmount" placeholder="Min amount">
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="maxAmount">Max Amount</label>
+                            <label for="maxAmount">Max Amount (VND)</label>
                             <input type="number" class="form-control" id="maxAmount" name="maxAmount" value="@Model.MaxAmount" placeholder="Max amount">
                         </div>
                     </div>
@@ -112,7 +116,7 @@
                 </div>
                 <div class="col-md-6 text-end">
                     <span class="badge bg-primary">Total: @Model.TotalTransactions</span>
-                    <span class="badge bg-success">Amount: @Model.TotalAmount.ToString("C")</span>
+                    <span class="badge bg-success">Amount: @Model.TotalAmount.ToString("N0") VND</span>
                 </div>
             </div>
         </div>
@@ -138,14 +142,14 @@
                                 <td>@transaction.Id</td>
                                 <td>@transaction.User.Username (@transaction.User.Email)</td>
                                 <td class="@(transaction.TransactionType == "Topup" ? "text-success" : "text-danger")">
-                                    @(transaction.TransactionType == "Topup" ? "+" : "-")@transaction.Amount.ToString("C")
+                                    @(transaction.TransactionType == "Topup" ? "+" : "-")@transaction.Amount.ToString("N0") VND
                                 </td>
                                 <td>
                                     <span class="badge @(transaction.TransactionType == "Topup" ? "bg-success" : "bg-primary")">
                                         @transaction.TransactionType
                                     </span>
                                 </td>
-                                <td>@transaction.BalanceAfter.ToString("C")</td>
+                                <td>@transaction.BalanceAfter.ToString("N0") VND</td>
                                 <td>@transaction.Description</td>
                                 <td>@(transaction.CreatedAt.HasValue ? transaction.CreatedAt.Value.ToString("yyyy-MM-dd HH:mm") : "N/A")</td>
                                 <td>
@@ -208,10 +212,10 @@
             // Get current form values
             const form = document.getElementById('filterForm');
             const formData = new FormData(form);
-            
+
             // Update page number
             formData.set('page', page);
-            
+
             // Build query string
             const params = new URLSearchParams();
             for (const [key, value] of formData.entries()) {
@@ -219,7 +223,7 @@
                     params.append(key, value);
                 }
             }
-            
+
             // Navigate to the new URL
             window.location.href = `/CreditTransaction/Index?${params.toString()}`;
         }

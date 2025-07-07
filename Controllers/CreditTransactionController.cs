@@ -49,6 +49,9 @@ namespace SJOB_EXE201.Controllers
                 .Include(t => t.User)
                 .AsQueryable();
 
+            // Filter out zero amount transactions
+            query = query.Where(t => t.Amount != 0);
+
             // Apply filters
             if (!string.IsNullOrEmpty(searchEmail))
             {
@@ -97,6 +100,7 @@ namespace SJOB_EXE201.Controllers
 
             // Get transaction types for filter dropdown
             var transactionTypes = await _context.CreditTransactions
+                .Where(t => t.Amount != 0)
                 .Select(t => t.TransactionType)
                 .Distinct()
                 .ToListAsync();
@@ -271,6 +275,7 @@ namespace SJOB_EXE201.Controllers
 
             // Transaction type distribution
             var transactionTypeData = await _context.CreditTransactions
+                .Where(t => t.Amount != 0)
                 .GroupBy(t => t.TransactionType)
                 .Select(g => new TransactionTypeData
                 {
@@ -344,6 +349,9 @@ namespace SJOB_EXE201.Controllers
                 .Include(t => t.User)
                 .AsQueryable();
 
+            // Filter out zero amount transactions
+            query = query.Where(t => t.Amount != 0);
+
             // Apply filters
             if (!string.IsNullOrEmpty(searchEmail))
             {
@@ -389,7 +397,7 @@ namespace SJOB_EXE201.Controllers
 
             foreach (var transaction in transactions)
             {
-                csv.AppendLine($"{transaction.Id},{transaction.User.Username},{transaction.User.Email},{transaction.Amount},{transaction.TransactionType},{transaction.BalanceAfter},{transaction.Description},{(transaction.CreatedAt.HasValue ? transaction.CreatedAt.Value.ToString("yyyy-MM-dd HH:mm:ss") : "N/A")}");
+                csv.AppendLine($"{transaction.Id},{transaction.User.Username},{transaction.User.Email},{transaction.Amount:N0} VND,{transaction.TransactionType},{transaction.BalanceAfter:N0} VND,{transaction.Description},{(transaction.CreatedAt.HasValue ? transaction.CreatedAt.Value.ToString("yyyy-MM-dd HH:mm:ss") : "N/A")}");
             }
 
             // Return CSV file
