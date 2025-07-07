@@ -27,7 +27,7 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <div class="small text-white">@Model.MonthlyTransactionAmount.ToString("C0") this month</div>
+                    <div class="small text-white">@Model.MonthlyTransactionAmount.ToString("N0") VND this month</div>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <div class="small text-white">@Model.YearlyTransactionAmount.ToString("C0") this year</div>
+                    <div class="small text-white">@Model.YearlyTransactionAmount.ToString("N0") VND this year</div>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <div class="small text-white-50">Total Credits</div>
-                            <div class="display-6">@Model.TotalCredits.ToString("C0")</div>
+                            <div class="display-6">@Model.TotalCredits.ToString("N0") VND</div>
                         </div>
                         <div>
                             <i class="fas fa-coins fa-3x text-white-50"></i>
@@ -152,7 +152,7 @@
                                 </td>
                                 <td>@user.Email</td>
                                 <td>@user.TransactionCount</td>
-                                <td>@user.TotalAmount.ToString("C")</td>
+                                <td>@user.TotalAmount.ToString("N0") VND</td>
                                 <td>
                                     <a href="/CreditTransaction/Index?searchEmail=@user.Email" class="btn btn-sm btn-info">
                                         <i class="fas fa-search"></i> View Transactions
@@ -192,7 +192,7 @@
                         yAxisID: 'y',
                     },
                     {
-                        label: 'Transaction Amount',
+                        label: 'Transaction Amount (VND)',
                         backgroundColor: 'rgba(255, 99, 132, 0.5)',
                         borderColor: 'rgb(255, 99, 132)',
                         borderWidth: 1,
@@ -227,7 +227,26 @@
                         },
                         title: {
                             display: true,
-                            text: 'Transaction Amount'
+                            text: 'Transaction Amount (VND)'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                var label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.datasetIndex === 1) {
+                                    // Format amount with VND
+                                    label += new Intl.NumberFormat('vi-VN').format(context.raw) + ' VND';
+                                } else {
+                                    label += context.raw;
+                                }
+                                return label;
+                            }
                         }
                     }
                 }
