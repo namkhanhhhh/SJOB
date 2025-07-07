@@ -1,5 +1,4 @@
-﻿version: '3.8'
-services:
+﻿services:
   sjob_cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: sjob_cloudflared
@@ -21,7 +20,7 @@ services:
       sjob_database:
         condition: service_healthy
     volumes:
-        - sjob_exe201_data:/app/data
+      - sjob_exe201_data:/app/data
     networks:
       - sjob_exe201_network
     environment:
@@ -56,4 +55,3 @@ volumes:
     name: sjob_cloudflared_data
   sjob_exe201_data:
     name: sjob_exe201_data
-

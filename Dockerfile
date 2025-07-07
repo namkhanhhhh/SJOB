@@ -1,6 +1,10 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS base
 WORKDIR /app
-EXPOSE 8095
+RUN apk add --no-cache icu-libs icu-data-full
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+ENV LC_ALL=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+EXPOSE 8080
 EXPOSE 443
 
 COPY certificate.pfx /app/certificate.pfx
