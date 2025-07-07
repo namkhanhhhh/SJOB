@@ -1,0 +1,35 @@
+﻿@{
+    var username = User.Identity?.Name ?? "User";
+}
+
+<!-- Top bar -->
+<div class="top-bar">
+    <div class="view-mode-selector">
+        <span>Xem với:</span>
+        <select id="viewMode" class="form-select" onchange="updateViewModeUrl(this.value)">
+            <option value="recruiter" selected="@(ViewBag.ViewMode == "recruiter")">Nhà tuyển dụng</option>
+            <option value="jobseeker" selected="@(ViewBag.ViewMode == "jobseeker")">Người tìm việc</option>
+        </select>
+    </div>
+    <div class="user-actions">
+        <!-- Thêm component thông báo -->
+        @await Html.PartialAsync("_NotificationPartial")
+
+        <div class="balance-display">
+            <span class="balance-amount">@string.Format("{0:0}", ViewData["Balance"]) CD</span>
+            <a href="/Credit/Deposit" class="btn-deposit">
+                <i class="fas fa-plus-circle"></i> Nạp tiền
+            </a>
+        </div>
+        <div class="dropdown user-dropdown">
+            <button class="btn dropdown-toggle" data-bs-toggle="dropdown">
+                <i class="fas fa-user-circle"></i>
+                <span>@username</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="/Employer/Profile"><i class="fas fa-user me-2"></i>Tài khoản</a></li>
+                <li><a class="dropdown-item" href="/Account/Logout"><i class="fas fa-sign-out-alt me-2"></i>Đăng xuất</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

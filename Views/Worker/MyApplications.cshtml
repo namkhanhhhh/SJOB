@@ -1,0 +1,94 @@
+﻿@model IEnumerable<SJOB_EXE201.Models.Application>
+@{
+    ViewData["Title"] = "Đơn Ứng Tuyển Của Tôi";
+    Layout = "_WorkerLayout";
+}
+
+<div class="container mb-5">
+    <div class="page-header">
+        <h1><i class="fas fa-clipboard-list me-2"></i> Đơn Ứng Tuyển Của Tôi</h1>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state">
+            <i class="far fa-clipboard"></i>
+            <h3>Chưa Có Đơn Ứng Tuyển</h3>
+            <p>Bạn chưa ứng tuyển vào công việc nào. Hãy tìm kiếm các cơ hội và bắt đầu hành trình ứng tuyển của bạn.</p>
+            <a href="/HomePage" class="btn btn-primary action-btn">
+                <i class="fas fa-search me-2"></i> Tìm Kiếm Công Việc
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="applications-container">
+            <div class="table-responsive">
+                <table class="table applications-table">
+                    <thead>
+                        <tr>
+                            <th>Tiêu Đề Công Việc</th>
+                            <th>Công Ty</th>
+                            <th>Ngày Ứng Tuyển</th>
+                            <th>Trạng Thái</th>
+                            <th>Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var application in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("JobDetails", "Worker", new { id = application.JobPostId })" class="job-title">
+                                        @application.JobPost.Title
+                                    </a>
+                                </td>
+                                <td>
+                                    <span class="company-name">
+                                        @(application.JobPost.User.CompanyProfiles.FirstOrDefault()?.CompanyName ?? application.JobPost.User.Username)
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="date">@application.CreatedAt?.ToString("dd/MM/yyyy")</span>
+                                </td>
+                                <td>
+                                    @switch (application.Status)
+                                    {
+                                        case "pending":
+                                            <span class="status-badge pending">
+                                                <i class="fas fa-clock"></i> Đang Chờ
+                                            </span>
+                                            break;
+                                        case "approved":
+                                            <span class="status-badge approved">
+                                                <i class="fas fa-check-circle"></i> Đã Duyệt
+                                            </span>
+                                            break;
+                                        case "rejected":
+                                            <span class="status-badge rejected">
+                                                <i class="fas fa-times-circle"></i> Từ Chối
+                                            </span>
+                                            break;
+                                        case "completed":
+                                            <span class="status-badge completed">
+                                                <i class="fas fa-check-double"></i> Hoàn Thành
+                                            </span>
+                                            break;
+                                        default:
+                                            <span class="badge bg-secondary">@application.Status</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("JobDetails", "Worker", new { id = application.JobPostId })" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye me-1"></i> Xem Công Việc
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>

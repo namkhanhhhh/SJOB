@@ -1,0 +1,223 @@
+﻿@model List<ShortJob.Models.ViewModels.UserPackagesViewModel>
+
+@{
+    ViewData["Title"] = "Dịch vụ của tôi";
+    Layout = "~/Views/Shared/_EmployerLayout.cshtml";
+}
+
+<div class="form-container">
+    <div class="form-header">
+        <h2><i class="fas fa-box-open"></i> @ViewData["Title"]</h2>
+    </div>
+
+    <!--đồng bộ lịch sử giao dịch-->
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info mt-3">
+            <i class="fas fa-info-circle me-2"></i> @(ViewBag.Message ?? "Không tìm thấy gói dịch vụ nào.")
+
+            <div class="mt-3">
+                <a href="@Url.Action("SyncPurchaseHistory")" class="btn btn-primary">
+                    <i class="fas fa-sync me-2"></i> Đồng bộ dữ liệu từ lịch sử giao dịch
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        @foreach (var userPackage in Model)
+        {
+            <div class="user-package-card">
+                <div class="card-header">
+                    <h3 class="mb-0">@userPackage.User.Username (@userPackage.User.Email)</h3>
+                </div>
+                <div class="card-body">
+                    <!-- Hiển thị thông tin credits -->
+                    <div class="credits-card">
+                        <div class="card-header">
+                            <h4 class="mb-0"><i class="fas fa-ticket-alt me-2"></i> Dịch vụ hiện có</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-4">
+                                <div class="col-md-4">
+                                    <div class="credit-item">
+                                        <h5 class="credit-title">Bài đăng</h5>
+                                        <div class="d-flex justify-content-around mt-3">
+                                            <div>
+                                                <span class="credit-badge badge-silver">Silver</span>
+                                                <div class="credit-value">@userPackage.UserCredits.SilverPostsAvailable</div>
+                                            </div>
+                                            <div>
+                                                <span class="credit-badge badge-gold">Gold</span>
+                                                <div class="credit-value">@userPackage.UserCredits.GoldPostsAvailable</div>
+                                            </div>
+                                            <div>
+                                                <span class="credit-badge badge-diamond">Diamond</span>
+                                                <div class="credit-value">@userPackage.UserCredits.DiamondPostsAvailable</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="credit-item">
+                                        <h5 class="credit-title">Đẩy tin lên đầu</h5>
+                                        <div class="credit-value">@userPackage.UserCredits.PushToTopAvailable</div>
+                                        <div class="text-muted mt-2">lần còn lại</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="credit-item">
+                                        <h5 class="credit-title">Logo xác thực</h5>
+                                        <div class="credit-value">@userPackage.UserCredits.AuthenLogoAvailable</div>
+                                        <div class="text-muted mt-2">lần còn lại</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-muted mt-3">
+                                <small><i class="fas fa-clock me-1"></i> Cập nhật lần cuối: @(userPackage.UserCredits.LastUpdated?.ToString("dd/MM/yyyy HH:mm") ?? "Chưa cập nhật")</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phần hiển thị subscriptions -->
+                    @if (userPackage.Subscriptions != null && userPackage.Subscriptions.Any())
+                    {
+                        <div class="form-section mt-4">
+                            <div class="form-section-title">
+                                <i class="fas fa-calendar-check"></i> Gói đăng ký
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped subscription-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tên gói</th>
+                                            <th>Ngày bắt đầu</th>
+                                            <th>Ngày kết thúc</th>
+                                            <th>Thời gian còn lại</th>
+                                            <th>Trạng thái</th>
+                                            <th>Giá</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var subscription in userPackage.Subscriptions)
+                                        {
+                                            <tr class="@(subscription.DaysRemaining <= 7 ? "table-danger" : subscription.DaysRemaining <= 30 ? "table-warning" : "")">
+                                                <td>@subscription.PlanName</td>
+                                                <td>@subscription.StartDate.ToString("dd/MM/yyyy")</td>
+                                                <td>@subscription.EndDate.ToString("dd/MM/yyyy")</td>
+                                                <td>
+                                                    @if (subscription.DaysRemaining < 0)
+                                                    {
+                                                        <span class="status-badge status-expired">Hết hạn</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        @subscription.DaysRemaining <span>ngày</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (!string.IsNullOrEmpty(subscription.Status) && subscription.Status.ToLower() == "active")
+                                                    {
+                                                        <span class="status-badge status-active">Đang hoạt động</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="status-badge status-inactive">@subscription.Status</span>
+                                                    }
+                                                </td>
+                                                <td>@subscription.Price.ToString("N0") CD</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info mt-4">
+                            <i class="fas fa-info-circle me-2"></i> Không có gói đăng ký nào.
+                        </div>
+                    }
+
+                    <!-- Phần hiển thị additional services -->
+                    @if (userPackage.AdditionalServices != null && userPackage.AdditionalServices.Any())
+                    {
+                        <div class="form-section mt-4">
+                            <div class="form-section-title">
+                                <i class="fas fa-plus-circle"></i> Dịch vụ bổ sung
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-striped service-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Tên dịch vụ</th>
+                                            <th>Ngày bắt đầu</th>
+                                            <th>Ngày kết thúc</th>
+                                            <th>Thời gian còn lại</th>
+                                            <th>Trạng thái</th>
+                                            <th>Giá</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var service in userPackage.AdditionalServices)
+                                        {
+                                            <tr class="@(service.DaysRemaining.HasValue && service.DaysRemaining <= 7 ? "table-danger" : service.DaysRemaining.HasValue && service.DaysRemaining <= 30 ? "table-warning" : "")">
+                                                <td>@service.ServiceName</td>
+                                                <td>@service.StartDate.ToString("dd/MM/yyyy")</td>
+                                                <td>
+                                                    @if (service.EndDate.HasValue)
+                                                    {
+                                                        @service.EndDate.Value.ToString("dd/MM/yyyy")
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>Không có ngày kết thúc</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (service.DaysRemaining.HasValue)
+                                                    {
+                                                        @if (service.DaysRemaining < 0)
+                                                        {
+                                                            <span class="status-badge status-expired">Hết hạn</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            @service.DaysRemaining <span>ngày</span>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>N/A</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (!string.IsNullOrEmpty(service.Status) && service.Status.ToLower() == "active")
+                                                    {
+                                                        <span class="status-badge status-active">Đang hoạt động</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="status-badge status-inactive">@service.Status</span>
+                                                    }
+                                                </td>
+                                                <td>@service.Price.ToString("N0") CD</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info mt-4">
+                            <i class="fas fa-info-circle me-2"></i> Không có dịch vụ bổ sung nào.
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+</div>

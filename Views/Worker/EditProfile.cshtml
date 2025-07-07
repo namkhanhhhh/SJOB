@@ -1,0 +1,166 @@
+﻿@model SJOB_EXE201.ViewModels.EditProfileViewModel
+@{
+    ViewData["Title"] = "Chỉnh Sửa Hồ Sơ";
+    Layout = "_WorkerLayout";
+}
+
+<div class="container mb-5">
+    <h1 class="h2 mb-4">Chỉnh Sửa Hồ Sơ</h1>
+
+    <form asp-controller="Worker" asp-action="EditProfile" method="post" enctype="multipart/form-data" id="profileForm">
+        <input type="hidden" asp-for="UserId" />
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Ảnh Đại Diện</h5>
+                        <div class="text-center mb-3">
+                            @if (!string.IsNullOrEmpty(Model.Avatar))
+                            {
+                                <img src="@Model.Avatar" alt="Ảnh Đại Diện" class="rounded-circle img-fluid mb-3" style="width: 150px; height: 150px; object-fit: cover;" id="avatar-preview">
+                            }
+                            else
+                            {
+                                <div class="avatar-placeholder mb-3" id="avatar-placeholder">
+                                    <i class="fas fa-user-circle fa-7x"></i>
+                                </div>
+                                <img src="/placeholder.svg" alt="Ảnh Đại Diện" class="rounded-circle img-fluid mb-3 d-none" style="width: 150px; height: 150px; object-fit: cover;" id="avatar-preview">
+                            }
+                            <div class="mb-3">
+                                <label for="avatarFile" class="form-label">Tải Lên Ảnh Mới</label>
+                                <input class="form-control" type="file" id="avatarFile" name="avatarFile" accept="image/*">
+                            </div>
+                        </div>
+
+                        <h5 class="card-title">Thông Tin Tài Khoản</h5>
+                        <div class="mb-3">
+                            <label asp-for="Username" class="form-label">Tên Đăng Nhập</label>
+                            <input asp-for="Username" class="form-control" />
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">Email</label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Thông Tin Cá Nhân</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="FirstName" class="form-label">Tên</label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="LastName" class="form-label">Họ</label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="PhoneNumber" class="form-label">Số Điện Thoại</label>
+                                <input asp-for="PhoneNumber" class="form-control" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="ExperienceYears" class="form-label">Số Năm Kinh Nghiệm</label>
+                                <input asp-for="ExperienceYears" class="form-control" type="number" min="0" />
+                                <span asp-validation-for="ExperienceYears" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label">Địa Chỉ</label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Headline" class="form-label">Tiêu Đề Nghề Nghiệp</label>
+                            <input asp-for="Headline" class="form-control" placeholder="Ví dụ: Nhân viên pha chế có kinh nghiệm" />
+                            <span asp-validation-for="Headline" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Bio" class="form-label">Giới Thiệu Bản Thân</label>
+                            <textarea asp-for="Bio" class="form-control" rows="4"></textarea>
+                            <span asp-validation-for="Bio" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Mong Muốn Công Việc</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="DesiredPosition" class="form-label">Vị Trí Mong Muốn</label>
+                                <input asp-for="DesiredPosition" class="form-control" />
+                                <span asp-validation-for="DesiredPosition" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="DesiredSalary" class="form-label">Mức Lương Mong Muốn (VND/giờ)</label>
+                                <input asp-for="DesiredSalary" class="form-control" type="number" min="0" />
+                                <span asp-validation-for="DesiredSalary" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="DesiredLocation" class="form-label">Địa Điểm Làm Việc Mong Muốn</label>
+                            <input asp-for="DesiredLocation" class="form-control" />
+                            <span asp-validation-for="DesiredLocation" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Availability" class="form-label">Thời Gian Có Thể Làm Việc</label>
+                            <textarea asp-for="Availability" class="form-control" rows="3" placeholder="Ví dụ: Có thể làm việc vào các ngày trong tuần sau 5 giờ chiều và cả ngày cuối tuần"></textarea>
+                            <span asp-validation-for="Availability" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Kỹ Năng & Học Vấn</h5>
+                        <div class="mb-3">
+                            <label asp-for="Skills" class="form-label">Kỹ Năng</label>
+                            <textarea asp-for="Skills" class="form-control" rows="3" placeholder="Ví dụ: Dịch vụ khách hàng, Xử lý tiền mặt, Kỹ năng pha chế, v.v."></textarea>
+                            <span asp-validation-for="Skills" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Education" class="form-label">Học Vấn</label>
+                            <textarea asp-for="Education" class="form-control" rows="3" placeholder="Ví dụ: Cử nhân Kinh doanh, Bằng tốt nghiệp THPT, v.v."></textarea>
+                            <span asp-validation-for="Education" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <a asp-controller="Worker" asp-action="Profile" class="btn btn-outline-secondary me-md-2">Hủy</a>
+                    <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Xem trước ảnh đại diện đã tải lên
+            $('#avatarFile').change(function () {
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#avatar-preview').attr('src', e.target.result).removeClass('d-none');
+                        $('#avatar-placeholder').addClass('d-none');
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        });
+    </script>
+}

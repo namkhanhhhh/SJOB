@@ -31,6 +31,12 @@ namespace SJOB_EXE201.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AuthenLogoAvailable")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0)
+                        .HasColumnName("authen_logo_available");
+
                     b.Property<DateTime?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
@@ -41,9 +47,21 @@ namespace SJOB_EXE201.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("description");
 
+                    b.Property<int>("DiamondPostsIncluded")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0)
+                        .HasColumnName("diamond_posts_included");
+
                     b.Property<int?>("DurationDays")
                         .HasColumnType("int")
                         .HasColumnName("duration_days");
+
+                    b.Property<int>("GoldPostsIncluded")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0)
+                        .HasColumnName("gold_posts_included");
 
                     b.Property<bool?>("IsActive")
                         .ValueGeneratedOnAdd()
@@ -61,11 +79,23 @@ namespace SJOB_EXE201.Migrations
                         .HasColumnType("decimal(15, 2)")
                         .HasColumnName("price");
 
+                    b.Property<int>("PushToTopAvailable")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0)
+                        .HasColumnName("push_to_top_available");
+
                     b.Property<string>("ServiceType")
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
                         .HasColumnName("service_type");
+
+                    b.Property<int>("SilverPostsIncluded")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0)
+                        .HasColumnName("silver_posts_included");
 
                     b.HasKey("Id")
                         .HasName("PK__addition__3213E83FAF0C9D62");
@@ -122,6 +152,42 @@ namespace SJOB_EXE201.Migrations
                     b.HasIndex(new[] { "Status" }, "idx_applications_status");
 
                     b.ToTable("applications", (string)null);
+                });
+
+            modelBuilder.Entity("SJOB_EXE201.Models.ApplicationNote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ApplicationId")
+                        .HasColumnType("int")
+                        .HasColumnName("application_id");
+
+                    b.Property<int?>("ApplicationId1")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("note");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationId");
+
+                    b.HasIndex("ApplicationId1");
+
+                    b.ToTable("application_notes", (string)null);
                 });
 
             modelBuilder.Entity("SJOB_EXE201.Models.Banner", b =>
@@ -388,7 +454,8 @@ namespace SJOB_EXE201.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Benefits")
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnName("benefits");
 
                     b.Property<DateTime?>("CreatedAt")
@@ -409,7 +476,7 @@ namespace SJOB_EXE201.Migrations
                     b.Property<string>("ExperienceLevel")
                         .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("NVARCHAR(255)")
                         .HasColumnName("experience_level");
 
                     b.Property<string>("Image2")
@@ -442,7 +509,7 @@ namespace SJOB_EXE201.Migrations
                     b.Property<string>("JobType")
                         .HasMaxLength(20)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(20)")
+                        .HasColumnType("NVARCHAR(255)")
                         .HasColumnName("job_type");
 
                     b.Property<string>("Location")
@@ -469,7 +536,8 @@ namespace SJOB_EXE201.Migrations
                         .HasColumnName("pushed_to_top_until");
 
                     b.Property<string>("Requirements")
-                        .HasColumnType("nvarchar(max)")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
                         .HasColumnName("requirements");
 
                     b.Property<decimal?>("SalaryMax")
@@ -620,6 +688,71 @@ namespace SJOB_EXE201.Migrations
                     b.ToTable("marketing_campaigns", (string)null);
                 });
 
+            modelBuilder.Entity("SJOB_EXE201.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("getdate()");
+
+                    b.Property<bool>("IsRead")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_read");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("message");
+
+                    b.Property<int?>("ReferenceId")
+                        .HasColumnType("int")
+                        .HasColumnName("reference_id");
+
+                    b.Property<string>("ReferenceType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("reference_type");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("title");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("type");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("url");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("notifications", (string)null);
+                });
+
             modelBuilder.Entity("SJOB_EXE201.Models.Payment", b =>
                 {
                     b.Property<int>("Id")
@@ -738,17 +871,37 @@ namespace SJOB_EXE201.Migrations
                         .HasColumnName("created_at")
                         .HasDefaultValueSql("(getdate())");
 
+                    b.Property<int?>("DiamondPostsApplied")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0)
+                        .HasColumnName("diamond_posts_applied");
+
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime")
                         .HasColumnName("end_date");
 
-                    b.Property<int?>("JobPostId")
+                    b.Property<int?>("GoldPostsApplied")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("job_post_id");
+                        .HasDefaultValue(0)
+                        .HasColumnName("gold_posts_applied");
+
+                    b.Property<bool?>("PostCreditsApplied")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false)
+                        .HasColumnName("post_credits_applied");
 
                     b.Property<int>("ServiceId")
                         .HasColumnType("int")
                         .HasColumnName("service_id");
+
+                    b.Property<int?>("SilverPostsApplied")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0)
+                        .HasColumnName("silver_posts_applied");
 
                     b.Property<DateTime?>("StartDate")
                         .ValueGeneratedOnAdd()
@@ -1034,7 +1187,11 @@ namespace SJOB_EXE201.Migrations
                         .HasColumnName("role_id");
 
                     b.Property<bool>("Status")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(50)
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true)
+                        .HasColumnName("status");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -1133,10 +1290,22 @@ namespace SJOB_EXE201.Migrations
                         .HasColumnType("int")
                         .HasColumnName("experience_years");
 
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("firstName");
+
                     b.Property<string>("Headline")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)")
                         .HasColumnName("headline");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("lastName");
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(20)
@@ -1158,6 +1327,103 @@ namespace SJOB_EXE201.Migrations
                     b.HasIndex(new[] { "UserId" }, "idx_user_details_user_id");
 
                     b.ToTable("user_details", (string)null);
+                });
+
+            modelBuilder.Entity("SJOB_EXE201.Models.UserPostCredit", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AuthenLogoAvailable")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0)
+                        .HasColumnName("authen_logo_available");
+
+                    b.Property<int>("DiamondPostsAvailable")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0)
+                        .HasColumnName("diamond_posts_available");
+
+                    b.Property<int>("GoldPostsAvailable")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0)
+                        .HasColumnName("gold_posts_available");
+
+                    b.Property<DateTime?>("LastUpdated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasColumnName("last_updated")
+                        .HasDefaultValueSql("(getdate())");
+
+                    b.Property<int>("PushToTopAvailable")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0)
+                        .HasColumnName("push_to_top_available");
+
+                    b.Property<int>("SilverPostsAvailable")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0)
+                        .HasColumnName("silver_posts_available");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("user_post_credits", (string)null);
+                });
+
+            modelBuilder.Entity("SJOB_EXE201.Models.Wishlist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime")
+                        .HasColumnName("created_at")
+                        .HasDefaultValueSql("(getdate())");
+
+                    b.Property<int>("JobPostId")
+                        .HasColumnType("int")
+                        .HasColumnName("job_post_id");
+
+                    b.Property<int?>("JobPostId1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("PK__wishlist__3213E83F");
+
+                    b.HasIndex("JobPostId");
+
+                    b.HasIndex("JobPostId1");
+
+                    b.HasIndex("UserId", "JobPostId")
+                        .IsUnique()
+                        .HasDatabaseName("UQ__wishlists__user_job");
+
+                    b.ToTable("wishlists", (string)null);
                 });
 
             modelBuilder.Entity("SJOB_EXE201.Models.WorkerVisit", b =>
@@ -1216,6 +1482,21 @@ namespace SJOB_EXE201.Migrations
                     b.Navigation("JobPost");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SJOB_EXE201.Models.ApplicationNote", b =>
+                {
+                    b.HasOne("SJOB_EXE201.Models.Application", "Application")
+                        .WithMany()
+                        .HasForeignKey("ApplicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SJOB_EXE201.Models.Application", null)
+                        .WithMany("ApplicationNotes")
+                        .HasForeignKey("ApplicationId1");
+
+                    b.Navigation("Application");
                 });
 
             modelBuilder.Entity("SJOB_EXE201.Models.Banner", b =>
@@ -1298,6 +1579,17 @@ namespace SJOB_EXE201.Migrations
                         .HasForeignKey("UserId")
                         .IsRequired()
                         .HasConstraintName("FK_marketing_campaigns_users");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SJOB_EXE201.Models.Notification", b =>
+                {
+                    b.HasOne("SJOB_EXE201.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -1403,6 +1695,40 @@ namespace SJOB_EXE201.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SJOB_EXE201.Models.UserPostCredit", b =>
+                {
+                    b.HasOne("SJOB_EXE201.Models.User", "User")
+                        .WithOne("UserPostCredit")
+                        .HasForeignKey("SJOB_EXE201.Models.UserPostCredit", "UserId")
+                        .IsRequired()
+                        .HasConstraintName("FK_user_post_credits_users");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SJOB_EXE201.Models.Wishlist", b =>
+                {
+                    b.HasOne("SJOB_EXE201.Models.JobPost", "JobPost")
+                        .WithMany()
+                        .HasForeignKey("JobPostId")
+                        .IsRequired()
+                        .HasConstraintName("FK_wishlists_job_posts");
+
+                    b.HasOne("SJOB_EXE201.Models.JobPost", null)
+                        .WithMany("Wishlists")
+                        .HasForeignKey("JobPostId1");
+
+                    b.HasOne("SJOB_EXE201.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .IsRequired()
+                        .HasConstraintName("FK_wishlists_users");
+
+                    b.Navigation("JobPost");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SJOB_EXE201.Models.WorkerVisit", b =>
                 {
                     b.HasOne("SJOB_EXE201.Models.JobPost", "JobPost")
@@ -1427,6 +1753,11 @@ namespace SJOB_EXE201.Migrations
                     b.Navigation("ServiceOrders");
                 });
 
+            modelBuilder.Entity("SJOB_EXE201.Models.Application", b =>
+                {
+                    b.Navigation("ApplicationNotes");
+                });
+
             modelBuilder.Entity("SJOB_EXE201.Models.JobCategory", b =>
                 {
                     b.Navigation("InverseParent");
@@ -1441,6 +1772,8 @@ namespace SJOB_EXE201.Migrations
                     b.Navigation("JobPostCategories");
 
                     b.Navigation("ServiceUsages");
+
+                    b.Navigation("Wishlists");
 
                     b.Navigation("WorkerVisits");
                 });
@@ -1480,6 +1813,8 @@ namespace SJOB_EXE201.Migrations
                     b.Navigation("UserCredits");
 
                     b.Navigation("UserDetails");
+
+                    b.Navigation("UserPostCredit");
 
                     b.Navigation("WorkerVisits");
                 });

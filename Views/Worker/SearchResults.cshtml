@@ -1,0 +1,307 @@
+﻿@model SJOB_EXE201.ViewModels.SearchResultsViewModel
+@{
+    ViewData["Title"] = "Kết Quả Tìm Kiếm";
+    Layout = "_WorkerLayout";
+}
+
+<div class="container-fluid px-3 px-md-4 my-4">
+    <!-- Tiêu Đề Trang -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="section-title mb-3">Kết Quả Tìm Kiếm</h1>
+            <p class="lead mb-0">
+                @if (!string.IsNullOrWhiteSpace(Model.Keyword))
+                {
+                    <span>Tìm thấy <strong>@Model.TotalJobs</strong> công việc phù hợp với "<strong>@Model.Keyword</strong>"</span>
+                }
+                else
+                {
+                    <span>Tìm thấy <strong>@Model.TotalJobs</strong> công việc phù hợp với tiêu chí tìm kiếm của bạn</span>
+                }
+            </p>
+        </div>
+    </div>
+
+    <!-- Search Bar và Filter Tags -->
+    <div class="row mb-4">
+        <!-- Từ khóa gợi ý -->
+        <div class="col-lg-8 mb-3 mb-lg-0">
+            @if (Model.SuggestedKeywords.Any())
+            {
+                <div class="filter-tags">
+                    <span class="filter-label me-2 fw-medium">Lọc theo:</span>
+                    <div class="d-flex flex-wrap gap-2">
+                        @foreach (var filter in Model.SuggestedKeywords)
+                        {
+                            <a href="@Url.Action("SearchResults", "Worker", new { keyword = filter })"
+                               class="badge rounded-pill bg-light text-dark border px-3 py-2 text-decoration-none hover-lift">
+                                @filter
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- Ô tìm kiếm -->
+        <div class="col-lg-4">
+            <form asp-controller="Worker" asp-action="SearchResults" method="get" class="d-flex gap-2">
+                <input type="text" class="form-control" name="keyword" value="@Model.Keyword" placeholder="Tìm kiếm công việc...">
+                <button class="btn btn-primary flex-shrink-0" type="submit">
+                    <i class="fas fa-search me-1"></i>Tìm
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Nội Dung Chính - Danh Sách Công Việc -->
+        <div class="col-lg-8">
+            @if (!Model.Jobs.Any())
+            {
+                <div class="empty-state">
+                    <i class="fas fa-search"></i>
+                    <h3>Không tìm thấy công việc nào</h3>
+                    <p>Không tìm thấy công việc nào phù hợp với tiêu chí của bạn. Vui lòng thử các tham số tìm kiếm khác.</p>
+                    <a href="@Url.Action("Index", "Worker")" class="btn btn-primary">
+                        <i class="fas fa-home me-2"></i>Về Trang Chủ
+                    </a>
+                </div>
+            }
+            else
+            {
+                <!-- Job Results Container -->
+                <div class="job-results-container">
+                    @foreach (var job in Model.Jobs)
+                    {
+                        <div class="job-card-wrapper mb-4">
+                            <div class="card job-card-horizontal h-100">
+                                <div class="row g-0 h-100">
+                                    <!-- Job Image -->
+                                    <div class="col-md-3 col-lg-3">
+                                        <div class="job-image-container">
+                                            <img style="width: 185px;height: 185px;padding-left: 35px;padding-top: 35px;" 
+                                            src="@job.ImageMain" class="job-image" alt="@job.Title">
+                                            @if (job.PostType == "diamond")
+                                            {
+                                                <div class="premium-badge">
+                                                    <span class="badge bg-warning text-dark ">
+                                                        <i class="fas fa-gem me-1"></i>Cao Cấp
+                                                    </span>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Job Details -->
+                                    <div class="col-md-9 col-lg-9">
+                                        <div class="card-body h-100 d-flex flex-column">
+                                            <!-- Header with title and wishlist -->
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <h5 class="card-title job-title mb-0">@job.Title</h5>
+                                                @if (User.Identity.IsAuthenticated)
+                                                {
+                                                    <button class="btn-wishlist flex-shrink-0 @(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "active" : "")"
+                                                            data-job-id="@job.Id"
+                                                            data-is-in-wishlist="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "true" : "false")"
+                                                            title="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "Xóa khỏi danh sách yêu thích" : "Thêm vào danh sách yêu thích")">
+                                                        <i class="@(ViewBag.WishlistJobIds != null && ViewBag.WishlistJobIds.Contains(job.Id) ? "fas" : "far") fa-heart"></i>
+                                                    </button>
+                                                }
+                                            </div>
+                                            
+                                            <!-- Company name -->
+                                            <p class="company-name mb-2">
+                                                @(job.User.CompanyProfiles.FirstOrDefault()?.CompanyName ?? job.User.Username)
+                                            </p>
+                                            
+                                            <!-- Job details -->
+                                            <div class="job-details mb-3 flex-grow-1">
+                                                <div class="job-detail-item">
+                                                    <i class="fas fa-map-marker-alt text-primary"></i>
+                                                    <span>@job.Location</span>
+                                                </div>
+                                                <div class="job-detail-item">
+                                                    <i class="fas fa-money-bill-wave text-success"></i>
+                                                    <span>
+                                                        @(job.SalaryMin.HasValue && job.SalaryMax.HasValue
+                                                            ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/giờ"
+                                                            : "Thương lượng")
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Footer with job type and action button -->
+                                            <div class="d-flex justify-content-between align-items-center mt-auto">
+                                                <span class="badge bg-primary job-type-badge">
+                                                    <i class="fas fa-clock me-1"></i>@job.JobType
+                                                </span>
+                                                <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" 
+                                                   class="btn btn-outline-primary btn-sm action-btn">
+                                                    Xem Chi Tiết
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Pagination -->
+                @if (Model.TotalPages > 1)
+                {
+                    <nav aria-label="Page navigation" class="mt-4">
+                        <div class="d-flex justify-content-center align-items-center flex-wrap gap-2">
+                            <ul class="pagination mb-0">
+                                @if (Model.CurrentPage > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("SearchResults", "Worker", new {
+                                            page = Model.CurrentPage - 1,
+                                            keyword = Model.Keyword,
+                                            location = Model.Location,
+                                            jobType = Model.JobType,
+                                            minSalary = Model.MinSalary,
+                                            maxSalary = Model.MaxSalary,
+                                            categoryId = Model.CategoryId
+                                        })" aria-label="Previous">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </a>
+                                    </li>
+                                }
+
+                                @{
+                                    const int maxPagesToShow = 5;
+                                    int startPage = Math.Max(1, Model.CurrentPage - maxPagesToShow / 2);
+                                    int endPage = Math.Min(Model.TotalPages, startPage + maxPagesToShow - 1);
+
+                                    if (endPage == Model.TotalPages)
+                                    {
+                                        startPage = Math.Max(1, endPage - maxPagesToShow + 1);
+                                    }
+
+                                    for (int i = startPage; i <= endPage; i++)
+                                    {
+                                        <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                            <a class="page-link" href="@Url.Action("SearchResults", "Worker", new {
+                                                page = i,
+                                                keyword = Model.Keyword,
+                                                location = Model.Location,
+                                                jobType = Model.JobType,
+                                                minSalary = Model.MinSalary,
+                                                maxSalary = Model.MaxSalary,
+                                                categoryId = Model.CategoryId
+                                            })">@i</a>
+                                        </li>
+                                    }
+                                }
+
+                                @if (Model.CurrentPage < Model.TotalPages)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("SearchResults", "Worker", new {
+                                            page = Model.CurrentPage + 1,
+                                            keyword = Model.Keyword,
+                                            location = Model.Location,
+                                            jobType = Model.JobType,
+                                            minSalary = Model.MinSalary,
+                                            maxSalary = Model.MaxSalary,
+                                            categoryId = Model.CategoryId
+                                        })" aria-label="Next">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                            <div class="pagination-info ms-3">
+                                <small class="text-muted">
+                                    Trang @Model.CurrentPage / @Model.TotalPages
+                                </small>
+                            </div>
+                        </div>
+                    </nav>
+                }
+            }
+        </div>
+
+        <!-- Sidebar - Filters -->
+        <div class="col-lg-4">
+            <div class="sidebar-sticky">
+                <!-- Filter Card -->
+                <div class="card filter-card mb-4">
+                    <div class="card-header bg-white border-bottom">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-filter me-2 text-primary"></i>Lọc Kết Quả
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form asp-controller="Worker" asp-action="SearchResults" method="get">
+                            <input type="hidden" name="keyword" value="@Model.Keyword">
+
+                            <div class="mb-3">
+                                <label for="location" class="form-label">
+                                    <i class="fas fa-map-marker-alt me-1"></i>Địa Điểm
+                                </label>
+                                <input type="text" class="form-control" id="location" name="location" 
+                                       value="@Model.Location" placeholder="Thành phố, quận...">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="jobType" class="form-label">
+                                    <i class="fas fa-briefcase me-1"></i>Loại Công Việc
+                                </label>
+                                <select class="form-select" id="jobType" name="jobType">
+                                    <option value="">Tất Cả Loại Công Việc</option>
+                                    <option value="Toàn thời gian" selected="@(Model.JobType == "Toàn thời gian")">Toàn Thời Gian</option>
+                                    <option value="Bán thời gian" selected="@(Model.JobType == "Bán thời gian")">Bán Thời Gian</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">
+                                    <i class="fas fa-money-bill-wave me-1"></i>Mức Lương (VND/giờ)
+                                </label>
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <input type="number" class="form-control" name="minSalary" 
+                                               value="@Model.MinSalary" placeholder="Tối thiểu">
+                                    </div>
+                                    <div class="col-6">
+                                        <input type="number" class="form-control" name="maxSalary" 
+                                               value="@Model.MaxSalary" placeholder="Tối đa">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search me-2"></i>Áp Dụng Bộ Lọc
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Popular Categories -->
+                <div class="card">
+                    <div class="card-header bg-white border-bottom">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-tags me-2 text-primary"></i>Danh Mục Phổ Biến
+                        </h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="list-group list-group-flush">
+                            @foreach (var category in Model.PopularCategories)
+                            {
+                                <a href="@Url.Action("CategoryJobs", "Worker", new { id = category.Id })"
+                                   class="list-group-item list-group-item-action d-flex justify-content-between align-items-center border-0">
+                                    <span class="category-name">@category.Name</span>
+                                    <span class="badge bg-primary rounded-pill">@category.JobCount</span>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

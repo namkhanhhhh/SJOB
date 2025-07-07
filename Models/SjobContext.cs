@@ -44,6 +44,7 @@ public partial class SjobContext : DbContext
     public virtual DbSet<Subscription> Subscriptions { get; set; }
 
     public virtual DbSet<SubscriptionPlan> SubscriptionPlans { get; set; }
+    public virtual DbSet<UserPostCredit> UserPostCredits { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -52,6 +53,10 @@ public partial class SjobContext : DbContext
     public virtual DbSet<UserDetail> UserDetails { get; set; }
 
     public virtual DbSet<WorkerVisit> WorkerVisits { get; set; }
+
+    public virtual DbSet<Wishlist> Wishlists { get; set; }
+    public virtual DbSet<ApplicationNote> ApplicationNotes { get; set; }
+    public virtual DbSet<Notification> Notifications { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -86,7 +91,25 @@ public partial class SjobContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("service_type");
-        });
+            // Add these properties to your existing configuration
+            entity.Property(e => e.SilverPostsIncluded)
+                .HasDefaultValue(0)
+                .HasColumnName("silver_posts_included");
+            entity.Property(e => e.GoldPostsIncluded)
+                .HasDefaultValue(0)
+                .HasColumnName("gold_posts_included");
+            entity.Property(e => e.DiamondPostsIncluded)
+                .HasDefaultValue(0)
+                .HasColumnName("diamond_posts_included");
+
+			entity.Property(e => e.PushToTopAvailable)
+				.HasDefaultValue(0)
+				.HasColumnName("push_to_top_available");
+
+			entity.Property(e => e.AuthenLogoAvailable)
+				.HasDefaultValue(0)
+				.HasColumnName("authen_logo_available");
+		});
 
         modelBuilder.Entity<Application>(entity =>
         {
@@ -510,6 +533,19 @@ public partial class SjobContext : DbContext
             entity.HasIndex(e => e.Status, "idx_service_orders_status");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            // Add these properties to your existing configuration
+            entity.Property(e => e.SilverPostsApplied)
+                .HasDefaultValue(0)
+                .HasColumnName("silver_posts_applied");
+            entity.Property(e => e.GoldPostsApplied)
+                .HasDefaultValue(0)
+                .HasColumnName("gold_posts_applied");
+            entity.Property(e => e.DiamondPostsApplied)
+                .HasDefaultValue(0)
+                .HasColumnName("diamond_posts_applied");
+            entity.Property(e => e.PostCreditsApplied)
+                .HasDefaultValue(false)
+                .HasColumnName("post_credits_applied");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
@@ -517,7 +553,6 @@ public partial class SjobContext : DbContext
             entity.Property(e => e.EndDate)
                 .HasColumnType("datetime")
                 .HasColumnName("end_date");
-            entity.Property(e => e.JobPostId).HasColumnName("job_post_id");
             entity.Property(e => e.ServiceId).HasColumnName("service_id");
             entity.Property(e => e.StartDate)
                 .HasDefaultValueSql("(getdate())")
@@ -662,6 +697,38 @@ public partial class SjobContext : DbContext
             entity.Property(e => e.SilverPosts).HasColumnName("silver_posts");
         });
 
+        modelBuilder.Entity<UserPostCredit>(entity =>
+        {
+            entity.ToTable("user_post_credits");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+			entity.Property(e => e.PushToTopAvailable)
+				.HasDefaultValue(0)
+				.HasColumnName("push_to_top_available");
+			entity.Property(e => e.AuthenLogoAvailable)
+				.HasDefaultValue(0)
+				.HasColumnName("authen_logo_available");
+			entity.Property(e => e.SilverPostsAvailable)
+                .HasDefaultValue(0)
+                .HasColumnName("silver_posts_available");
+            entity.Property(e => e.GoldPostsAvailable)
+                .HasDefaultValue(0)
+                .HasColumnName("gold_posts_available");
+            entity.Property(e => e.DiamondPostsAvailable)
+                .HasDefaultValue(0)
+                .HasColumnName("diamond_posts_available");
+            entity.Property(e => e.LastUpdated)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("last_updated");
+
+            entity.HasOne(d => d.User).WithOne(p => p.UserPostCredit)
+                .HasForeignKey<UserPostCredit>(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_user_post_credits_users");
+        });
+
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__users__3213E83F2E2ADCD6");
@@ -684,6 +751,10 @@ public partial class SjobContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("avatar");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasDefaultValue(true)
+                .HasColumnName("status");
             entity.Property(e => e.Email)
                 .HasMaxLength(255)
                 .IsUnicode(false)
@@ -735,6 +806,12 @@ public partial class SjobContext : DbContext
             entity.HasIndex(e => e.UserId, "idx_user_details_user_id");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(100)
+                .HasColumnName("firstName");
+            entity.Property(e => e.LastName)
+                .HasMaxLength(100)
+                .HasColumnName("lastName");
             entity.Property(e => e.Address)
                 .HasMaxLength(255)
                 .HasColumnName("address");
@@ -797,6 +874,76 @@ public partial class SjobContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_worker_visits_users");
+        });
+
+        modelBuilder.Entity<Wishlist>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__wishlist__3213E83F");
+
+            entity.ToTable("wishlists");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.JobPostId).HasColumnName("job_post_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("created_at");
+
+            // Create a unique index to prevent duplicate wishlist entries
+            entity.HasIndex(e => new { e.UserId, e.JobPostId })
+                .IsUnique()
+                .HasName("UQ__wishlists__user_job");
+
+            // Configure relationships
+            entity.HasOne(d => d.User)
+                .WithMany()
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_wishlists_users");
+
+            entity.HasOne(d => d.JobPost)
+                .WithMany()
+                .HasForeignKey(d => d.JobPostId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_wishlists_job_posts");
+        });
+
+        // New configurations
+        modelBuilder.Entity<ApplicationNote>(entity =>
+        {
+            entity.ToTable("application_notes");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ApplicationId).HasColumnName("application_id");
+            entity.Property(e => e.Note).HasColumnName("note");
+            entity.Property(e => e.CreatedAt).HasColumnName("created_at").HasDefaultValueSql("getdate()");
+
+            entity.HasOne(d => d.Application)
+                .WithMany()
+                .HasForeignKey(d => d.ApplicationId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<Notification>(entity =>
+        {
+            entity.ToTable("notifications");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.Title).HasColumnName("title").HasMaxLength(255);
+            entity.Property(e => e.Message).HasColumnName("message");
+            entity.Property(e => e.Type).HasColumnName("type").HasMaxLength(50);
+            entity.Property(e => e.ReferenceId).HasColumnName("reference_id");
+            entity.Property(e => e.ReferenceType).HasColumnName("reference_type").HasMaxLength(50);
+            entity.Property(e => e.Url).HasColumnName("url").HasMaxLength(255);
+            entity.Property(e => e.IsRead).HasColumnName("is_read").HasDefaultValue(false);
+            entity.Property(e => e.CreatedAt).HasColumnName("created_at").HasDefaultValueSql("getdate()");
+
+            entity.HasOne(d => d.User)
+                .WithMany()
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Nền Tảng SJOB</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/worker.css" />
+    <link rel="stylesheet" href="~/css/worker-layout.css" />
+    <link rel="stylesheet" href="~/css/modern-pages.css" />
+    <!-- Thêm vào phần head của file layout -->
+    <link rel="stylesheet" href="~/css/notification.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" href="@Url.Action("Index", "Worker")">
+                    <img src="~/assets/img/noBackground.png" alt="Logo Nền Tảng SJOB" />
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex position-relative">
+                    <!-- Thay thế phần menu trong _WorkerLayout.cshtml -->
+                    <ul class="navbar-nav center-menu" style="margin-left: -62px;">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/HomePage">
+                                <i class="fas fa-home nav-icon"></i>    Trang Chủ
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Worker" asp-action="MyApplications">
+                                <i class="fas fa-clipboard-list nav-icon"></i>   Đơn Ứng Tuyển
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-th-list nav-icon"></i>   Danh Mục
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @await Component.InvokeAsync("JobCategoriesMenu")
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Worker" asp-action="Wishlist">
+                                <i class="fas fa-heart nav-icon"></i>   Yêu Thích
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav user-profile-nav">
+                        <li class="nav-item">
+                            @await Html.PartialAsync("_NotificationPartial")
+                        </li>
+                        <li class="nav-item dropdown">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a class="nav-link dropdown-toggle user-dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @if (!string.IsNullOrEmpty(ViewBag.UserAvatar))
+                                    {
+                                        <img src="@ViewBag.UserAvatar" alt="Ảnh Đại Diện" class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;">
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-user-circle me-2"></i>
+                                    }
+                                    <span class="ml-2">@User.Identity.Name</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Profile", "Worker")"><i class="fas fa-user me-2"></i>Hồ Sơ</a>
+                                    <a class="dropdown-item" href="@Url.Action("MyApplications", "Worker")"><i class="fas fa-clipboard-list me-2"></i>Đơn Ứng Tuyển Của Tôi</a>
+                                    <a class="dropdown-item" href="@Url.Action("ChangePassword", "Worker")"><i class="fas fa-key me-2"></i>Đổi Mật Khẩu</a>
+                                    <div class="dropdown-divider"></div>
+                                    <form asp-controller="Account" asp-action="Logout" method="post" id="logoutForm">
+                                        <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt me-2"></i>Đăng Xuất</button>
+                                    </form>
+                                </div>
+                            }
+                            else
+                            {
+                                <!-- Đối với người dùng chưa đăng nhập, chỉ hiển thị tùy chọn đăng nhập/đăng ký -->
+                                <a class="nav-link dropdown-toggle user-dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-user-circle me-2"></i>
+                                    <span class="d-none d-md-inline">Tài Khoản</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Login")"><i class="fas fa-sign-in-alt me-2"></i>Đăng Nhập</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Register")"><i class="fas fa-user-plus me-2"></i>Đăng Ký</a>
+                                </div>
+                            }
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle mr-2"></i> @TempData["Success"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle mr-2"></i> @TempData["Error"]
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="mt-5 pb-0">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="animate-title">Nền Tảng SJOB</h5>
+                    <p class="text-muted mb-4">Tìm cơ hội việc làm ngắn hạn phù hợp với nền tảng hiện đại được thiết kế cho lực lượng lao động năng động ngày nay.</p>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Facebook" class="social-icon-animate"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter" class="social-icon-animate"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram" class="social-icon-animate"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn" class="social-icon-animate"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="TikTok" class="social-icon-animate"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="animate-title">Liên Kết Nhanh</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li class="mb-2"><a href="/HomePage" class="footer-link"><i class="fas fa-chevron-right mr-2 text-success"></i>Trang Chủ</a></li>
+                        <li class="mb-2"><a href="@Url.Action("MyApplications", "Worker")" class="footer-link"><i class="fas fa-chevron-right mr-2 text-success"></i>Đơn Ứng Tuyển Của Tôi</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link"><i class="fas fa-chevron-right mr-2 text-success"></i>Về Chúng Tôi</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link"><i class="fas fa-chevron-right mr-2 text-success"></i>Liên Hệ</a></li>
+                        <li class="mb-2"><a href="#" class="footer-link"><i class="fas fa-chevron-right mr-2 text-success"></i>Chính Sách Bảo Mật</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="animate-title">Liên Hệ Chúng Tôi</h5>
+                    <address class="mb-4 contact-info">
+                        <p class="contact-item"><i class="fas fa-map-marker-alt"></i> 43 Nguyễn Chí Thanh, Ba Đình, Hà Nội</p>
+                        <p class="contact-item"><i class="fas fa-phone"></i> (+84) 978262446 </p>
+                        <p class="contact-item"><i class="fas fa-envelope"></i> sjobplatform@gmail.com</p>
+                    </address>
+                    <div>
+                        <a href="#" class="btn btn-outline-success rounded-pill support-btn">
+                            <i class="fas fa-headset mr-2"></i> Nhận Hỗ Trợ
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row py-3">
+                    <div class="col-md-6">
+                        <p class="mb-0">&copy; @DateTime.Now.Year - Nền Tảng SJOB - Tất cả các quyền được bảo lưu</p>
+                    </div>
+                    <div class="col-md-6 text-md-right">
+                        <p class="mb-0" style="margin-left: 53%;">Thiết kế và phát triển bởi Đội Ngũ SJOB</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Thêm trước thẻ đóng body -->
+    <script src="~/js/notification.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        // Thêm các lớp animation khi các phần tử xuất hiện trong tầm nhìn
+        document.addEventListener('DOMContentLoaded', function () {
+            // Dropdown toggle
+            const userDropdown = document.querySelector('.user-profile-nav .dropdown-toggle');
+            if (userDropdown) {
+                userDropdown.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const menu = this.nextElementSibling;
+                    menu.classList.toggle('show');
+                });
+            }
+
+            $(document).ready(function () {
+                // Chức năng thêm/xóa danh sách yêu thích toàn cục
+                $('.wishlist-btn, .btn-wishlist, .btn-heart, .wishlist-btn-corner').click(function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    var $button = $(this);
+                    var jobId = $button.data('job-id');
+
+                    $.ajax({
+                        url: '@Url.Action("ToggleWishlist", "Worker")',
+                        type: 'POST',
+                        data: { jobId: jobId },
+                        success: function (response) {
+                            if (response.isInWishlist) {
+                                $button.addClass('active');
+                                $button.find('i').removeClass('far').addClass('fas');
+                                $button.attr('data-is-in-wishlist', 'true');
+                                $button.attr('title', 'Xóa khỏi danh sách yêu thích');
+
+                                // Hiển thị thông báo thành công nếu bạn có thư viện toastr
+                                if (typeof toastr !== 'undefined') {
+                                    toastr.success('Đã thêm công việc vào danh sách yêu thích');
+                                }
+                            } else {
+                                $button.removeClass('active');
+                                $button.find('i').removeClass('fas').addClass('far');
+                                $button.attr('data-is-in-wishlist', 'false');
+                                $button.attr('title', 'Thêm vào danh sách yêu thích');
+
+                                // Hiển thị thông báo thông tin nếu bạn có thư viện toastr
+                                if (typeof toastr !== 'undefined') {
+                                    toastr.info('Đã xóa công việc khỏi danh sách yêu thích');
+                                }
+                            }
+                        },
+                        error: function () {
+                            // Hiển thị thông báo lỗi nếu bạn có thư viện toastr
+                            if (typeof toastr !== 'undefined') {
+                                toastr.error('Lỗi khi cập nhật danh sách yêu thích');
+                            }
+                        }
+                    });
+                });
+            });
+
+
+            // Đóng dropdown khi nhấp chuột bên ngoài
+            document.addEventListener('click', function (e) {
+                const dropdowns = document.querySelectorAll('.dropdown-menu');
+                dropdowns.forEach(function (dropdown) {
+                    if (!dropdown.contains(e.target) && !e.target.classList.contains('dropdown-toggle')) {
+                        dropdown.classList.remove('show');
+                    }
+                });
+            });
+
+            // Animation cho các phần tử khi cuộn
+            const animateOnScroll = function () {
+                const elements = document.querySelectorAll('.animate-on-scroll');
+
+                elements.forEach(function (element) {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+
+                    if (elementPosition < windowHeight - 50) {
+                        element.classList.add('animate');
+                    }
+                });
+            };
+
+            // Ban đầu gọi hàm
+            animateOnScroll();
+
+            // Gọi hàm khi cuộn
+            window.addEventListener('scroll', animateOnScroll);
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

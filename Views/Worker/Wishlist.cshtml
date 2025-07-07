@@ -1,0 +1,83 @@
+﻿@model SJOB_EXE201.ViewModels.WishlistViewModel
+@{
+    ViewData["Title"] = "Danh Sách Yêu Thích";
+    Layout = "_WorkerLayout";
+}
+
+<div class="container mb-5 wishlist-container">
+    <div class="wishlist-header">
+        <div class="page-header">
+            <h1>
+                <i class="fas fa-heart me-2"></i> Danh Sách Yêu Thích
+                <span class="badge bg-primary">@Model.TotalJobs</span>
+            </h1>
+        </div>
+        <a href="@Url.Action("Index", "Worker")" class="btn btn-outline-primary browse-btn">
+            <i class="fas fa-search"></i> Tìm Kiếm Công Việc
+        </a>
+    </div>
+
+    @if (!Model.WishlistJobs.Any())
+    {
+        <div class="empty-state">
+            <i class="far fa-heart"></i>
+            <h3>Danh Sách Yêu Thích Của Bạn Đang Trống</h3>
+            <p>Lưu các công việc bạn quan tâm bằng cách nhấp vào biểu tượng trái tim. Các công việc đã lưu sẽ xuất hiện ở đây để dễ dàng truy cập.</p>
+            <a href="@Url.Action("Index", "Worker")" class="btn btn-primary action-btn">
+                <i class="fas fa-search me-2"></i> Tìm Kiếm Công Việc
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var job in Model.WishlistJobs)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card job-card-horizontal">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="@job.ImageMain" class="img-fluid rounded-start" alt="@job.Title">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <h5 class="card-title">@job.Title</h5>
+                                        <form asp-controller="Worker" asp-action="RemoveFromWishlist" method="post" class="d-inline">
+                                            <input type="hidden" name="jobId" value="@job.Id" />
+                                            <button type="submit" class="btn btn-heart" title="Xóa khỏi danh sách yêu thích">
+                                                <i class="fas fa-heart"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <p class="company-name">
+                                        <i class="fas fa-building me-1"></i>
+                                        @(job.User.CompanyProfiles.FirstOrDefault()?.CompanyName ?? job.User.Username)
+                                    </p>
+                                    <p class="location">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span>@job.Location</span>
+                                    </p>
+                                    <p class="salary">
+                                        <i class="fas fa-money-bill-wave"></i>
+                                        <span>
+                                            @(job.SalaryMin.HasValue && job.SalaryMax.HasValue
+                                                ? $"{job.SalaryMin:N0} - {job.SalaryMax:N0} VND/giờ"
+                                                : "Thương lượng")
+                                        </span>
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <span class="badge bg-primary">@job.JobType</span>
+                                        <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye me-1"></i> Xem Chi Tiết
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

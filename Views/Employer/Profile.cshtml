@@ -1,0 +1,389 @@
+﻿@model SJOB_EXE201.ViewModels.EmployerProfileViewModel
+@{
+    ViewData["Title"] = "Hồ sơ nhà tuyển dụng";
+    Layout = "~/Views/Shared/_EmployerLayout.cshtml";
+}
+
+<div class="main-content">
+    <div class="top-bar">
+        <h1 class="page-title">Hồ sơ nhà tuyển dụng</h1>
+        <div class="action-buttons">
+            <a href="@Url.Action("EditProfile", "Employer")" class="btn btn-primary">
+                <i class="fas fa-edit"></i> Chỉnh sửa hồ sơ
+            </a>
+            <a href="@Url.Action("ChangePassword", "Employer")" class="btn btn-outline-secondary">
+                <i class="fas fa-key"></i> Đổi mật khẩu
+            </a>
+        </div>
+    </div>
+
+    <div class="content-container">
+        <div class="profile-container">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    @if (!string.IsNullOrEmpty(Model.Employer.Avatar))
+                    {
+                        <img src="@Model.Employer.Avatar" alt="Avatar" class="avatar-img" />
+                    }
+                    else
+                    {
+                        <div class="avatar-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    }
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name">@Model.Employer.Username</h2>
+                    <p class="profile-email">@Model.Employer.Email</p>
+                    <div class="profile-badges">
+                        <span class="badge bg-primary">Nhà tuyển dụng</span>
+                        @if (Model.CompanyProfile?.VerifiedBadge == true)
+                        {
+                            <span class="badge bg-success">
+                                <i class="fas fa-check-circle"></i> Đã xác thực
+                            </span>
+                        }
+                    </div>
+                </div>
+                <!--logo-->
+                 @if (Model.CompanyProfile?.VerifiedBadge == true)
+                    {
+                <div class="verified-logo-container position-relative d-inline-block">
+                    <img src="~/images/avatars/logo_tich_xanh.png" alt="Logo" class="logo-img rounded-circle" width="100" height="100" />
+                </div>
+                    }
+            </div>
+
+            <div class="profile-sections">
+                <div class="profile-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-user"></i> Thông tin cá nhân</h3>
+                    </div>
+                    <div class="section-content">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Họ và tên</span>
+                                <span class="info-value">
+                                    @(Model.UserDetail?.FirstName ?? "") @(Model.UserDetail?.LastName ?? "")
+                                </span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Email</span>
+                                <span class="info-value">@Model.Employer.Email</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Số điện thoại</span>
+                                <span class="info-value">@(Model.UserDetail?.PhoneNumber ?? "Chưa cập nhật")</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Địa chỉ</span>
+                                <span class="info-value">@(Model.UserDetail?.Address ?? "Chưa cập nhật")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-chart-line"></i> Thống kê</h3>
+                    </div>
+                    <div class="section-content">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-value">@Model.JobPostsCount</span>
+                                    <span class="stat-label">Bài đăng</span>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-value">@Model.ApplicationsCount</span>
+                                    <span class="stat-label">Ứng viên</span>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-eye"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-value">@Model.ViewsCount</span>
+                                    <span class="stat-label">Lượt xem</span>
+                                </div>
+                            </div>
+
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-ticket-alt"></i>
+                                </div>
+                                <div class="stat-info">
+                                    <span class="stat-value">@Model.RemainingPostsCount</span>
+                                    <span class="stat-label">Lượt đăng còn lại</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Profile Page Styles */
+    .page-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .profile-container {
+        background-color: var(--bg-primary);
+        border-radius: var(--border-radius-lg);
+        box-shadow: var(--box-shadow);
+        overflow: hidden;
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        padding: 2rem;
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        color: white;
+    }
+
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 2rem;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .avatar-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(255, 255, 255, 0.2);
+        font-size: 3rem;
+    }
+
+    .profile-info {
+        flex: 1;
+    }
+
+    .profile-name {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0 0 0.5rem 0;
+    }
+
+    .profile-email {
+        font-size: 1rem;
+        opacity: 0.9;
+        margin-bottom: 1rem;
+    }
+
+    .profile-badges {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+        .profile-badges .badge {
+            padding: 0.5rem 0.75rem;
+            font-weight: 500;
+            border-radius: 20px;
+        }
+
+    .profile-sections {
+        padding: 2rem;
+    }
+
+    .profile-section {
+        margin-bottom: 2rem;
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .section-header {
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid var(--primary-light);
+        padding-bottom: 0.75rem;
+    }
+
+        .section-header h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+    .section-content {
+        padding: 0 0.5rem;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .info-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .info-label {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.5rem;
+    }
+
+    .info-value {
+        font-size: 1rem;
+        color: var(--text-primary);
+        font-weight: 500;
+    }
+
+    .company-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .company-logo {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        object-fit: contain;
+        margin-right: 1.5rem;
+        border: 1px solid #e2e8f0;
+        padding: 0.5rem;
+        background-color: white;
+    }
+
+    .company-logo-placeholder {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f1f5f9;
+        color: var(--text-secondary);
+        font-size: 2rem;
+        margin-right: 1.5rem;
+    }
+
+    .company-name {
+        flex: 1;
+    }
+
+        .company-name h4 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+            color: var(--primary-dark);
+        }
+
+    .verified-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--success);
+        font-weight: 500;
+    }
+
+    .company-description {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #e2e8f0;
+    }
+
+        .company-description h5 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .company-description p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .stat-card {
+        background-color: #f8fafc;
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        transition: all var(--transition-speed) ease;
+        border: 1px solid #e2e8f0;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--box-shadow);
+            border-color: var(--primary-light);
+        }
+
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: rgba(0, 204, 102, 0.1);
+        color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-right: 1rem;
+    }
+
+    .stat-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+    }
+</style>

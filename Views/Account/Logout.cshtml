@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Logout";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">Sign Out</h4>
+                </div>
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i class="bi bi-box-arrow-right" style="font-size: 3rem;"></i>
+                    </div>
+                    <h5 class="mb-4">Are you sure you want to sign out?</h5>
+                    <form asp-action="Logout" method="post">
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-danger px-4 me-3">
+                                <i class="bi bi-box-arrow-right me-2"></i> Yes, Sign Out
+                            </button>
+                            <a href="javascript:history.back()" class="btn btn-secondary px-4">
+                                <i class="bi bi-x-circle me-2"></i> Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

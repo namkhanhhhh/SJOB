@@ -1,0 +1,303 @@
+﻿@model SJOB_EXE201.ViewModels.CreditTransactionDashboardViewModel
+@{
+    ViewData["Title"] = "Credit Analytics Dashboard";
+    Layout = "_AdminLayout";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Credit Analytics Dashboard</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/Admin">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="/CreditTransaction">Credit Transactions</a></li>
+        <li class="breadcrumb-item active">Analytics</li>
+    </ol>
+
+    <div class="row">
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="small text-white-50">Monthly Transactions</div>
+                            <div class="display-6">@Model.MonthlyTransactionCount</div>
+                        </div>
+                        <div>
+                            <i class="fas fa-calendar fa-3x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <div class="small text-white">@Model.MonthlyTransactionAmount.ToString("N0") VND this month</div>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="small text-white-50">Yearly Transactions</div>
+                            <div class="display-6">@Model.YearlyTransactionCount</div>
+                        </div>
+                        <div>
+                            <i class="fas fa-chart-line fa-3x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <div class="small text-white">@Model.YearlyTransactionAmount.ToString("N0") VND this year</div>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-warning text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="small text-white-50">Total Users</div>
+                            <div class="display-6">@Model.TotalUsers</div>
+                        </div>
+                        <div>
+                            <i class="fas fa-users fa-3x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <div class="small text-white">Users with credit balance</div>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-danger text-white mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="small text-white-50">Total Credits</div>
+                            <div class="display-6">@Model.TotalCredits.ToString("N0") VND</div>
+                        </div>
+                        <div>
+                            <i class="fas fa-coins fa-3x text-white-50"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between">
+                    <div class="small text-white">Current balance in system</div>
+                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar me-1"></i>
+                    Monthly Transaction Trends (Last 12 Months)
+                </div>
+                <div class="card-body">
+                    <canvas id="monthlyTransactionsChart" width="100%" height="40"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-pie me-1"></i>
+                    Transaction Type Distribution
+                </div>
+                <div class="card-body">
+                    <canvas id="transactionTypeChart" width="100%" height="50"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-trophy me-1"></i>
+            Top Users by Deposit Amount
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover" id="topUsersTable">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Transactions</th>
+                            <th>Total Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.TopUsers.Count; i++)
+                        {
+                            var user = Model.TopUsers[i];
+                            <tr>
+                                <td>@(i + 1)</td>
+                                <td>
+                                    @if (!string.IsNullOrEmpty(user.FullName))
+                                    {
+                                        @user.FullName
+                                    }
+                                    else
+                                    {
+                                        @user.Username
+                                    }
+                                </td>
+                                <td>@user.Email</td>
+                                <td>@user.TransactionCount</td>
+                                <td>@user.TotalAmount.ToString("N0") VND</td>
+                                <td>
+                                    <a href="/CreditTransaction/Index?searchEmail=@user.Email" class="btn btn-sm btn-info">
+                                        <i class="fas fa-search"></i> View Transactions
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Monthly Transactions Chart
+        var monthlyCtx = document.getElementById('monthlyTransactionsChart').getContext('2d');
+        var monthlyData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.MonthlyData));
+
+        var months = monthlyData.map(function (item) { return item.MonthName; });
+        var transactionCounts = monthlyData.map(function (item) { return item.TransactionCount; });
+        var transactionAmounts = monthlyData.map(function (item) { return item.TotalAmount; });
+
+        var monthlyChart = new Chart(monthlyCtx, {
+            type: 'bar',
+            data: {
+                labels: months,
+                datasets: [
+                    {
+                        label: 'Transaction Count',
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgb(54, 162, 235)',
+                        borderWidth: 1,
+                        data: transactionCounts,
+                        yAxisID: 'y',
+                    },
+                    {
+                        label: 'Transaction Amount (VND)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgb(255, 99, 132)',
+                        borderWidth: 1,
+                        data: transactionAmounts,
+                        type: 'line',
+                        yAxisID: 'y1',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Transaction Count'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        grid: {
+                            drawOnChartArea: false,
+                        },
+                        title: {
+                            display: true,
+                            text: 'Transaction Amount (VND)'
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                var label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.datasetIndex === 1) {
+                                    // Format amount with VND
+                                    label += new Intl.NumberFormat('vi-VN').format(context.raw) + ' VND';
+                                } else {
+                                    label += context.raw;
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Transaction Type Chart
+        var typeCtx = document.getElementById('transactionTypeChart').getContext('2d');
+        var typeData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.TransactionTypeData));
+
+        var types = typeData.map(function (item) { return item.Type; });
+        var typeCounts = typeData.map(function (item) { return item.Count; });
+        var typeColors = [
+            'rgba(255, 99, 132, 0.7)',
+            'rgba(54, 162, 235, 0.7)',
+            'rgba(255, 206, 86, 0.7)',
+            'rgba(75, 192, 192, 0.7)',
+            'rgba(153, 102, 255, 0.7)',
+            'rgba(255, 159, 64, 0.7)'
+        ];
+
+        var typeChart = new Chart(typeCtx, {
+            type: 'pie',
+            data: {
+                labels: types,
+                datasets: [{
+                    data: typeCounts,
+                    backgroundColor: typeColors,
+                    borderColor: 'white',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                var label = context.label || '';
+                                var value = context.raw || 0;
+                                var total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                var percentage = Math.round((value / total) * 100);
+                                return label + ': ' + value + ' (' + percentage + '%)';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}

@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Xác Nhận OTP";
+    Layout = "_AuthLayout";
+}
+
+<h2 class="auth-title">Xác Nhận OTP</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-info mb-4">
+        @TempData["Message"]
+    </div>
+}
+
+<form asp-action="VerifyOtp" asp-controller="ForgotPassword" method="post">
+    <input type="hidden" name="email" value="@ViewBag.Email" />
+    <div class="mb-4">
+        <label for="otp" class="form-label">Nhập OTP vừa được gửi về email của bạn:</label>
+        <input type="text" id="otp" name="otp" class="form-control text-center" required maxlength="6" placeholder="••••••">
+        <div class="small text-muted mt-2">
+            <i class="bi bi-info-circle"></i> OTP có hiệu lực trong 5 phút
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Xác nhận</button>
+</form>
+
+<div class="auth-links mt-4">
+    <a href="@Url.Action("ViewForgotPassword", "ForgotPassword")">Gửi lại OTP</a>
+</div>
+
+@section Scripts {
+    <script>
+        // Auto focus and format OTP input
+        const otpInput = document.getElementById('otp');
+        otpInput.focus();
+
+        otpInput.addEventListener('input', function () {
+            // Keep only digits
+            this.value = this.value.replace(/[^0-9]/g, '');
+
+            // Limit to 6 characters
+            if (this.value.length > 6) {
+                this.value = this.value.slice(0, 6);
+            }
+        });
+    </script>
+}

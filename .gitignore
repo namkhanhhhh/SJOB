@@ -7,6 +7,19 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/Dotnet.gitignore
 
+# Visual Studio temporary files, build results, and
+# user-specific files
+.vscode/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vcxproj.user
+
+# Rider (JetBrains IDE) specific files
+.idea/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

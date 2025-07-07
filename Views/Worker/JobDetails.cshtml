@@ -1,0 +1,423 @@
+﻿@model SJOB_EXE201.ViewModels.JobDetailsViewModel
+@{
+    ViewData["Title"] = Model.JobPost.Title;
+    Layout = "_WorkerLayout";
+
+    // Kiểm tra người dùng đã đăng nhập chưa
+    bool isAuthenticated = User.Identity.IsAuthenticated;
+
+    // Lấy thông tin liên hệ với xử lý null tốt hơn
+    var userDetails = Model.JobPost.User.UserDetails?.FirstOrDefault();
+
+    // Kiểm tra số điện thoại tồn tại và không trống
+    string phoneNumber = !string.IsNullOrWhiteSpace(userDetails?.PhoneNumber)
+        ? userDetails.PhoneNumber
+        : "N/A";
+
+    string email = !string.IsNullOrWhiteSpace(Model.JobPost.User.Email)
+        ? Model.JobPost.User.Email
+        : "N/A";
+
+    // Ẩn thông tin liên hệ nếu người dùng chưa đăng nhập
+    if (!isAuthenticated && !string.IsNullOrEmpty(phoneNumber) && phoneNumber != "N/A")
+    {
+        // Ẩn 3 chữ số cuối của số điện thoại
+        phoneNumber = phoneNumber.Substring(0, phoneNumber.Length - 3) + "***";
+    }
+
+    if (!isAuthenticated && !string.IsNullOrEmpty(email) && email != "N/A")
+    {
+        // Ẩn phần giữa của email
+        var parts = email.Split('@');
+        if (parts.Length == 2)
+        {
+            string username = parts[0];
+            string domain = parts[1];
+
+            if (username.Length > 2)
+            {
+                username = username.Substring(0, 2) + "***" + (username.Length > 5 ? username.Substring(username.Length - 1) : "");
+            }
+
+            email = username + "@" + domain;
+        }
+    }
+}
+
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h1 class="card-title h3">@Model.JobPost.Title</h1>
+                        <span class="badge bg-@(Model.JobPost.PostType == "diamond" ? "warning" : Model.JobPost.PostType == "gold" ? "success" : "secondary")">
+                            @Model.JobPost.PostType.ToUpper()
+                        </span>
+                    </div>
+                    <p class="company-name mb-3">
+                        @(Model.JobPost.User.CompanyProfiles.FirstOrDefault()?.CompanyName ?? Model.JobPost.User.Username)
+                    </p>
+                    <div class="job-meta mb-4">
+                        <span class="me-3"><i class="fas fa-map-marker-alt me-2"></i>@Model.JobPost.Location</span>
+                        <span class="me-3">
+                            <i class="fas fa-money-bill-wave me-2"></i>
+                            @(Model.JobPost.SalaryMin.HasValue && Model.JobPost.SalaryMax.HasValue
+                                ? $"{Model.JobPost.SalaryMin:N0} - {Model.JobPost.SalaryMax:N0} VND/giờ"
+                                : "Thương lượng")
+                        </span>
+                        <span class="me-3"><i class="fas fa-briefcase me-2"></i>@Model.JobPost.JobType</span>
+                        <span><i class="fas fa-eye me-2"></i>@Model.JobPost.ViewCount lượt xem</span>
+                    </div>
+
+                    <div class="job-images mb-4">
+                        <div class="row">
+                            @if (!string.IsNullOrEmpty(Model.JobPost.Image2))
+                            {
+                                <div class="col-md-4 mb-3">
+                                    <img src="@Model.JobPost.Image2" class="img-fluid rounded" alt="@Model.JobPost.Title">
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.JobPost.Image3))
+                            {
+                                <div class="col-md-4 mb-3">
+                                    <img src="@Model.JobPost.Image3" class="img-fluid rounded" alt="@Model.JobPost.Title">
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.JobPost.Image4))
+                            {
+                                <div class="col-md-4 mb-3">
+                                    <img src="@Model.JobPost.Image4" class="img-fluid rounded" alt="@Model.JobPost.Title">
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="job-description mb-4">
+                        <h4>Mô Tả Công Việc</h4>
+                        <div class="description-content">
+                            @Html.Raw(Model.JobPost.Description.Replace("\n", "<br>"))
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.JobPost.Requirements))
+                    {
+                        <div class="job-requirements mb-4">
+                            <h4>Yêu Cầu</h4>
+                            <div class="requirements-content">
+                                @Html.Raw(Model.JobPost.Requirements.Replace("\n", "<br>"))
+                            </div>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.JobPost.Benefits))
+                    {
+                        <div class="job-benefits mb-4">
+                            <h4>Quyền Lợi</h4>
+                            <div class="benefits-content">
+                                @Html.Raw(Model.JobPost.Benefits.Replace("\n", "<br>"))
+                            </div>
+                        </div>
+                    }
+
+                    <div class="job-categories mb-4">
+                        <h4>Danh Mục</h4>
+                        <div class="categories-list">
+                            @foreach (var category in Model.JobPost.JobPostCategories.Select(pc => pc.Category))
+                            {
+                                <a href="@Url.Action("CategoryJobs", "Worker", new { id = category.Id })" class="badge bg-light text-dark me-2 mb-2 p-2">
+                                    @category.Name
+                                </a>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Thêm phần này gần đầu trang chi tiết công việc, có thể trong phần tiêu đề công việc -->
+                    <div class="job-actions mb-4">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <button id="wishlistToggle" class="btn @(Model.IsInWishlist ? "btn-danger" : "btn-outline-danger")" data-job-id="@Model.JobPost.Id">
+                                <i class="@(Model.IsInWishlist ? "fas" : "far") fa-heart"></i>
+                                <span>@(Model.IsInWishlist ? "Đã Lưu" : "Lưu Công Việc")</span>
+                            </button>
+
+                            @if (!Model.HasApplied)
+                            {
+                                <form asp-controller="Worker" asp-action="ApplyJob" method="post" class="d-inline ms-2">
+                                    <input type="hidden" name="jobId" value="@Model.JobPost.Id" />
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-paper-plane me-2"></i> Ứng Tuyển Ngay
+                                    </button>
+                                </form>
+                            }
+                            else
+                            {
+                                <button class="btn btn-success ms-2" disabled>
+                                    <i class="fas fa-check-circle me-2"></i> Đã Ứng Tuyển
+                                </button>
+                            }
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index", "Login")" class="btn btn-outline-danger">
+                                <i class="far fa-heart"></i> Lưu Công Việc
+                            </a>
+                            <a href="@Url.Action("Index", "Login")" class="btn btn-primary ms-2">
+                                <i class="fas fa-sign-in-alt me-2"></i> Đăng Nhập Để Ứng Tuyển
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <!-- Phần Hình Ảnh Công Việc (Thay thế Thông Tin Công Ty) -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Hình Ảnh Công Việc</h4>
+                    <div class="job-gallery">
+                        <div class="row">
+                            @if (!string.IsNullOrEmpty(Model.JobPost.ImageMain))
+                            {
+                                <div class="col-6 mb-3">
+                                    <img src="@Model.JobPost.ImageMain" class="img-fluid rounded gallery-img" alt="@Model.JobPost.Title">
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.JobPost.Image2))
+                            {
+                                <div class="col-6 mb-3">
+                                    <img src="@Model.JobPost.Image2" class="img-fluid rounded gallery-img" alt="@Model.JobPost.Title">
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.JobPost.Image3))
+                            {
+                                <div class="col-6 mb-3">
+                                    <img src="@Model.JobPost.Image3" class="img-fluid rounded gallery-img" alt="@Model.JobPost.Title">
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(Model.JobPost.Image4))
+                            {
+                                <div class="col-6 mb-3">
+                                    <img src="@Model.JobPost.Image4" class="img-fluid rounded gallery-img" alt="@Model.JobPost.Title">
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thay thế phần Thông Tin Liên Hệ trong JobDetails.cshtml bằng phần này: -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Thông Tin Liên Hệ</h4>
+                    <div class="contact-info">
+                        <a href="@Url.Action("EmployerProfile", "Worker", new { id = Model.JobPost.UserId })" class="text-decoration-none">
+                            <div class="d-flex align-items-center mb-3">
+                                @if (!string.IsNullOrEmpty(Model.JobPost.User.Avatar))
+                                {
+                                    <img src="@Model.JobPost.User.Avatar" alt="@Model.JobPost.User.Username" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                }
+                                else
+                                {
+                                    <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                }
+                                <div>
+                                    <h5 class="mb-0">@Model.JobPost.User.Username</h5>
+                                    @if (Model.JobPost.User.CompanyProfiles.Any())
+                                    {
+                                        <p class="text-muted mb-0">@Model.JobPost.User.CompanyProfiles.First().CompanyName</p>
+                                    }
+                                </div>
+                            </div>
+                        </a>
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-phone me-2"></i>Điện Thoại</span>
+                                <div class="d-flex align-items-center">
+                                    <span id="phoneNumber">@phoneNumber</span>
+                                    @if (isAuthenticated && phoneNumber != "N/A")
+                                    {
+                                        <button class="btn btn-sm btn-outline-primary ms-2" onclick="copyToClipboard('phoneNumber')">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    }
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-envelope me-2"></i>Email</span>
+                                <div class="d-flex align-items-center">
+                                    <span id="emailAddress">@email</span>
+                                    @if (isAuthenticated && email != "N/A")
+                                    {
+                                        <button class="btn btn-sm btn-outline-primary ms-2" onclick="copyToClipboard('emailAddress')">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    }
+                                </div>
+                            </li>
+                            @if (!isAuthenticated)
+                            {
+                                <li class="list-group-item text-center">
+                                    <a href="@Url.Action("Index", "Login")" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-lock me-2"></i>Đăng nhập để xem đầy đủ thông tin liên hệ
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="list-group-item text-center">
+                                    <a href="@Url.Action("EmployerProfile", "Worker", new { id = Model.JobPost.UserId })" class="btn btn-primary">
+                                        <i class="fas fa-building me-2"></i>Xem Hồ Sơ Nhà Tuyển Dụng
+                                    </a>
+                                </li>
+                            }
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4 class="card-title">Chi Tiết Công Việc</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span><i class="fas fa-calendar-alt me-2"></i>Ngày Đăng</span>
+                            <span>@Model.JobPost.CreatedAt?.ToString("dd/MM/yyyy")</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span><i class="fas fa-clock me-2"></i>Loại Công Việc</span>
+                            <span>@Model.JobPost.JobType</span>
+                        </li>
+                        @if (Model.JobPost.Deadline.HasValue)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-hourglass-end me-2"></i>Hạn Chót</span>
+                                <span>@Model.JobPost.Deadline?.ToString("dd/MM/yyyy")</span>
+                            </li>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.JobPost.ExperienceLevel))
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><i class="fas fa-star me-2"></i>Kinh Nghiệm</span>
+                                <span>@Model.JobPost.ExperienceLevel</span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+
+            @if (Model.RelatedJobs.Any())
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Công Việc Tương Tự</h4>
+                        <div class="related-jobs">
+                            @foreach (var job in Model.RelatedJobs)
+                            {
+                                <div class="related-job-item mb-3">
+                                    <a href="@Url.Action("JobDetails", "Worker", new { id = job.Id })" class="text-decoration-none">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0">
+                                                <img src="@job.ImageMain" alt="@job.Title" class="img-fluid rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h6 class="mb-0">@job.Title</h6>
+                                                <p class="small text-muted">
+                                                    @(job.User.CompanyProfiles.FirstOrDefault()?.CompanyName ?? job.User.Username)
+                                                </p>
+                                                <p class="small text-muted">
+                                                    <i class="fas fa-map-marker-alt me-1"></i>@job.Location
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Chức năng thư viện hình ảnh
+            $('.gallery-img').click(function () {
+                var imgSrc = $(this).attr('src');
+                $('.job-images img').first().attr('src', imgSrc);
+                $('html, body').animate({
+                    scrollTop: $('.job-images').offset().top - 100
+                }, 500);
+            });
+        });
+
+        $(document).ready(function () {
+            // Chức năng thêm/xóa danh sách yêu thích
+            $('#wishlistToggle').click(function () {
+                var jobId = $(this).data('job-id');
+                var $button = $(this);
+
+                $.ajax({
+                    url: '@Url.Action("ToggleWishlist", "Worker")',
+                    type: 'POST',
+                    data: { jobId: jobId },
+                    success: function (response) {
+                        if (response.isInWishlist) {
+                            $button.removeClass('btn-outline-danger').addClass('btn-danger');
+                            $button.find('i').removeClass('far').addClass('fas');
+                            $button.find('span').text('Đã Lưu');
+                            toastr.success('Đã thêm công việc vào danh sách yêu thích');
+                        } else {
+                            $button.removeClass('btn-danger').addClass('btn-outline-danger');
+                            $button.find('i').removeClass('fas').addClass('far');
+                            $button.find('span').text('Lưu Công Việc');
+                            toastr.info('Đã xóa công việc khỏi danh sách yêu thích');
+                        }
+                    },
+                    error: function () {
+                        toastr.error('Lỗi khi cập nhật danh sách yêu thích');
+                    }
+                });
+            });
+        });
+
+        // Thêm vào phần Scripts trong JobDetails.cshtml
+        function copyToClipboard(elementId) {
+            var text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(function () {
+                // Hiển thị thông báo thành công
+                var toast = document.createElement('div');
+                toast.className = 'position-fixed bottom-0 end-0 p-3';
+                toast.style.zIndex = '5';
+                toast.innerHTML = `
+                            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="toast-header bg-success text-white">
+                                    <i class="fas fa-check-circle me-2"></i>
+                                    <strong class="me-auto">Thành Công</strong>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                                <div class="toast-body">
+                                    Đã sao chép vào clipboard!
+                                </div>
+                            </div>
+                        `;
+                document.body.appendChild(toast);
+
+                // Xóa thông báo sau 3 giây
+                setTimeout(function () {
+                    document.body.removeChild(toast);
+                }, 3000);
+            }, function (err) {
+                console.error('Không thể sao chép văn bản: ', err);
+            });
+        }
+    </script>
+}

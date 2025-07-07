@@ -1,0 +1,159 @@
+﻿@model SJOB_EXE201.Models.User
+@{
+    ViewData["Title"] = "Hồ Sơ Của Tôi";
+    Layout = "_WorkerLayout";
+}
+
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    @if (!string.IsNullOrEmpty(Model.Avatar))
+                    {
+                        <img src="@Model.Avatar" alt="Ảnh Đại Diện" class="rounded-circle img-fluid mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                    }
+                    else
+                    {
+                        <div class="avatar-placeholder mb-3">
+                            <i class="fas fa-user-circle fa-7x"></i>
+                        </div>
+                    }
+                    <h3 class="card-title">@Model.Username</h3>
+                    <p class="text-muted">
+                        @(Model.UserDetails.FirstOrDefault()?.Headline ?? "Người Tìm Việc")
+                    </p>
+                    <div class="d-grid gap-2">
+                        <a href="@Url.Action("EditProfile", "Worker")" class="btn btn-primary">
+                            <i class="fas fa-edit me-2"></i>Chỉnh Sửa Hồ Sơ
+                        </a>
+                        <a href="@Url.Action("ChangePassword", "Worker")" class="btn btn-outline-secondary">
+                            <i class="fas fa-key me-2"></i>Đổi Mật Khẩu
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Thông Tin Liên Hệ</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <i class="fas fa-envelope me-2"></i>@Model.Email
+                        </li>
+                        @if (!string.IsNullOrEmpty(Model.UserDetails.FirstOrDefault()?.PhoneNumber))
+                        {
+                            <li class="list-group-item">
+                                <i class="fas fa-phone me-2"></i>@Model.UserDetails.FirstOrDefault()?.PhoneNumber
+                            </li>
+                        }
+                        @if (!string.IsNullOrEmpty(Model.UserDetails.FirstOrDefault()?.Address))
+                        {
+                            <li class="list-group-item">
+                                <i class="fas fa-map-marker-alt me-2"></i>@Model.UserDetails.FirstOrDefault()?.Address
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Thông Tin Cá Nhân</h5>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Tên</p>
+                            <p class="fw-bold">@(Model.UserDetails.FirstOrDefault()?.FirstName ?? "Chưa cung cấp")</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Họ</p>
+                            <p class="fw-bold">@(Model.UserDetails.FirstOrDefault()?.LastName ?? "Chưa cung cấp")</p>
+                        </div>
+                    </div>
+                    @if (Model.UserDetails.FirstOrDefault()?.ExperienceYears.HasValue == true)
+                    {
+                        <div class="mb-3">
+                            <p class="mb-1 text-muted">Kinh Nghiệm</p>
+                            <p class="fw-bold">@Model.UserDetails.FirstOrDefault()?.ExperienceYears năm</p>
+                        </div>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.UserDetails.FirstOrDefault()?.Bio))
+                    {
+                        <div class="mb-3">
+                            <p class="mb-1 text-muted">Giới Thiệu Bản Thân</p>
+                            <p>@Model.UserDetails.FirstOrDefault()?.Bio</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Mong Muốn Công Việc</h5>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Vị Trí Mong Muốn</p>
+                            <p class="fw-bold">@(Model.UserDetails.FirstOrDefault()?.DesiredPosition ?? "Chưa cung cấp")</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">Mức Lương Mong Muốn</p>
+                            <p class="fw-bold">
+                                @(Model.UserDetails.FirstOrDefault()?.DesiredSalary.HasValue == true
+                                    ? $"{Model.UserDetails.FirstOrDefault()?.DesiredSalary:N0} VND/giờ"
+                                    : "Chưa cung cấp")
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <p class="mb-1 text-muted">Địa Điểm Làm Việc Mong Muốn</p>
+                        <p class="fw-bold">@(Model.UserDetails.FirstOrDefault()?.DesiredLocation ?? "Chưa cung cấp")</p>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.UserDetails.FirstOrDefault()?.Availability))
+                    {
+                        <div class="mb-3">
+                            <p class="mb-1 text-muted">Thời Gian Có Thể Làm Việc</p>
+                            <p>@Model.UserDetails.FirstOrDefault()?.Availability</p>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Kỹ Năng & Học Vấn</h5>
+                    @if (!string.IsNullOrEmpty(Model.UserDetails.FirstOrDefault()?.Skills))
+                    {
+                        <div class="mb-3">
+                            <p class="mb-1 text-muted">Kỹ Năng</p>
+                            <p>@Model.UserDetails.FirstOrDefault()?.Skills</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-3">
+                            <p class="mb-1 text-muted">Kỹ Năng</p>
+                            <p>Chưa cung cấp kỹ năng. <a href="@Url.Action("EditProfile", "Worker")">Thêm kỹ năng của bạn</a> để cải thiện khả năng tìm việc phù hợp.</p>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.UserDetails.FirstOrDefault()?.Education))
+                    {
+                        <div class="mb-3">
+                            <p class="mb-1 text-muted">Học Vấn</p>
+                            <p>@Model.UserDetails.FirstOrDefault()?.Education</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-3">
+                            <p class="mb-1 text-muted">Học Vấn</p>
+                            <p>Chưa cung cấp thông tin học vấn. <a href="@Url.Action("EditProfile", "Worker")">Thêm thông tin học vấn</a> để cải thiện hồ sơ của bạn.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

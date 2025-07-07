@@ -1,0 +1,39 @@
+﻿@model List<SJOB_EXE201.Models.CreditTransaction>
+@{
+    ViewData["Title"] = "Lịch sử giao dịch";
+    Layout = "~/Views/Shared/_EmployerLayout.cshtml";
+}
+
+<div class="main-content">
+    <div class="content-container">
+        <div class="page-header">
+            <h1>Lịch sử giao dịch</h1>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Loại giao dịch</th>
+                        <th>Số tiền</th>
+                        <th>Số dư sau giao dịch</th>
+                        <th>Mô tả</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var transaction in Model)
+                    {
+                        <tr>
+                            <td>@transaction.CreatedAt?.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>@transaction.TransactionType</td>
+                            <td>@transaction.Amount.ToString("N0")</td>
+                            <td>@transaction.BalanceAfter.ToString("N0")</td>
+                            <td>@transaction.Description</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
